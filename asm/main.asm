@@ -140,8 +140,10 @@ MAIN:
     @run_lower_modules:
         JSR find_next_module
         LDA tmp+2
-        BEQ @run_lower_modules_end
+        BNE @run_lower_modules_next
+        JMP @run_lower_modules_end
 
+        @run_lower_modules_next:
         LDX last_frame_prio_idx
         BEQ @run_lower_modules_exec
             DEX
@@ -167,6 +169,10 @@ MAIN:
                     INX
                     CPX #$08
                     BNE @lastframe_tmp
+                ; force the nmi end to jump to main loop
+                LDA nmi_flags
+                ORA #NMI_MAIN
+                STA nmi_flags
                 ; restore registers
                 pullreg
                 ; return to module
@@ -193,7 +199,7 @@ MAIN:
         LDA lower_module_array, Y
         STA tmp+1
 
-        ; push y and y/4 (module size)
+        ; push y/4 (module size)
         TYA
         LSR
         LSR
@@ -203,9 +209,17 @@ MAIN:
         PHA
         LDA #<(@lower_modules_finish-1)
         PHA
+        ; force the nmi end to jump to main loop
+        LDA nmi_flags
+        ORA #NMI_MAIN
+        STA nmi_flags
         JMP (tmp)
         ; for module return
         @lower_modules_finish:
+        ; the nmi can return as normal
+        LDA nmi_flags
+        AND #($FF-NMI_MAIN)
+        STA nmi_flags
         ; pull y
         PLA
         TAY
@@ -215,15 +229,16 @@ MAIN:
 
         ; check if module lagged
         LDX last_frame_prio_idx
-        BEQ @run_lower_modules
+        BEQ @run_lower_modules_jmp
         DEX
         LDA last_frame_prio_arr, X
         CMP lower_module_prio
-        BNE @run_lower_modules
+        BNE @run_lower_modules_jmp
         ; it is the one that lagged
         LDA #$00
         STA last_frame_prio_arr, X
         STX last_frame_prio_idx
+        @run_lower_modules_jmp:
         JMP @run_lower_modules
     @run_lower_modules_end:
 

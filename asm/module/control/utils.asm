@@ -144,23 +144,28 @@ mdl_ctrl_update_scrbuf:
     BEQ @by
     @bx:
         JSR mdl_ctrl_update_scrbuf_x
-        JMP @end
+        JMP @update
     @by:
         JSR mdl_ctrl_update_scrbuf_y
 
-    @end:
-    ; add the module_world_load_screens module
-    LDA #LOWER_MODULE_MAX_PRIO-1
-    JSR mdl_ctrl_lw_adr
-    LDA #MODULE_WORLD
-    STA lower_module_array, X
-    INX
-    LDA #<module_world_load_screens
-    STA lower_module_array, X
-    INX
-    LDA #>module_world_load_screens
-    STA lower_module_array, X
+    @update:
+    ;
+    LDA scrbuf_update_flag
+    AND #$01
+    BNE @end
+        ; add the module_world_load_screens module
+        LDA #LOWER_MODULE_MAX_PRIO-1
+        JSR mdl_ctrl_lw_adr
+        LDA #MODULE_WORLD
+        STA lower_module_array, X
+        INX
+        LDA #<module_world_load_screens
+        STA lower_module_array, X
+        INX
+        LDA #>module_world_load_screens
+        STA lower_module_array, X
 
+    @end:
     pullreg
     RTS
 

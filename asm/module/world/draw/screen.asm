@@ -199,9 +199,6 @@ module_world_draw_up:
     pushreg
     push_scroll
 
-    ; ; move scroll one row to the top
-    ; JSR dec_scroll_y_tile
-    ; draw
     JSR mdl_world_drw_y
 
     pull_scroll

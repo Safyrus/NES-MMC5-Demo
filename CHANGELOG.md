@@ -6,6 +6,63 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 
 -----------------
 
+## **[0.2.0-1]** - _2022-07-03_
+
+The _Real Level_ update
+
+### **Added**
+
+- CHR textures:
+  - 3 useless image :)
+  - Water and path tiles.
+  - Wooden shaft, log and gate tiles.
+- Screen variables.
+
+#### Global
+
+- Nametable constants.
+
+#### Data
+
+- A real level with 3\*4 unique screens.
+- More objects (forest, cliff, etc.).
+- Size objects (path, water, and cliff).
+- "INC_X" and "INC_Y" screen object to add 1 to future object positions.
+
+#### Module
+
+- The RLE command can now be interpreted when loading a screen.
+- Subtype position objects can now be interpreted.
+- Subtype pos-size objects (or box object for now) can now be interpreted.
+
+### **Changed**
+
+#### Data
+
+- Position objects into subtype position object.
+- Palette 0.
+
+#### Module
+
+- Scrolling now only take one nametable.
+- When to load new screens during scrolling in the control module.
+- In the world module:
+  - The seed in the "load_screen_one" function.
+  - "load_screens" function to check if new screen has been ordered during his task and load them.
+- Tiles (high or low) equal to 0 will be ignored when drawing an object.
+
+### **Fixed**
+
+- Crash due to a stack underflow when returning from NMI when interrupt occurred during main function.
+- Crash due to too many modules being run because of running more than one loading screen module.
+- Glitch tiles when scrolling into a partially loaded screen.
+
+### **Removed**
+
+- The dummy level
+
+-----------------
+
 ## **[0.1.0]** - _2022-06-20_
 
 The _Level and Scrolling_ update

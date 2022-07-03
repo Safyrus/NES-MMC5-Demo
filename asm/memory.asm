@@ -124,7 +124,7 @@ OAM:
     game_scroll_y: .res 2
     ;
     game_flag: .res 1
-    ;
+    ;....UDLR
     game_scroll_flag: .res 1
 
     ; ----------------
@@ -165,6 +165,9 @@ OAM:
     scrbuf_update_array_scr: .res 9
     ;
     scrbuf_update_array_idx: .res 1
+    ; 0: is updating
+    ; 1: internal update check
+    scrbuf_update_flag: .res 1
     ; bits 0-1: ram bank offset
     ; bits 2-3: screen buffer index
     scrbuf_index: .res 1
@@ -176,6 +179,20 @@ OAM:
     ; ----------------
     ; size of the screen_objects_buffer
     screen_objbuf_size: .res 1
+    ; bit 0: inc x
+    ; bit 5: inc y
+    screen_draw_flag: .res 1
+    ; byte 0: type
+    ;      1: sybtype
+    ;      2: pos
+    ;      3: size
+    screen_draw_obj_buf: .res 4
+    ;
+    screen_draw_subobj_possize_buf:
+    ;
+    screen_draw_subobj_possize_buf_lo: .res 9
+    ;
+    screen_draw_subobj_possize_buf_hi: .res 9
 
     ; ----------------
     ; Inputs

@@ -76,7 +76,7 @@ RST:
     STA MMC5_EXT_RAM
 
     ; Set nametable mapping
-    LDA #%01000100
+    LDA #NAMETABLE_SCROLL
     STA MMC5_NAMETABLE
 
     ; set fill tile
@@ -139,11 +139,6 @@ RST:
     STA higher_module_array+Module::pointer
     LDA #>module_control
     STA higher_module_array+Module::pointer+1
-
-    ; force the nmi end to jump to main loop
-    LDA nmi_flags
-    ORA #NMI_MAIN
-    STA nmi_flags
 
     CLI
 

@@ -1,3 +1,9 @@
+.enum OBJ_SCR
+    FILL
+    FILL_RND
+    INC_X
+    INC_Y
+.endenum
 
 object_screen_lo:
     .byte <object_screen_0
@@ -50,7 +56,9 @@ object_screen_1:
     .byte 0
     .byte 1+$00
 object_screen_2:
+    .byte 3
 object_screen_3:
+    .byte 4
 object_screen_4:
 object_screen_5:
 object_screen_6:

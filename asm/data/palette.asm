@@ -1,6 +1,6 @@
 game_palettes:
     @plt_0:
-    .byte $0F, $0C, $0B, $1A, $2A, $39, $30, $FF
+    .byte $0F, $0C, $0B, $1A, $29, $38, $30, $FF
     @plt_1:
     .byte $0F, $08, $07, $17, $27, $37, $30, $FF
     @plt_2:

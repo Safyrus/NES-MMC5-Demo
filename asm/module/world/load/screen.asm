@@ -63,73 +63,126 @@ mdl_world_load_screen_one:
     STA last_frame_BNK+2
 
     ; init seed
-    LDX level
+    LDX world
     INX
     STX seed+0
     LDX tmp+2
     STX seed+1
 
+    ; reset screen_draw_flag
+    LDA #$00
+    STA screen_draw_flag
+
     LDY #$00
     @draw_objects:
-        ; 
-        TYA
-        TAX
-
-        ; load object type
+        ; init number of loop
+        LDX #$01
+        ; load the object type
         LDA screen_objects_buffer, Y
-
-        ; count the object size
-        ASL
-        BCC @subtype_end
-            INX
-        @subtype_end:
-        ASL
-        BCC @pos_end
-            INX
-        @pos_end:
-        ASL
-        BCC @size_end
-            INX
-        @size_end:
-
-        ; draw object
-        JSR module_world_draw_object
-
-        ; jump over the object
-        TXA
-        TAY
+        STA screen_draw_obj_buf+0
         INY
+
+        ; if object type == RLE
+        CMP #$20
+        BNE @obj_sub
+            ; load number of loop
+            LDA screen_objects_buffer, Y
+            INY
+            TAX
+            ; load real object type
+            LDA screen_objects_buffer, Y
+            STA screen_draw_obj_buf+0
+            INY
+
+        @obj_sub:
+        ; if object has a subtype
+        ASL
+        BCC @rle_loop
+            LDA screen_objects_buffer, Y
+            STA screen_draw_obj_buf+1
+            INY
+
+        @rle_loop:
+            ; if object has a pos
+            LDA screen_draw_obj_buf+0
+            AND #$40
+            BEQ @obj_pos_end
+                LDA screen_objects_buffer, Y
+                STA screen_draw_obj_buf+2
+                INY
+            @obj_pos_end:
+
+            ; if object has a size
+            LDA screen_draw_obj_buf+0
+            AND #$20
+            BEQ @obj_size_end
+                LDA screen_objects_buffer, Y
+                STA screen_draw_obj_buf+3
+                INY
+            @obj_size_end:
+
+            ; draw object
+            JSR module_world_draw_object
+
+            ; rle loop
+            DEX
+            BNE @rle_loop
 
         ; loop
         CPY screen_objbuf_size
         BNE @draw_objects
-    @draw_objects_end:
 
     pullreg
     RTS
 
 
 module_world_load_screens:
-    LDY #$00
-    @loop:
-        LDA scrbuf_update_array_act, Y
-        BEQ @loop_nxt
-        LDA #$00
-        STA scrbuf_update_array_act, Y
+    ;
+    LDA scrbuf_update_flag
+    ORA #$01
+    STA scrbuf_update_flag
+    ;
+    @while:
+        ;
+        LDA scrbuf_update_flag
+        AND #$FD
+        STA scrbuf_update_flag
+        ;
+        LDY #$00
+        @loop:
+            ;
+            LDA scrbuf_update_array_act, Y
+            BEQ @loop_nxt
+            ;
+            LDA scrbuf_update_flag
+            ORA #$02
+            STA scrbuf_update_flag
+            ;
+            LDA #$00
+            STA scrbuf_update_array_act, Y
 
-        TYA
-        JSR mdl_world_A2scrBufIdx
+            TYA
+            JSR mdl_world_A2scrBufIdx
 
-        ; update one screen buffer
-        LDA scrbuf_update_array_scr, Y
-        TAX
-        JSR mdl_world_load_screen_one
+            ; update one screen buffer
+            LDA scrbuf_update_array_scr, Y
+            TAX
+            JSR mdl_world_load_screen_one
 
-        @loop_nxt:
-        INY
-        CPY #$09
-        BNE @loop
+            @loop_nxt:
+            INY
+            CPY #$09
+            BNE @loop
+        ;
+        LDA scrbuf_update_flag
+        AND #$02
+        BNE @while
 
+    ;
+    LDA scrbuf_update_flag
+    AND #$FE
+    STA scrbuf_update_flag
+    ; return
     RTS
 
 

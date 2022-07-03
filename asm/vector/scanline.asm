@@ -20,7 +20,7 @@ scanline_irq_handler:
             CMP #$04
             BNE @wait_bot
         ; set all nametable to fill mode
-        LDA #%11111111
+        LDA #NAMETABLE_FILL
         STA MMC5_NAMETABLE
         JMP @end
     @scanline_irq_top:
@@ -39,7 +39,7 @@ scanline_irq_handler:
             CMP #$10
             BNE @wait
         ; set nametable to normal
-        LDA #%00010001
+        LDA #NAMETABLE_SCROLL
         STA MMC5_NAMETABLE
 
     @end:
