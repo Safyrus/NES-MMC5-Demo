@@ -6,9 +6,9 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 
 -----------------
 
-## **[0.2.0-1]** - _2022-07-03_
+## **[0.2.0-2]** - _2022-07-05_
 
-The _Real Level_ update
+The _Real Level and tile animation_ update
 
 ### **Added**
 
@@ -16,7 +16,10 @@ The _Real Level_ update
   - 3 useless image :)
   - Water and path tiles.
   - Wooden shaft, log and gate tiles.
+  - Change some tile location.
 - Screen variables.
+- A frame counter and an animation frame counter.
+- 2 constant for animation (ANIM_BASE_SPD_MASK and ANIM_MAX_FRAME_MASK).
 
 #### Global
 
@@ -28,34 +31,54 @@ The _Real Level_ update
 - More objects (forest, cliff, etc.).
 - Size objects (path, water, and cliff).
 - "INC_X" and "INC_Y" screen object to add 1 to future object positions.
+- Object tiles to fit the new location in CHR.
 
 #### Module
 
-- The RLE command can now be interpreted when loading a screen.
-- Subtype position objects can now be interpreted.
-- Subtype pos-size objects (or box object for now) can now be interpreted.
+- The animation module.
+- In world modules:
+  - The RLE command can now be interpreted when loading a screen.
+  - Subtype position objects can now be interpreted.
+  - Subtype pos-size objects (or box object for now) can now be interpreted.
+- In Control module:
+  - A debug input (A or B) to align the scroll position with tiles.
+  - Plan the animation module at a constant rate when in normal game state.
+
+#### Vector
+
+- An in-frame flag with the scanline IRQ that is set between scanline 1 to 232
 
 ### **Changed**
+
+- CHR ROM size to 256 KB
 
 #### Data
 
 - Position objects into subtype position object.
 - Palette 0.
+- Screen object of type "fill random".
 
 #### Module
 
 - Scrolling now only take one nametable.
-- When to load new screens during scrolling in the control module.
+- In the control module:
+  - When to load new screens during scrolling.
+  - Priority of the "load screens" module.
 - In the world module:
   - The seed in the "load_screen_one" function.
   - "load_screens" function to check if new screen has been ordered during his task and load them.
-- Tiles (high or low) equal to 0 will be ignored when drawing an object.
+- In drawing modules:
+  - Tiles (high or low) equal to 0 will be ignored when drawing an object.
+  - Screen object of type "fill random" to have a base chance to place a random tile.
+  - Change functions to also update the animation buffer when updating the screen.
 
 ### **Fixed**
 
 - Crash due to a stack underflow when returning from NMI when interrupt occurred during main function.
 - Crash due to too many modules being run because of running more than one loading screen module.
+- Crash when pressing input during initial screens loading.
 - Glitch tiles when scrolling into a partially loaded screen.
+- Screen not loading when "skipping loading screen collision".
 
 ### **Removed**
 

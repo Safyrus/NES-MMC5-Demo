@@ -126,6 +126,8 @@ OAM:
     game_flag: .res 1
     ;....UDLR
     game_scroll_flag: .res 1
+    ; the number of frame elapsed
+    game_framecount: .res 2
 
     ; ----------------
     ; Last frame variables
@@ -209,12 +211,16 @@ OAM:
     ; ----------------
     ; a counter
     counter: .res 1
-    ;
+    ; seed to generate pseudo random values
     seed: .res 2
     ; some temporary variables
     var: .res 16
-    ;
+    ; 7: wait for scanline, cleare when scanline IRQ occured
+    ; 6: in frame
+    ; 0-5: scanline IRQ state
     scanline: .res 1
+    ;
+    anim_counter: .res 1
 
 
 .segment "RAM0"

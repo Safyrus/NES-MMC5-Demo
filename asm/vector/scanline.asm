@@ -4,8 +4,11 @@ scanline_irq_handler:
     AND #$7F
     STA scanline
 
+    AND #$3F
+    BEQ @scanline_irq_bot
+    CMP #$01
     BEQ @scanline_irq_top
-    @scanline_irq_bot:
+    @scanline_irq_mid:
         ; next scanline state
         LDA #$00
         STA scanline
@@ -23,13 +26,12 @@ scanline_irq_handler:
         LDA #NAMETABLE_FILL
         STA MMC5_NAMETABLE
         JMP @end
-    @scanline_irq_top:
+    @scanline_irq_bot:
         ; next scanline state
-        CLC
-        ADC #$01
+        LDA #$01
         STA scanline
-        ; set next interrupt to scanline 231
-        LDA #231
+        ; set next interrupt to scanline 1
+        LDA #1
         STA MMC5_SCNL_VAL
         ; wait for 1 scanline
         LDA #$00
@@ -41,6 +43,15 @@ scanline_irq_handler:
         ; set nametable to normal
         LDA #NAMETABLE_SCROLL
         STA MMC5_NAMETABLE
+        JMP @end
+    @scanline_irq_top:
+        ; next scanline state
+        LDA #$42
+        STA scanline
+        ; set next interrupt to scanline 231
+        LDA #231
+        STA MMC5_SCNL_VAL
+        
 
     @end:
     RTS

@@ -2,6 +2,7 @@
 
 .include "load/level.asm"
 .include "load/screen.asm"
+.include "draw/anim.asm"
 .include "draw/object.asm"
 .include "draw/object_scr.asm"
 .include "draw/object_pos.asm"

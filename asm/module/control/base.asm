@@ -58,7 +58,7 @@ mdl_ctrl_load_lv:
 
 
 mdl_ctrl_load_scr_all:
-    LDA #STATE::NORMAL
+    LDA #STATE::WAIT
     STA game_state
 
     ; add the world_load_screen_all module
@@ -121,6 +121,35 @@ mdl_ctrl_draw_scr:
 
 
 mdl_ctrl_normal:
+    ; tile animation
+    LDA game_framecount+1
+    AND #ANIM_BASE_SPD_MASK
+    BNE @input
+    LDA game_substate
+    AND #$01
+    BNE @input
+        LDA game_substate
+        ORA #$01
+        STA game_substate
+        ; add the module_world_draw_anim module
+        LDA #LOWER_MODULE_MAX_PRIO-1
+        JSR mdl_ctrl_lw_adr
+        LDA #MODULE_WORLD
+        STA lower_module_array, X
+        INX
+        LDA #<module_world_draw_anim
+        STA lower_module_array, X
+        INX
+        LDA #>module_world_draw_anim
+        STA lower_module_array, X
+        ;
+        LDX anim_counter
+        INX
+        TXA
+        AND #ANIM_MAX_FRAME_MASK
+        STA anim_counter
+
+    @input:
     ; input
     JSR update_btn_timer
     LDA buttons_1_timer
@@ -143,9 +172,18 @@ mdl_ctrl_normal:
     @end:
     RTS
 
+    @dbg_input:
+    LDA game_scroll_x+1
+    AND #$F8
+    STA game_scroll_x+1
+    LDA game_scroll_y+1
+    AND #$F8
+    STA game_scroll_y+1
+    RTS
+
     @jump_table_lo:
-        .byte <(@end-1)
-        .byte <(@end-1)
+        .byte <(@dbg_input-1)
+        .byte <(@dbg_input-1)
         .byte <(@end-1)
         .byte <(@end-1)
         .byte <(scroll_up-1)
@@ -153,8 +191,8 @@ mdl_ctrl_normal:
         .byte <(scroll_left-1)
         .byte <(scroll_right-1)
     @jump_table_hi:
-        .byte >(@end-1)
-        .byte >(@end-1)
+        .byte >(@dbg_input-1)
+        .byte >(@dbg_input-1)
         .byte >(@end-1)
         .byte >(@end-1)
         .byte >(scroll_up-1)

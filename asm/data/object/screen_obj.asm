@@ -50,11 +50,13 @@ object_screen_0:
 object_screen_1:
     ; mode
     .byte 2
+    ; random chance
+    .byte $80
     ; max random
     .byte 3
     ; data
     .byte 0
-    .byte 1+$00
+    .byte 32+$00
 object_screen_2:
     .byte 3
 object_screen_3:

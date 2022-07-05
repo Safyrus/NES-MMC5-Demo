@@ -11,7 +11,7 @@
     .byte $04
 
     ; 5: CHR ROM size in 8KB
-    .byte $01
+    .byte $20
 
     ; 6: Flags 6
     ; NNNN FTBM

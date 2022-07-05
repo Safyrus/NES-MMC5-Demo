@@ -154,7 +154,7 @@ mdl_ctrl_update_scrbuf:
     AND #$01
     BNE @end
         ; add the module_world_load_screens module
-        LDA #LOWER_MODULE_MAX_PRIO-1
+        LDA #LOWER_MODULE_MAX_PRIO-2
         JSR mdl_ctrl_lw_adr
         LDA #MODULE_WORLD
         STA lower_module_array, X

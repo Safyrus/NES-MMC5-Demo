@@ -328,7 +328,7 @@ object_subpos_0_base:
     .byte $43
     .byte $43
     ; high tile
-    .byte $81
-    .byte $81
-    .byte $81
-    .byte $81
+    .byte $A0
+    .byte $A0
+    .byte $A0
+    .byte $A0

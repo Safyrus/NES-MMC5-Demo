@@ -13,13 +13,19 @@ mdl_world_drw_obj_scr:
     CMP #$01
     BNE @normal_mode_end
     @normal_mode:
+        LDA #$00
+        STA tmp+6
         LDX #$00
         JMP mdl_world_fill_scr_buf
     @normal_mode_end:
     CMP #$02
     BNE @random_mode_end
     @random_mode:
-        ; get random power
+        ; get random chance
+        JSR inc_tmp
+        LDA (tmp), Y
+        STA tmp+6
+        ; get max random
         JSR inc_tmp
         LDA (tmp), Y
         ; create random mask
@@ -101,12 +107,22 @@ mdl_world_fill_scr_buf_half:
         ;
         LDY #$00
         @loop_y:
-            STY tmp+6
+            LDA tmp+6
+            BEQ @no_rnd
+            ;
+            STY tmp+7
             JSR rand
-            LDY tmp+6
-            AND tmp+5
-            CLC
-            ADC tmp+4
+            LDY tmp+7
+            ;
+            CMP tmp+6
+            BCC @no_rnd
+                AND tmp+5
+                CLC
+                ADC tmp+4
+                JMP @set_tile
+            @no_rnd:
+                LDA tmp+4
+            @set_tile:
             ; store tile
             STA (tmp), Y
             ; loop

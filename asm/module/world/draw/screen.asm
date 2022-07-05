@@ -13,7 +13,7 @@ module_world_draw_screen:
     ; do we need to draw expansion tiles ?
     LDA game_substate
     CMP #$F0
-    BEQ @draw_hi
+    BCS @draw_hi
 
     ; get screen buffer address high
     LDA scrbuf_index
@@ -74,6 +74,12 @@ module_world_draw_screen:
     STA background, X
     STX background_index
 
+    ; increment game_substate
+    LDA game_substate
+    CLC
+    ADC #$10
+    STA game_substate
+
     JMP @draw_end
 
     @draw_hi:
@@ -93,58 +99,96 @@ module_world_draw_screen:
     BEQ @exp_ram_2
 
     @exp_ram_0:
-        LDA $6400, Y
-        STA MMC5_EXP_RAM, Y
-        LDA $6400+$100, Y
-        STA MMC5_EXP_RAM+$100, Y
-        LDA $6400+$200, Y
-        STA MMC5_EXP_RAM+$200, Y
-        LDA $6400+$300, Y
-        STA MMC5_EXP_RAM+$300, Y
-        ; loop
-        INY
-        BNE @exp_ram_0
-        JMP @draw_end
-
+        LDA #$64
+        JMP @draw
     @exp_ram_1:
-        LDA $6C00, Y
-        STA MMC5_EXP_RAM, Y
-        LDA $6C00+$100, Y
-        STA MMC5_EXP_RAM+$100, Y
-        LDA $6C00+$200, Y
-        STA MMC5_EXP_RAM+$200, Y
-        LDA $6C00+$300, Y
-        STA MMC5_EXP_RAM+$300, Y
-        ; loop
-        INY
-        BNE @exp_ram_1
-        JMP @draw_end
-
+        LDA #$6C
+        JMP @draw
     @exp_ram_2:
-        LDA $7400, Y
-        STA MMC5_EXP_RAM, Y
-        LDA $7400+$100, Y
-        STA MMC5_EXP_RAM+$100, Y
-        LDA $7400+$200, Y
-        STA MMC5_EXP_RAM+$200, Y
-        LDA $7400+$300, Y
-        STA MMC5_EXP_RAM+$300, Y
-        ; loop
-        INY
-        BNE @exp_ram_2
+        LDA #$74
 
-    @draw_end:
+    @draw:
+    JSR mdl_world_drw_scrn_exp
     ; increment game_substate
     LDA game_substate
     CLC
-    ADC #$10
+    ADC #$04
     STA game_substate
+    @draw_end:
     ; enable background, scroll and palette updadtes
     LDA nmi_flags
     ORA #(NMI_BKG+NMI_SCRL+NMI_PLT)
     STA nmi_flags
 
     @end:
+    RTS
+
+; A = base high adr
+mdl_world_drw_scrn_exp:
+    ;
+    STA tmp+1
+    LDA #>MMC5_EXP_RAM
+    STA tmp+3
+    ;
+    LDA #PRGRAM_SCREEN_BANK
+    STA MMC5_PRG_BNK1
+    STA last_frame_BNK+2
+    ;
+    LDA #$78
+    STA tmp+5
+    ;
+    LDY #$00
+    STY tmp+0
+    STY tmp+2
+    STY tmp+4
+    STY tmp+6
+    ;
+    LDA game_substate
+    AND #$0F
+    @loop_inc:
+        BEQ @loop_inc_end
+        ;
+        LDX tmp+1
+        INX
+        STX tmp+1
+        LDX tmp+3
+        INX
+        STX tmp+3
+        LDX tmp+5
+        INX
+        STX tmp+5
+        ;
+        SEC
+        SBC #$04
+        JMP @loop_inc
+    @loop_inc_end:
+
+    @loop_y:
+        LDA (tmp), Y
+        STA (tmp+2), Y
+        AND #$20
+        BEQ @no_anim
+            LDA tmp+1
+            STA (tmp+4), Y
+            LDA tmp+0
+            STA tmp+7
+            TYA
+            CLC
+            ADC tmp+7
+            PHA
+            LDA tmp+5
+            CLC
+            ADC #$04
+            STA tmp+7
+            PLA
+            STA (tmp+6), Y
+            JMP @next
+        @no_anim:
+            STA (tmp+4), Y
+        @next:
+        ; loop
+        INY
+        BNE @loop_y
     RTS
 
 
@@ -207,6 +251,11 @@ module_world_draw_up:
 
 
 mdl_world_drw_x:
+    ; load animation buffer bank
+    LDA #PRGRAM_SCREEN_BANK
+    STA MMC5_PRG_BNK1
+    STA last_frame_BNK+2
+
     ; find number of tile for the first background packet
     @find_nb_tile_first:
     LDA game_scroll_y+1
@@ -223,11 +272,10 @@ mdl_world_drw_x:
     ORA #$80
     JSR mdl_world_drw_adr
 
-    ; wait to be in frame to render expansion time correctly
+    ; wait to be in frame to render expansion tile correctly
     @wait_inframe:
-        LDA MMC5_SCNL_STAT
-        AND #$40
-        BEQ @wait_inframe
+        BIT MMC5_SCNL_STAT
+        BVC @wait_inframe
 
     LDA #$00
     STA counter
@@ -267,6 +315,11 @@ mdl_world_drw_x:
 
 
 mdl_world_drw_y:
+    ; load animation buffer bank
+    LDA #PRGRAM_SCREEN_BANK
+    STA MMC5_PRG_BNK1
+    STA last_frame_BNK+2
+
     ; find number of tile for the first background packet
     @find_nb_tile_first:
     LDA game_scroll_x+1
@@ -284,9 +337,8 @@ mdl_world_drw_y:
 
     ; wait to be in frame to render expansion time correctly
     @wait_inframe:
-        LDA MMC5_SCNL_STAT
-        AND #$40
-        BEQ @wait_inframe
+        BIT MMC5_SCNL_STAT
+        BVC @wait_inframe
 
     LDA #$00
     STA counter
@@ -358,15 +410,16 @@ mdl_world_drw_x_loop:
     INX
     ; get high tile
     LDA tmp+1
+    PHA
     CLC
     ADC #$04
     STA tmp+1
     LDA (tmp), Y
     ; set high tile
     STA (tmp+2), Y
-    LDA tmp+1
-    SEC
-    SBC #$04
+    JSR mdl_world_drw_loop_anim
+    ;
+    PLA
     STA tmp+1
     ;
     JSR inc_scroll_y_tile
@@ -386,19 +439,72 @@ mdl_world_drw_y_loop:
     INX
     ; get high tile
     LDA tmp+1
+    PHA
     CLC
     ADC #$04
     STA tmp+1
     LDA (tmp), Y
     ; set high tile
     STA (tmp+2), Y
-    LDA tmp+1
-    SEC
-    SBC #$04
+    JSR mdl_world_drw_loop_anim
+    ;
+    PLA
     STA tmp+1
     ;
     JSR inc_scroll_x_tile
     JSR inc_tmp
     JSR inc_tmp2
+
+    RTS
+
+
+mdl_world_drw_loop_anim:
+    ;
+    AND #$20
+    BEQ @no_anim
+    @anim:
+        ;
+        LDA tmp+3
+        EOR #$E0
+        STA tmp+3
+        LDA tmp+0
+        STA (tmp+2), Y
+        ;
+        LDA tmp+3
+        EOR #$04
+        STA tmp+3
+        ;
+        LDA last_frame_BNK+0
+        CMP #PRGRAM_SCREEN_BANK
+        BEQ @anim_bnk_0
+        CMP #PRGRAM_SCREEN_BANK+1
+        BEQ @anim_bnk_1
+        @anim_bnk_2:
+            LDA #$60
+            CLC
+            ADC tmp+1
+            STA tmp+1
+            JMP @anim_bnk_0
+        @anim_bnk_1:
+            LDA #$40
+            CLC
+            ADC tmp+1
+            STA tmp+1
+        @anim_bnk_0:
+        LDA tmp+1
+        STA (tmp+2), Y
+        ;
+        JMP @end
+    @no_anim:
+        LDA tmp+3
+        EOR #$E4
+        STA tmp+3
+        LDA #$00
+        STA (tmp+2), Y
+    @end:
+    ;
+    LDA tmp+3
+    EOR #$E4
+    STA tmp+3
 
     RTS

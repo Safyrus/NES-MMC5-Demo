@@ -247,9 +247,9 @@ object_subpossize_0_base:
     .byte $50, $51, $52
     .byte $60, $61, $62
     ; high tiles
-    .byte $81, $81, $81
-    .byte $81, $81, $81
-    .byte $81, $81, $81
+    .byte $B0, $B0, $B0
+    .byte $B0, $B0, $B0
+    .byte $B0, $B0, $B0
 ; water horizontal
     ; type + flags
     .byte %00000011
@@ -258,9 +258,9 @@ object_subpossize_0_base:
     .byte $50, $51, $52
     .byte $60, $61, $62
     ; high tiles
-    .byte $81, $81, $81
-    .byte $81, $81, $81
-    .byte $81, $81, $81
+    .byte $B0, $B0, $B0
+    .byte $B0, $B0, $B0
+    .byte $B0, $B0, $B0
 ; water top left
     ; type + flags
     .byte %00000101
@@ -269,9 +269,9 @@ object_subpossize_0_base:
     .byte $50, $51, $52
     .byte $60, $61, $62
     ; high tiles
-    .byte $81, $81, $81
-    .byte $81, $81, $81
-    .byte $81, $81, $81
+    .byte $B0, $B0, $B0
+    .byte $B0, $B0, $B0
+    .byte $B0, $B0, $B0
 ; water top right
     ; type + flags
     .byte %00000110
@@ -280,9 +280,9 @@ object_subpossize_0_base:
     .byte $50, $51, $52
     .byte $60, $61, $62
     ; high tiles
-    .byte $81, $81, $81
-    .byte $81, $81, $81
-    .byte $81, $81, $81
+    .byte $B0, $B0, $B0
+    .byte $B0, $B0, $B0
+    .byte $B0, $B0, $B0
 ; water bottom left
     ; type + flags
     .byte %00001001
@@ -291,9 +291,9 @@ object_subpossize_0_base:
     .byte $50, $51, $52
     .byte $60, $61, $62
     ; high tiles
-    .byte $81, $81, $81
-    .byte $81, $81, $81
-    .byte $81, $81, $81
+    .byte $B0, $B0, $B0
+    .byte $B0, $B0, $B0
+    .byte $B0, $B0, $B0
 ; water bottom right
     ; type + flags
     .byte %00001010
@@ -302,9 +302,9 @@ object_subpossize_0_base:
     .byte $50, $51, $52
     .byte $60, $61, $62
     ; high tiles
-    .byte $81, $81, $81
-    .byte $81, $81, $81
-    .byte $81, $81, $81
+    .byte $B0, $B0, $B0
+    .byte $B0, $B0, $B0
+    .byte $B0, $B0, $B0
 ; water top side
     ; type + flags
     .byte %00000111
@@ -313,9 +313,9 @@ object_subpossize_0_base:
     .byte $50, $51, $52
     .byte $60, $61, $62
     ; high tiles
-    .byte $81, $81, $81
-    .byte $81, $81, $81
-    .byte $81, $81, $81
+    .byte $B0, $B0, $B0
+    .byte $B0, $B0, $B0
+    .byte $B0, $B0, $B0
 ; water bottom side
     ; type + flags
     .byte %00001011
@@ -324,9 +324,9 @@ object_subpossize_0_base:
     .byte $50, $51, $52
     .byte $60, $61, $62
     ; high tiles
-    .byte $81, $81, $81
-    .byte $81, $81, $81
-    .byte $81, $81, $81
+    .byte $B0, $B0, $B0
+    .byte $B0, $B0, $B0
+    .byte $B0, $B0, $B0
 ; water open
     ; type + flags
     .byte %00001111
@@ -335,6 +335,6 @@ object_subpossize_0_base:
     .byte $50, $51, $52
     .byte $60, $51, $62
     ; high tiles
-    .byte $81, $81, $81
-    .byte $81, $81, $81
-    .byte $81, $81, $81
+    .byte $B0, $B0, $B0
+    .byte $B0, $B0, $B0
+    .byte $B0, $B0, $B0

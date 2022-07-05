@@ -25,6 +25,16 @@ MAIN:
     AND #($ff-NMI_DONE)
     STA nmi_flags
 
+    ; increase framecount
+    LDX game_framecount+1
+    INX
+    STX game_framecount+1
+    BNE @framecount_end
+        LDX game_framecount+0
+        INX
+        STX game_framecount+0
+    @framecount_end:
+
     ; update ppu scroll for next frame
     LDA game_scroll_x+1
     STA scroll_x

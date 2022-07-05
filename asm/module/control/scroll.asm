@@ -6,34 +6,50 @@ scroll_right:
     SBC #$01
     CMP game_scroll_x+0
     BEQ @end
-    ; is scroll_x_lo >= $80 ?
+    ; is scroll_x_lo == $80 ?
     LDA game_scroll_x+1
-    BPL @no
-        ; is scroll_x_lo < $A0 ?
-        CMP #$A0
-        BCS @no
-            ; have we already update screens ?
-            LDA game_scroll_flag
-            AND #$01
-            BNE @scroll
-                ; save scroll_x_hi
-                LDA game_scroll_x+0
+    CMP #$80
+    BNE @no
+        ; have we already update screens ?
+        LDA game_scroll_flag
+        AND #$01
+        BNE @scroll
+            ; save scroll_x_hi
+            LDA game_scroll_x+0
+            PHA
+            ; and increase it
+            TAX
+            INX
+            STX game_scroll_x+0
+            ; if we are in the bottom of the current screen
+            LDA game_scroll_y+1
+            BPL @update
+                ; save scroll_y_hi
+                LDA game_scroll_y+0
                 PHA
+                ; and increase it
                 TAX
                 INX
-                STX game_scroll_x+0
-                ; command necessary screen to update
-                LDX #DIR::RIGHT
-                JSR scroll_update_screen
-                ; restore scsroll_x_hi
+                STX game_scroll_y+0
+            @update:
+            ; command necessary screen to update
+            LDX #DIR::RIGHT
+            JSR scroll_update_screen
+            ; restore scroll_y_hi if needed
+            LDA game_scroll_y+1
+            BPL @update_end
                 PLA
-                STA game_scroll_x+0
-                ; tell we updated the screens
-                LDA game_scroll_flag
-                ORA #$01
-                STA game_scroll_flag
-                ; continue
-                JMP @scroll
+                STA game_scroll_y+0
+            @update_end:
+            ; restore scroll_x_hi
+            PLA
+            STA game_scroll_x+0
+            ; tell we updated the screens
+            LDA game_scroll_flag
+            ORA #$01
+            STA game_scroll_flag
+            ; continue
+            JMP @scroll
     @no:
         LDA game_scroll_flag
         AND #$FE
@@ -53,29 +69,44 @@ scroll_right:
 scroll_left:
     ; is it the left side of the level ?
     LDA game_scroll_x+0
-    BNE @update
+    BNE @check_update
     LDA game_scroll_x+1
     BEQ @end
-    @update:
-    ; is scroll_x_lo < $80 ?
+    @check_update:
+    ; is scroll_x_lo == $7F ?
     LDA game_scroll_x+1
-    BMI @no
-        ; is scroll_x_lo >= $60 ?
-        CMP #$60
-        BCC @no
-            ; have we already update screens ?
+    CMP #$7F
+    BNE @no
+        ; have we already update screens ?
+        LDA game_scroll_flag
+        AND #$02
+        BNE @scroll
+            ; if we are in the bottom of the current screen
+            LDA game_scroll_y+1
+            BPL @update
+                ; save scroll_y_hi
+                LDA game_scroll_y+0
+                PHA
+                ; and increase it
+                TAX
+                INX
+                STX game_scroll_y+0
+            @update:
+            ; command necessary screen to update
+            LDX #DIR::LEFT
+            JSR scroll_update_screen
+            ; restore scroll_y_hi if needed
+            LDA game_scroll_y+1
+            BPL @update_end
+                PLA
+                STA game_scroll_y+0
+            @update_end:
+            ; tell we updated the screens
             LDA game_scroll_flag
-            AND #$02
-            BNE @scroll
-                ; command necessary screen to update
-                LDX #DIR::LEFT
-                JSR scroll_update_screen
-                ; tell we updated the screens
-                LDA game_scroll_flag
-                ORA #$02
-                STA game_scroll_flag
-                ; continue
-                JMP @scroll
+            ORA #$02
+            STA game_scroll_flag
+            ; continue
+            JMP @scroll
     @no:
         LDA game_scroll_flag
         AND #$FD
@@ -103,34 +134,50 @@ scroll_down:
     SBC #$01
     CMP game_scroll_y+0
     BEQ @end
-    ; is scroll_y_lo >= $80 ?
+    ; is scroll_y_lo == $80 ?
     LDA game_scroll_y+1
-    BPL @no
-        ; is scroll_y_lo < $A0 ?
-        CMP #$A0
-        BCS @no
-            ; have we already update screens ?
-            LDA game_scroll_flag
-            AND #$04
-            BNE @scroll
-                ; save scroll_y_hi
-                LDA game_scroll_y+0
+    CMP #$80
+    BNE @no
+        ; have we already update screens ?
+        LDA game_scroll_flag
+        AND #$04
+        BNE @scroll
+            ; save scroll_y_hi
+            LDA game_scroll_y+0
+            PHA
+            ; and increase it
+            TAX
+            INX
+            STX game_scroll_y+0
+            ; if we are in the right of the current screen
+            LDA game_scroll_x+1
+            BPL @update
+                ; save scroll_x_hi
+                LDA game_scroll_x+0
                 PHA
+                ; and increase it
                 TAX
                 INX
-                STX game_scroll_y+0
-                ; command necessary screen to update
-                LDX #DIR::DOWN
-                JSR scroll_update_screen
-                ; restore scsroll_y_hi
+                STX game_scroll_x+0
+            @update:
+            ; command necessary screen to update
+            LDX #DIR::DOWN
+            JSR scroll_update_screen
+            ; restore scroll_x_hi if needed
+            LDA game_scroll_x+1
+            BPL @update_end
                 PLA
-                STA game_scroll_y+0
-                ; tell we updated the screens
-                LDA game_scroll_flag
-                ORA #$04
-                STA game_scroll_flag
-                ; continue
-                JMP @scroll
+                STA game_scroll_x+0
+            @update_end:
+            ; restore scroll_y_hi
+            PLA
+            STA game_scroll_y+0
+            ; tell we updated the screens
+            LDA game_scroll_flag
+            ORA #$04
+            STA game_scroll_flag
+            ; continue
+            JMP @scroll
     @no:
         LDA game_scroll_flag
         AND #$FB
@@ -150,29 +197,44 @@ scroll_down:
 scroll_up:
     ; is it the up side of the level ?
     LDA game_scroll_y+0
-    BNE @update
+    BNE @check_update
     LDA game_scroll_y+1
     BEQ @end
-    @update:
-    ; is scroll_y_lo < $80 ?
+    @check_update:
+    ; is scroll_y_lo == $7F ?
     LDA game_scroll_y+1
-    BMI @no
-        ; is scroll_y_lo >= $60 ?
-        CMP #$60
-        BCC @no
-            ; have we already update screens ?
+    CMP #$7F
+    BNE @no
+        ; have we already update screens ?
+        LDA game_scroll_flag
+        AND #$08
+        BNE @scroll
+            ; if we are in the right of the current screen
+            LDA game_scroll_x+1
+            BPL @update
+                ; save scroll_x_hi
+                LDA game_scroll_x+0
+                PHA
+                ; and increase it
+                TAX
+                INX
+                STX game_scroll_x+0
+            @update:
+            ; command necessary screen to update
+            LDX #DIR::UP
+            JSR scroll_update_screen
+            ; restore scroll_x_hi if needed
+            LDA game_scroll_x+1
+            BPL @update_end
+                PLA
+                STA game_scroll_x+0
+            @update_end:
+            ; tell we updated the screens
             LDA game_scroll_flag
-            AND #$08
-            BNE @scroll
-                ; command necessary screen to update
-                LDX #DIR::UP
-                JSR scroll_update_screen
-                ; tell we updated the screens
-                LDA game_scroll_flag
-                ORA #$08
-                STA game_scroll_flag
-                ; continue
-                JMP @scroll
+            ORA #$08
+            STA game_scroll_flag
+            ; continue
+            JMP @scroll
     @no:
         LDA game_scroll_flag
         AND #$F7
