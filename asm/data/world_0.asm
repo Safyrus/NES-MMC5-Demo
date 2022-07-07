@@ -10,13 +10,16 @@ world_0:
 
         ; colors
         .byte %10000000
-        .byte %01101000
+        .byte %11101000
         .byte %10001101
+        .byte %00101100
+        .byte %01100001
+        .byte %01101000
+        .byte %00001101
         .byte %10101100
-        .byte %11001001
-        .byte %00000111
-        .byte %00001110
-        .byte %00011100
+
+        ; level sprite banks
+        .byte 0, 6, 2, 3, 4, 5, 1, 7
 
         ; level screens
         .byte 1, 2, 3
@@ -35,6 +38,9 @@ world_0:
             .byte @screen_2-@screen_1-1
             ; objects
             .byte OBJ_SCR::FILL_RND
+
+            .byte ENTITY_POS::PLAYER
+            .byte $78
 
             .byte OBJ_CMD_RLE, 16
             .dbyt OBJ_SUBPOS_0::FOREST_MID

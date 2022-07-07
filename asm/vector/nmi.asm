@@ -211,6 +211,10 @@ NMI:
     STA nmi_flags
 
     @end:
+    ; set nametable to fill mode
+    LDA #NAMETABLE_FILL
+    STA MMC5_NAMETABLE
+
     LDA nmi_flags
     AND #NMI_MAIN
     BEQ @return

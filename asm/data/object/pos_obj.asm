@@ -35,7 +35,6 @@ object_pos_hi:
     .byte >object_pos_F
 
 
-; Tree
 object_pos_0:
 object_pos_1:
 object_pos_2:

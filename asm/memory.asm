@@ -108,6 +108,10 @@ OAM:
         .tag Module
         .tag Module
         .tag Module
+        .tag Module
+        .tag Module
+        .tag Module
+        .tag Module
     lower_module_array_prio: .res LOWER_MODULE_SIZE
     lower_module_prio: .res 1
 
@@ -182,6 +186,7 @@ OAM:
     ; size of the screen_objects_buffer
     screen_objbuf_size: .res 1
     ; bit 0: inc x
+    ; bit 1: last obj is entity
     ; bit 5: inc y
     screen_draw_flag: .res 1
     ; byte 0: type
@@ -221,10 +226,58 @@ OAM:
     scanline: .res 1
     ;
     anim_counter: .res 1
+    ;
+    entity_load_counter: .res 1
+    ;
+    global_entity_spr_counter: .res 1
+    ;
+    sprite_banks: .res 8
 
+
+;****************
+; MMC5 WRAM SEGMENTS
+;****************
 
 .segment "RAM0"
     ; buffer containing screens of the last loaded level
     level_screens_buffer: .res 256
     ; buffer containing objects of the last loaded screen
     screen_objects_buffer: .res 256
+
+.segment "RAM1"
+    screen_buffer_0: .res 2048
+    screen_buffer_1: .res 2048
+    screen_buffer_2: .res 2048
+
+.segment "RAM2"
+    screen_buffer_3: .res 2048
+    screen_buffer_4: .res 2048
+    screen_buffer_5: .res 2048
+
+.segment "RAM3"
+    screen_buffer_6: .res 2048
+    screen_buffer_7: .res 2048
+    screen_buffer_8: .res 2048
+
+.segment "RAM4"
+    res_entity_buf
+    res_entity_buf
+    res_entity_buf
+    res_entity_buf
+    res_entity_buf
+    res_entity_buf
+    res_entity_buf
+    res_entity_buf
+    res_entity_buf
+
+    global_entity_buffer_adr_bnk: .res 64
+    global_entity_buffer_adr_lo: .res 64
+    global_entity_buffer_adr_hi: .res 64
+    global_entity_buffer_spr_nb: .res 64
+    global_entity_buffer_size: .res 64
+    global_entity_buffer_pos_x: .res 64
+    global_entity_buffer_pos_y: .res 64
+    global_entity_buffer_atr: .res 64
+    global_entity_buffer_spr: .res 64
+    global_entity_buffer_spr_offset: .res 64
+    global_entity_buffer_pos_hi: .res 64

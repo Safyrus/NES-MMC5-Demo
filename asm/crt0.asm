@@ -60,7 +60,7 @@
     ; If the shift count is zero, there is no PRG-(NV)RAM.
     ; If the shift count is non-zero, the actual size is
     ; "64 << shift count" bytes, i.e. 8192 bytes for a shift count of 7.
-    .byte %00001001
+    .byte %00001010
 
     ; 11: CHR-RAM size
     ; cccc CCCC

@@ -18,7 +18,7 @@ NESLIB = ../../cc65/lib/nes.lib
 ASMINC = ../../cc65/asminc
 
 # Emulator executable location
-EMULATOR = ../../Mesen/Mesen.exe
+EMULATOR = ../../emu/Mesen/Mesen.exe
 
 # Hexdump executable location
 HEXDUMP = ..\..\hexdump.exe

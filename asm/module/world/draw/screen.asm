@@ -88,7 +88,7 @@ module_world_draw_screen:
 
     ; wait to be in the frame to write to expansion RAM
     @wait:
-        BIT MMC5_SCNL_STAT
+        BIT scanline
         BVC @wait
 
     LDA scrbuf_index
@@ -115,9 +115,9 @@ module_world_draw_screen:
     ADC #$04
     STA game_substate
     @draw_end:
-    ; enable background, scroll and palette updadtes
+    ; enable background, scroll, sprites and palette updates
     LDA nmi_flags
-    ORA #(NMI_BKG+NMI_SCRL+NMI_PLT)
+    ORA #(NMI_BKG+NMI_SCRL+NMI_PLT+NMI_SPR)
     STA nmi_flags
 
     @end:
@@ -229,7 +229,7 @@ module_world_draw_down:
 
     ; move scroll one screen to the bottom minus one row
     JSR inc_scroll_y_hi
-    JSR dec_scroll_y_tile
+    ; JSR dec_scroll_y_tile
     ; draw
     JSR mdl_world_drw_y
 
@@ -243,6 +243,8 @@ module_world_draw_up:
     pushreg
     push_scroll
 
+    JSR inc_scroll_y_tile
+    ; JSR inc_scroll_y_hi
     JSR mdl_world_drw_y
 
     pull_scroll
@@ -274,7 +276,7 @@ mdl_world_drw_x:
 
     ; wait to be in frame to render expansion tile correctly
     @wait_inframe:
-        BIT MMC5_SCNL_STAT
+        BIT scanline
         BVC @wait_inframe
 
     LDA #$00
@@ -337,7 +339,7 @@ mdl_world_drw_y:
 
     ; wait to be in frame to render expansion time correctly
     @wait_inframe:
-        BIT MMC5_SCNL_STAT
+        BIT scanline
         BVC @wait_inframe
 
     LDA #$00

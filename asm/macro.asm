@@ -90,3 +90,28 @@
     PLA
     STA game_scroll_x+0
 .endmacro
+
+.macro res_entity_buf
+    .local entity_buffer_adr_bnk
+    .res 64
+    .local entity_buffer_adr_lo
+    .res 64
+    .local entity_buffer_adr_hi
+    .res 64
+    .local entity_buffer_spr_nb
+    .res 64
+    .local entity_buffer_size
+    .res 64
+    .local entity_buffer_pos_x
+    .res 64
+    .local entity_buffer_pos_y
+    .res 64
+    .local entity_buffer_atr
+    .res 64
+    .local entity_buffer_spr
+    .res 64
+    .local entity_buffer_spr_offset
+    .res 64
+    .local entity_buffer_padding
+    .res 128
+.endmacro

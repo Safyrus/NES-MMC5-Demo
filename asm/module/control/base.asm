@@ -1,3 +1,4 @@
+.include "input.asm"
 .include "utils.asm"
 .include "scroll.asm"
 
@@ -124,10 +125,10 @@ mdl_ctrl_normal:
     ; tile animation
     LDA game_framecount+1
     AND #ANIM_BASE_SPD_MASK
-    BNE @input
+    BNE @anim_end
     LDA game_substate
     AND #$01
-    BNE @input
+    BNE @anim_end
         LDA game_substate
         ORA #$01
         STA game_substate
@@ -148,55 +149,41 @@ mdl_ctrl_normal:
         TXA
         AND #ANIM_MAX_FRAME_MASK
         STA anim_counter
+    @anim_end:
 
-    @input:
-    ; input
-    JSR update_btn_timer
-    LDA buttons_1_timer
-    BNE @end
-        JSR readjoy
-        LDA buttons_1
-        BEQ @end
-            LDX #$07
-            @loop:
-                LSR
-                BCC @loop_next
-                    LDA @jump_table_hi, X
-                    PHA
-                    LDA @jump_table_lo, X
-                    PHA
-                    RTS
-                @loop_next:
-                DEX
-                BPL @loop
+    LDA #PRGRAM_SPR_BANK
+    STA MMC5_RAM_BNK
+    LDX #$3F
+    @entity_act:
+        LDA global_entity_buffer_adr_bnk, X
+        BEQ @next
+            LDA global_entity_buffer_adr_bnk, X
+            STA MMC5_PRG_BNK1
+            LDA global_entity_buffer_adr_lo, X
+            STA tmp+0
+            LDA global_entity_buffer_adr_hi, X
+            STA tmp+1
+
+            LDA #>(@next-1)
+            PHA
+            LDA #<(@next-1)
+            PHA
+            JMP (tmp)
+        @next:
+        DEX
+        BPL @entity_act
+
+    ; add the module_world_draw_global_sprites module
+    LDA #LOWER_MODULE_MAX_PRIO-1
+    JSR mdl_ctrl_lw_adr
+    LDA #MODULE_WORLD
+    STA lower_module_array, X
+    INX
+    LDA #<module_world_draw_global_sprites
+    STA lower_module_array, X
+    INX
+    LDA #>module_world_draw_global_sprites
+    STA lower_module_array, X
+
     @end:
     RTS
-
-    @dbg_input:
-    LDA game_scroll_x+1
-    AND #$F8
-    STA game_scroll_x+1
-    LDA game_scroll_y+1
-    AND #$F8
-    STA game_scroll_y+1
-    RTS
-
-    @jump_table_lo:
-        .byte <(@dbg_input-1)
-        .byte <(@dbg_input-1)
-        .byte <(@end-1)
-        .byte <(@end-1)
-        .byte <(scroll_up-1)
-        .byte <(scroll_down-1)
-        .byte <(scroll_left-1)
-        .byte <(scroll_right-1)
-    @jump_table_hi:
-        .byte >(@dbg_input-1)
-        .byte >(@dbg_input-1)
-        .byte >(@end-1)
-        .byte >(@end-1)
-        .byte >(scroll_up-1)
-        .byte >(scroll_down-1)
-        .byte >(scroll_left-1)
-        .byte >(scroll_right-1)
-

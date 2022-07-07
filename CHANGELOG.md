@@ -6,11 +6,76 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 
 -----------------
 
-## **[0.2.0-2]** - _2022-07-05_
+## **[0.3.0-1]** - _2022-07-07_
+
+The _Entity_ update
+
+### **Added**
+
+#### Global
+
+- A Lua script to show the current loaded screens.
+- An infinite loop that make the screen blink red if the game cannot access more than 32K of PRG RAM.
+- Entity buffers and 3 other variables (sprite_banks, global_entity_spr_counter and entity_load_counter).
+- Some constants (RAM_MAX_BNK and PRGRAM_SPR_BANK).
+- A macro (res_entity_buf).
+- A basic player texture in CHR.
+
+#### Data
+
+- A player entity (can not do much for now).
+- 1 player entity in the first screen of the level.
+
+#### Module
+
+- A function to load global entity with a position.
+
+### **Changed**
+
+#### Global
+
+- Makefile and MMC5_Demo_mmc5.cfg file.
+- Update [README](README.md).
+- PRG RAM to 64K (_if the game blink red, check the [README](README.md)_).
+- Maximum number of lower module to 8.
+- Enable sprites.
+- Water tiles in CHR.
+
+#### Data
+
+- The level sprite palettes and add sprite banks data to fit the new level structure.
+
+#### Module
+
+- A new module "draw_global_sprites" (not finished) that draw global entities on the screen.
+- The input subroutine to not be run by the control module but by the player entity.
+- Control module to tick entity and run the "draw entity" module.
+- Object pos-size code to another file.
+- Draw object function to also "draw" (load) entities.
+- In loading modules:
+
+  - The loading screen module to load entities and reset the screen entity buffers.
+  - The loading level to load the level sprite banks and reset global entity buffer.
+
+#### Vector
+
+- Scanline IRQs to hide the first row of tiles instead of the last one.
+- Reset to enable 8*16 sprite and 1K CHR mode.
+
+### **Fixed**
+
+- Random tile animation being wrong for 1 frame (due to writing to extended RAM when not in-frame).
+- Blinking screen (due to checking the in-frame flag of the MMC5 register and clearing the scanline IRQ at the same time).
+
+-----------------
+
+## **[0.2.0]** - _2022-07-05_
 
 The _Real Level and tile animation_ update
 
 ### **Added**
+
+#### Global
 
 - CHR textures:
   - 3 useless image :)
@@ -20,9 +85,6 @@ The _Real Level and tile animation_ update
 - Screen variables.
 - A frame counter and an animation frame counter.
 - 2 constant for animation (ANIM_BASE_SPD_MASK and ANIM_MAX_FRAME_MASK).
-
-#### Global
-
 - Nametable constants.
 
 #### Data

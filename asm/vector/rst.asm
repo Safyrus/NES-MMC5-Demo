@@ -42,7 +42,7 @@ RST:
     BIT PPU_STATUS
     BPL @vwait2      ; At this point, about 57165 cycles have passed
 
-    LDA #%10010000      ; Enable NMI + set background table to $1000
+    LDA #%10100000      ; Enable NMI + 8*16 sprite mode
     STA PPU_CTRL
     STA ppu_ctrl_val
 
@@ -58,7 +58,6 @@ RST:
     ; Set the Extented RAM as work RAM to clean it
     LDA #$02
     STA MMC5_EXT_RAM
-
     ; Reset Extended RAM content
     LDA #$00
     LDX #$00
@@ -96,6 +95,10 @@ RST:
     STA MMC5_SPLT_BNK
     STA MMC5_SPLT_SCRL
 
+    ; Set CHR mode to 1KB pages
+    LDA #$03
+    STA MMC5_CHR_MODE
+
     ; clean prg ram
     LDA #$00
     STA tmp+2
@@ -111,14 +114,12 @@ RST:
             STA tmp+1
             LDA #$00
             STA tmp
-
             ;
             LDY #$00
             @clean_prgram_page:
                 STA (tmp), Y
                 INY
                 BNE @clean_prgram_page
-
             ;
             INX
             CPX #$20
@@ -126,7 +127,7 @@ RST:
         LDX tmp+2
         INX
         STX tmp+2
-        CPX #$04
+        CPX #RAM_MAX_BNK
         BNE @clean_prgram
 
     ; - - - - - - -

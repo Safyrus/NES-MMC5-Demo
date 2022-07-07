@@ -49,13 +49,39 @@ mdl_world_load_screen_one:
         BNE @load_objects
     @load_objects_end:
 
-    ; get screen buffer bank at $C000 - $DFFF
+    ; get entity buffer adr
     LDA scrbuf_index
     AND #$03
+    STA MMC5_MUL_A
+    LDA scrbuf_index
+    AND #$0C
+    LSR
+    LSR
+    STA MMC5_MUL_B
+    LDA MMC5_MUL_A
+    STA MMC5_MUL_A
+    LDA #$03
+    STA MMC5_MUL_B
+    LDA #$C0
     CLC
-    ADC #PRGRAM_SCREEN_BANK
+    ADC MMC5_MUL_A
+    STA tmp+1
+    LDA #$00
+    STA tmp+0
+    LDA #PRGRAM_SPR_BANK
+    STA last_frame_BNK+2
     STA MMC5_PRG_BNK2
-    STA last_frame_BNK+3
+    ; reset entity buffer
+    LDY #$3F
+    LDA #$00
+    STA entity_load_counter
+    @reset_entity:
+        STA (tmp), Y
+        DEY
+        BPL @reset_entity
+
+    ; get screen buffer bank at $C000 - $DFFF
+    JSR mdl_world_scr_buf_bnk2
 
     ; get object bank at $A000 - $BFFF
     LDA #OBJ_BANK
@@ -84,7 +110,7 @@ mdl_world_load_screen_one:
 
         ; if object type == RLE
         CMP #$20
-        BNE @obj_sub
+        BNE @obj_rle_end
             ; load number of loop
             LDA screen_objects_buffer, Y
             INY
@@ -93,14 +119,43 @@ mdl_world_load_screen_one:
             LDA screen_objects_buffer, Y
             STA screen_draw_obj_buf+0
             INY
+        @obj_rle_end:
 
-        @obj_sub:
         ; if object has a subtype
         ASL
-        BCC @rle_loop
+        BCC @obj_sub_end
             LDA screen_objects_buffer, Y
             STA screen_draw_obj_buf+1
             INY
+        @obj_sub_end:
+
+        ; if object is an entity
+        ASL
+        ASL
+        ASL
+        LDA screen_draw_flag
+        AND #$02
+        BCS @obj_entity
+            ;
+            BEQ @obj_entity_end
+                ;
+                LDA screen_draw_flag
+                AND #$FD
+                STA screen_draw_flag
+                ; get screen buffer bank at $C000 - $DFFF
+                JSR mdl_world_scr_buf_bnk2
+                JMP @obj_entity_end
+        @obj_entity:
+            BNE @obj_entity_end
+                ;
+                LDA screen_draw_flag
+                ORA #$02
+                STA screen_draw_flag
+                ;
+                LDA #PRGRAM_SPR_BANK
+                STA MMC5_PRG_BNK2
+                STA last_frame_BNK+3
+        @obj_entity_end:
 
         @rle_loop:
             ; if object has a pos
@@ -133,6 +188,17 @@ mdl_world_load_screen_one:
         BNE @draw_objects
 
     pullreg
+    RTS
+
+
+mdl_world_scr_buf_bnk2:
+    ; get screen buffer bank at $C000 - $DFFF
+    LDA scrbuf_index
+    AND #$03
+    CLC
+    ADC #PRGRAM_SCREEN_BANK
+    STA MMC5_PRG_BNK2
+    STA last_frame_BNK+3
     RTS
 
 

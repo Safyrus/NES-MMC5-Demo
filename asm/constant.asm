@@ -160,7 +160,7 @@ MMC5_RAM       := $6000
 ; Game
 ;----------
 .define HIGHER_MODULE_SIZE  2
-.define LOWER_MODULE_SIZE  4
+.define LOWER_MODULE_SIZE  8
 .define LOWER_MODULE_MAX_PRIO  3
 
 .define MODULE_CTRL  0+$80
@@ -192,6 +192,7 @@ MMC5_RAM       := $6000
 
 .define PRGRAM_LEVEL_BANK 0
 .define PRGRAM_SCREEN_BANK 1
+.define PRGRAM_SPR_BANK 4
 
 .define SCR_UPD_SCR_X_R $A0
 .define SCR_UPD_SCR_X_L $61
@@ -203,3 +204,5 @@ MMC5_RAM       := $6000
 
 .define ANIM_BASE_SPD_MASK %00001111
 .define ANIM_MAX_FRAME_MASK %00000011
+
+.define RAM_MAX_BNK 7

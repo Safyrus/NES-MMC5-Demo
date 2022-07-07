@@ -144,14 +144,26 @@ module_world_load_level:
             CPX #$07
             BNE @load_last_palette
 
-        LDX #$00
+        ; load sprite banks
+        JSR inc_tmp
+        LDY #$00
+        @load_level_spr_bnk:
+            LDA (tmp), Y
+            STA sprite_banks, Y
+            ;
+            INY
+            CPY #$08
+            BNE @load_level_spr_bnk
+        TYA
+        JSR add_tmp
+
+        ; load level screens
         LDY #$00
         @load_level_screen:
-            JSR inc_tmp
             LDA (tmp),Y
-            STA level_screens_buffer, X
-            INX
-            CPX level_size
+            STA level_screens_buffer, Y
+            INY
+            CPY level_size
             BNE @load_level_screen
 
         ; reset scroll
@@ -160,6 +172,15 @@ module_world_load_level:
         STA game_scroll_y+1
         STA game_scroll_x+0
         STA game_scroll_y+0
+
+        ; reset global entity buffer
+        LDX #$3F
+        LDA #$00
+        STA global_entity_spr_counter
+        @reset_entity:
+            STA global_entity_buffer_adr_bnk, X
+            DEX
+            BPL @reset_entity
 
         LDA #STATE::LOAD_SCR_ALL
         STA game_state

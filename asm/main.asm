@@ -2,15 +2,43 @@
 ; Main
 ;**********
 
+NULL_SRT:
+    RTS
+
+NO_RAM:
+    LDA nmi_flags
+    ORA #(NMI_PLT)
+    STA nmi_flags
+
+    LDA game_framecount+1
+    AND #$20
+    BEQ @red
+    @black:
+        LDA #$0F
+        JMP @pal
+    @red:
+        LDA #$05
+    @pal:
+    LDX #24
+    @loop:
+        STA palettes, X
+        DEX
+        BPL @loop
+    ; force the nmi end to jump to main loop
+    LDA nmi_flags
+    ORA #NMI_MAIN
+    STA nmi_flags
+    @wait:
+        JMP @wait
+
 MAIN:
     ; ----------------------------------------
     ; INIT
     ; ----------------------------------------
     main_init:
-    ; enable ppu background
-    LDA #(PPU_MASK_BKG)
+    ; enable ppu background and sprite
+    LDA #(PPU_MASK_BKG + PPU_MASK_SPR)
     STA PPU_MASK
-
 
     ; ----------------------------------------
     ; LOOP
@@ -34,6 +62,15 @@ MAIN:
         INX
         STX game_framecount+0
     @framecount_end:
+
+    LDA #$07
+    STA MMC5_RAM_BNK
+    STA $6000
+    LDA $6000
+    CMP #$07
+    BNE NO_RAM
+    LDA last_frame_BNK
+    STA MMC5_RAM_BNK
 
     ; update ppu scroll for next frame
     LDA game_scroll_x+1
