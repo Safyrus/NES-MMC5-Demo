@@ -161,7 +161,7 @@ MMC5_RAM       := $6000
 ;----------
 .define HIGHER_MODULE_SIZE  2
 .define LOWER_MODULE_SIZE  8
-.define LOWER_MODULE_MAX_PRIO  3
+.define LOWER_MODULE_MAX_PRIO  4
 
 .define MODULE_CTRL  0+$80
 .define MODULE_WORLD 1+$80
@@ -181,7 +181,7 @@ MMC5_RAM       := $6000
     NORMAL
 .endenum
 
-.define BTN_TIMER 0
+.define BTN_TIMER 8
 
 .enum DIR
     UP
@@ -189,6 +189,11 @@ MMC5_RAM       := $6000
     LEFT
     RIGHT
 .endenum
+
+.define SCANLINE_BOT $01
+.define SCANLINE_MID $40
+.define SCANLINE_TOP $42
+
 
 .define PRGRAM_LEVEL_BANK 0
 .define PRGRAM_SCREEN_BANK 1

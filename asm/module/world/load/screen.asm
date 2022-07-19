@@ -15,8 +15,8 @@ mdl_world_load_screen_one:
 
     ; set ram bank
     LDA #PRGRAM_LEVEL_BANK
-    STA MMC5_RAM_BNK
     STA last_frame_BNK+0
+    STA MMC5_RAM_BNK
 
     ; find the screen data
     LDX #$00
@@ -69,7 +69,7 @@ mdl_world_load_screen_one:
     LDA #$00
     STA tmp+0
     LDA #PRGRAM_SPR_BANK
-    STA last_frame_BNK+2
+    STA last_frame_BNK+3
     STA MMC5_PRG_BNK2
     ; reset entity buffer
     LDY #$3F
@@ -85,8 +85,8 @@ mdl_world_load_screen_one:
 
     ; get object bank at $A000 - $BFFF
     LDA #OBJ_BANK
-    STA MMC5_PRG_BNK1
     STA last_frame_BNK+2
+    STA MMC5_PRG_BNK1
 
     ; init seed
     LDX world
@@ -153,8 +153,8 @@ mdl_world_load_screen_one:
                 STA screen_draw_flag
                 ;
                 LDA #PRGRAM_SPR_BANK
-                STA MMC5_PRG_BNK2
                 STA last_frame_BNK+3
+                STA MMC5_PRG_BNK2
         @obj_entity_end:
 
         @rle_loop:
@@ -197,8 +197,8 @@ mdl_world_scr_buf_bnk2:
     AND #$03
     CLC
     ADC #PRGRAM_SCREEN_BANK
-    STA MMC5_PRG_BNK2
     STA last_frame_BNK+3
+    STA MMC5_PRG_BNK2
     RTS
 
 

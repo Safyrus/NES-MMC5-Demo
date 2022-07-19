@@ -133,7 +133,7 @@ mdl_ctrl_normal:
         ORA #$01
         STA game_substate
         ; add the module_world_draw_anim module
-        LDA #LOWER_MODULE_MAX_PRIO-1
+        LDA #LOWER_MODULE_MAX_PRIO-2
         JSR mdl_ctrl_lw_adr
         LDA #MODULE_WORLD
         STA lower_module_array, X
@@ -173,17 +173,24 @@ mdl_ctrl_normal:
         DEX
         BPL @entity_act
 
-    ; add the module_world_draw_global_sprites module
-    LDA #LOWER_MODULE_MAX_PRIO-1
-    JSR mdl_ctrl_lw_adr
-    LDA #MODULE_WORLD
-    STA lower_module_array, X
-    INX
-    LDA #<module_world_draw_global_sprites
-    STA lower_module_array, X
-    INX
-    LDA #>module_world_draw_global_sprites
-    STA lower_module_array, X
+    LDA game_substate
+    AND #$02
+    BNE @entity_draw_end
+        LDA game_substate
+        ORA #$02
+        STA game_substate
+        ; add the module_world_draw_global_sprites module
+        LDA #LOWER_MODULE_MAX_PRIO
+        JSR mdl_ctrl_lw_adr
+        LDA #MODULE_WORLD
+        STA lower_module_array, X
+        INX
+        LDA #<module_world_draw_global_sprites
+        STA lower_module_array, X
+        INX
+        LDA #>module_world_draw_global_sprites
+        STA lower_module_array, X
+    @entity_draw_end:
 
     @end:
     RTS

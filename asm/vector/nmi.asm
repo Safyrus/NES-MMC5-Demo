@@ -214,6 +214,9 @@ NMI:
     ; set nametable to fill mode
     LDA #NAMETABLE_FILL
     STA MMC5_NAMETABLE
+    ; disable sprite
+    LDA #(PPU_MASK_BKG)
+    STA PPU_MASK
 
     LDA nmi_flags
     AND #NMI_MAIN

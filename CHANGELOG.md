@@ -6,9 +6,9 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 
 -----------------
 
-## **[0.3.0-1]** - _2022-07-07_
+## **[0.3.0-2]** - _2022-07-19_
 
-The _Entity_ update
+The _Player Entity_ update
 
 ### **Added**
 
@@ -17,18 +17,26 @@ The _Entity_ update
 - A Lua script to show the current loaded screens.
 - An infinite loop that make the screen blink red if the game cannot access more than 32K of PRG RAM.
 - Entity buffers and 3 other variables (sprite_banks, global_entity_spr_counter and entity_load_counter).
-- Some constants (RAM_MAX_BNK and PRGRAM_SPR_BANK).
+- Some constants (RAM_MAX_BNK, PRGRAM_SPR_BANK, SCANLINE_BOT, SCANLINE_TOP and SCANLINE_MID).
 - A macro (res_entity_buf).
 - A basic player texture in CHR.
 
 #### Data
 
-- A player entity (can not do much for now).
+- A player entity that can move and control the scroll.
 - 1 player entity in the first screen of the level.
 
 #### Module
 
 - A function to load global entity with a position.
+- In control module:
+  - 4 functions "check_scroll_XXX" to check if the player can move in each direction.
+  - Functions to get and set the player position.
+- A new module "draw_global_sprites" that draw global entities on the screen.
+
+#### Utils
+
+- New operations: dec_tmp, sub_tmp and sub_16 (16 bits sub).
 
 ### **Changed**
 
@@ -37,7 +45,8 @@ The _Entity_ update
 - Makefile and MMC5_Demo_mmc5.cfg file.
 - Update [README](README.md).
 - PRG RAM to 64K (_if the game blink red, check the [README](README.md)_).
-- Maximum number of lower module to 8.
+- Maximum number of lower module to 8 and maximum priority to 4.
+- Change BTN_TIMER to 8.
 - Enable sprites.
 - Water tiles in CHR.
 
@@ -47,25 +56,37 @@ The _Entity_ update
 
 #### Module
 
-- A new module "draw_global_sprites" (not finished) that draw global entities on the screen.
-- The input subroutine to not be run by the control module but by the player entity.
-- Control module to tick entity and run the "draw entity" module.
+- Modules priority.
 - Object pos-size code to another file.
 - Draw object function to also "draw" (load) entities.
+- Control module by:
+  - Making the input subroutine run by the player entity and not the control module anymore.
+  - Ticking entity and run the "draw entity" module.
+  - Refactoring "input" function to "player_input".
+  - Changing scroll functions to take into account player position and update it.
 - In loading modules:
-
   - The loading screen module to load entities and reset the screen entity buffers.
   - The loading level to load the level sprite banks and reset global entity buffer.
 
 #### Vector
 
-- Scanline IRQs to hide the first row of tiles instead of the last one.
+- Scanline IRQs to:
+  - Use the new constants.
+  - Hide the first row of tiles instead of the last one.
+  - Hide sprites for the first row of tiles.
+  - Bottom scanline state to be after scanline 232 instead of 239.
 - Reset to enable 8*16 sprite and 1K CHR mode.
+- NMI to disable sprites (will be reactivated by scanline IRQs).
 
 ### **Fixed**
 
 - Random tile animation being wrong for 1 frame (due to writing to extended RAM when not in-frame).
 - Blinking screen (due to checking the in-frame flag of the MMC5 register and clearing the scanline IRQ at the same time).
+- Draw sprite module being call too many times.
+- Maybe fix a potential bug if the frame ends just after a MMC5 bank switch and just before recording it to last_frame_BNK variable.
+- An incorrect index to last_frame_BNK in function "mdl_world_load_screen_one".
+- Incorrect level loading when drawing sprites because of MMC5 multiplication registers not being restored after returning to module
+  (fix by not doing the multiplication at the end of the frame and wait for next frame).
 
 -----------------
 

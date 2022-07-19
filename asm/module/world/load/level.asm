@@ -10,8 +10,8 @@ module_world_load_level:
 
     ; get level buffer bank in RAM
     LDA #PRGRAM_LEVEL_BANK
-    STA MMC5_RAM_BNK
     STA last_frame_BNK+0
+    STA MMC5_RAM_BNK
 
     ; skip screen address
     LDA #$02

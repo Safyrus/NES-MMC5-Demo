@@ -28,9 +28,7 @@ mdl_world_drw_obj_pos_base:
     LDA scrbuf_index
     AND #$0C
     ASL
-    CLC
-    ADC #$C0
-    CLC
+    ORA #$C0
     ADC tmp+3
     STA tmp+3
 

@@ -154,7 +154,7 @@ mdl_ctrl_update_scrbuf:
     AND #$01
     BNE @end
         ; add the module_world_load_screens module
-        LDA #LOWER_MODULE_MAX_PRIO-2
+        LDA #LOWER_MODULE_MAX_PRIO-1
         JSR mdl_ctrl_lw_adr
         LDA #MODULE_WORLD
         STA lower_module_array, X
@@ -337,4 +337,75 @@ mdl_ctrl_update_scrbuf_x:
     LDA #$01
     STA scrbuf_update_array_act, X
 
+    RTS
+
+
+; X = global entity index of player
+; return in tmp
+get_player_pos_x:
+    PHA
+
+    LDA global_entity_buffer_pos_x, X
+    STA tmp
+    LDA global_entity_buffer_pos_hi, X
+    AND #$0F
+    STA tmp+1
+
+    PLA
+    RTS
+
+; X = global entity index of player
+; tmp = new pos
+set_player_pos_x:
+    PHA
+
+    LDA tmp
+    STA global_entity_buffer_pos_x, X
+    LDA global_entity_buffer_pos_hi, X
+    AND #$F0
+    CLC
+    ADC tmp+1
+    STA global_entity_buffer_pos_hi, X
+
+    PLA
+    RTS
+
+; X = global entity index of player
+; return in tmp
+get_player_pos_y:
+    PHA
+
+    LDA global_entity_buffer_pos_y, X
+    STA tmp
+    LDA global_entity_buffer_pos_hi, X
+    LSR
+    LSR
+    LSR
+    LSR
+    STA tmp+1
+
+    PLA
+    RTS
+
+; X = global entity index of player
+; tmp = new pos
+; affect tmp
+set_player_pos_y:
+    PHA
+
+    LDA tmp
+    STA global_entity_buffer_pos_y, X
+    LDA tmp+1
+    ASL
+    ASL
+    ASL
+    ASL
+    STA tmp+1
+    LDA global_entity_buffer_pos_hi, X
+    AND #$0F
+    CLC
+    ADC tmp+1
+    STA global_entity_buffer_pos_hi, X
+
+    PLA
     RTS

@@ -6,14 +6,14 @@ scanline_irq_handler:
 
     AND #$3F
     BEQ @scanline_irq_bot
-    CMP #$01
+    CMP #SCANLINE_BOT
     BEQ @scanline_irq_top
     @scanline_irq_mid:
         ; next scanline state
-        LDA #$40
+        LDA #SCANLINE_MID
         STA scanline
-        ; set next interrupt to scanline 239
-        LDA #239
+        ; set next interrupt to scanline 232
+        LDA #232
         STA MMC5_SCNL_VAL
         ;
         LDA #$00
@@ -25,10 +25,13 @@ scanline_irq_handler:
         ; set nametable to normal
         LDA #NAMETABLE_SCROLL
         STA MMC5_NAMETABLE
+        ; enable sprite
+        LDA #(PPU_MASK_BKG + PPU_MASK_SPR)
+        STA PPU_MASK
         JMP @end
     @scanline_irq_bot:
         ; next scanline state
-        LDA #$01
+        LDA #SCANLINE_BOT
         STA scanline
         ; set next interrupt to scanline 1
         LDA #1
@@ -36,7 +39,7 @@ scanline_irq_handler:
         JMP @end
     @scanline_irq_top:
         ; next scanline state
-        LDA #$42
+        LDA #SCANLINE_TOP
         STA scanline
         ; set next interrupt to scanline 7
         LDA #7

@@ -7,8 +7,8 @@ module_world_draw_screen:
     AND #$03
     CLC
     ADC #PRGRAM_SCREEN_BANK
-    STA MMC5_RAM_BNK
     STA last_frame_BNK+0
+    STA MMC5_RAM_BNK
 
     ; do we need to draw expansion tiles ?
     LDA game_substate
@@ -131,8 +131,8 @@ mdl_world_drw_scrn_exp:
     STA tmp+3
     ;
     LDA #PRGRAM_SCREEN_BANK
-    STA MMC5_PRG_BNK1
     STA last_frame_BNK+2
+    STA MMC5_PRG_BNK1
     ;
     LDA #$78
     STA tmp+5
@@ -255,8 +255,8 @@ module_world_draw_up:
 mdl_world_drw_x:
     ; load animation buffer bank
     LDA #PRGRAM_SCREEN_BANK
-    STA MMC5_PRG_BNK1
     STA last_frame_BNK+2
+    STA MMC5_PRG_BNK1
 
     ; find number of tile for the first background packet
     @find_nb_tile_first:
@@ -319,8 +319,8 @@ mdl_world_drw_x:
 mdl_world_drw_y:
     ; load animation buffer bank
     LDA #PRGRAM_SCREEN_BANK
-    STA MMC5_PRG_BNK1
     STA last_frame_BNK+2
+    STA MMC5_PRG_BNK1
 
     ; find number of tile for the first background packet
     @find_nb_tile_first:
@@ -395,8 +395,8 @@ mdl_world_drw_adr:
     ; get screen buffer adr
     JSR scroll2scrBufAdr
     LDA tmp+2
-    STA MMC5_RAM_BNK
     STA last_frame_BNK+0
+    STA MMC5_RAM_BNK
 
     JSR scroll2expRam
 

@@ -42,7 +42,7 @@ entity_pos_0:
     ; behavior fct bank
     .byte MODULE_CTRL
     ; behavior fct adr
-    .word ((input .MOD $2000) + $A000)
+    .word ((player_input .MOD $2000) + $A000)
     ; size
     .byte $11
     ; sprite number
@@ -50,9 +50,9 @@ entity_pos_0:
     ; sprite index
     .byte $40
     ; sprites
-    .byte $B0
+    .byte $80
     .byte $03
-    .byte $B0
+    .byte $80
     .byte $01
 entity_pos_1:
 entity_pos_2:

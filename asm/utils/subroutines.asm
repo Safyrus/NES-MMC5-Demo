@@ -5,6 +5,13 @@ size_to_int:
     STA tmp+7
     PHA
 
+    ; wait to not by at the end of the frame because
+    ; multiplcation registers may be used by other modules next frame
+    @wait_for_mul:
+        LDA scanline
+        CMP #SCANLINE_BOT
+        BEQ @wait_for_mul
+
     ; width
     LDA tmp+7
     AND #$0F

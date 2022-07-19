@@ -1,14 +1,14 @@
 module_world_draw_anim:
 
     LDA #PRGRAM_SCREEN_BANK
-    STA MMC5_RAM_BNK
     STA last_frame_BNK+0
+    STA MMC5_RAM_BNK
     LDA #PRGRAM_SCREEN_BANK+1
-    STA MMC5_PRG_BNK1
     STA last_frame_BNK+2
+    STA MMC5_PRG_BNK1
     LDA #PRGRAM_SCREEN_BANK+2
-    STA MMC5_PRG_BNK2
     STA last_frame_BNK+3
+    STA MMC5_PRG_BNK2
 
     LDX #$00
     LDY #$00

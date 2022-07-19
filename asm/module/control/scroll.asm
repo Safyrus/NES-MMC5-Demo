@@ -1,4 +1,8 @@
 scroll_right:
+    ; increase player position
+    JSR get_player_pos_x
+    JSR inc_tmp
+    JSR set_player_pos_x
     ; is it the right side of the level ?
     LDA level_wh
     AND #$0F
@@ -62,11 +66,28 @@ scroll_right:
         LDY #DIR::RIGHT
         JSR scroll_draw_plan
     @inc_x:
-    JSR inc_scroll_x
+    ; scroll_x - player_x
+    LDX #$10 + (ENTITY_POS::PLAYER & $0F)
+    JSR get_player_pos_x
+    LDA game_scroll_x+1
+    STA tmp+2
+    LDA game_scroll_x+0
+    STA tmp+3
+    JSR sub_16
+    ; if rel_player_x >= $80
+    LDA tmp
+    CMP #$80
+    BCC @end
+        ; then increase scroll
+        JSR inc_scroll_x
     @end:
     RTS
 
 scroll_left:
+    ; decrease player position
+    JSR get_player_pos_x
+    JSR dec_tmp
+    JSR set_player_pos_x
     ; is it the left side of the level ?
     LDA game_scroll_x+0
     BNE @check_update
@@ -119,11 +140,38 @@ scroll_left:
         LDY #DIR::LEFT
         JSR scroll_draw_plan
     @dec_x:
-    JSR dec_scroll_x
+    ; scroll_x - player_x
+    LDX #$10 + (ENTITY_POS::PLAYER & $0F)
+    JSR get_player_pos_x
+    LDA game_scroll_x+1
+    STA tmp+2
+    LDA game_scroll_x+0
+    STA tmp+3
+    JSR sub_16
+    ; if rel_player_x < $80
+    LDA tmp
+    CMP #$80
+    BCS @end
+        ; then decrease scroll
+        JSR dec_scroll_x
     @end:
     RTS
 
 scroll_down:
+    ; increase player position
+    JSR get_player_pos_y
+    JSR inc_tmp
+    LDA tmp
+    CMP #$F0
+    BCC @set_player_pos
+        LDA #$00
+        STA tmp
+        LDA tmp+1
+        CLC
+        ADC #$01
+        STA tmp+1
+    @set_player_pos:
+    JSR set_player_pos_y
     ; is it the down side of the level ?
     LDA level_wh
     LSR
@@ -190,11 +238,34 @@ scroll_down:
         LDY #DIR::DOWN
         JSR scroll_draw_plan
     @inc_y:
-    JSR inc_scroll_y
+    ; scroll_y - player_y
+    LDX #$10 + (ENTITY_POS::PLAYER & $0F)
+    JSR get_player_pos_y
+    LDA game_scroll_y+1
+    STA tmp+2
+    LDA game_scroll_y+0
+    STA tmp+3
+    JSR sub_16
+    ; if rel_player_y >= $80
+    LDA tmp
+    CMP #$80
+    BCC @end
+        ; then increase scroll
+        JSR inc_scroll_y
     @end:
     RTS
 
 scroll_up:
+    ; decrease player position
+    JSR get_player_pos_y
+    JSR dec_tmp
+    LDA tmp
+    CMP #$F0
+    BCC @set_player_pos
+        LDA #$EF
+        STA tmp
+    @set_player_pos:
+    JSR set_player_pos_y
     ; is it the up side of the level ?
     LDA game_scroll_y+0
     BNE @check_update
@@ -247,7 +318,20 @@ scroll_up:
         LDY #DIR::UP
         JSR scroll_draw_plan
     @dec_y:
-    JSR dec_scroll_y
+    ; scroll_y - player_y
+    LDX #$10 + (ENTITY_POS::PLAYER & $0F)
+    JSR get_player_pos_y
+    LDA game_scroll_y+1
+    STA tmp+2
+    LDA game_scroll_y+0
+    STA tmp+3
+    JSR sub_16
+    ; if rel_player_y < $80
+    LDA tmp
+    CMP #$80
+    BCS @end
+        ; then decrease scroll
+        JSR dec_scroll_y
     @end:
     RTS
 

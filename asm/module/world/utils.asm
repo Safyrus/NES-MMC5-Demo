@@ -6,12 +6,12 @@ mdl_world_ld_wrld_bnk:
     ASL
     CLC
     ADC #WORLD_BANK_START+$80
-    STA MMC5_PRG_BNK1
     STA last_frame_BNK+2
+    STA MMC5_PRG_BNK1
     CLC
     ADC #$01
-    STA MMC5_PRG_BNK2
     STA last_frame_BNK+3
+    STA MMC5_PRG_BNK2
 
     PLA
     RTS

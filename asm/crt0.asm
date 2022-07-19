@@ -132,8 +132,6 @@
     .include "utils/scroll.asm"
     .include "utils/subroutines.asm"
 
-.segment "BNK0"
-    .include "module/control/base.asm"
 .segment "BNK1"
     .include "module/world/base.asm"
 .segment "BNK4"
@@ -141,6 +139,8 @@
 .segment "BNK2"
     .include "data/world_0.asm"
     .include "data/palette.asm"
+.segment "BNK0"
+    .include "module/control/base.asm"
 
 
 ; 6502 vectors
