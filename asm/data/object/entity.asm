@@ -48,12 +48,12 @@ entity_pos_0:
     ; sprite number
     .byte 2
     ; sprite index
-    .byte $40
+    .byte $00
     ; sprites
     .byte $80
-    .byte $03
-    .byte $80
     .byte $01
+    .byte $80
+    .byte $03
 entity_pos_1:
 entity_pos_2:
 entity_pos_3:

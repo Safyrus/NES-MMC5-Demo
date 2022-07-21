@@ -19,7 +19,7 @@ world_0:
         .byte %10101100
 
         ; level sprite banks
-        .byte 0, 6, 2, 3, 4, 5, 1, 7
+        .byte 8, 1, 2, 3, 4, 5, 6, 7
 
         ; level screens
         .byte 1, 2, 3

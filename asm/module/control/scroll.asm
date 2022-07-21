@@ -3,6 +3,9 @@ scroll_right:
     JSR get_player_pos_x
     JSR inc_tmp
     JSR set_player_pos_x
+    ; update sprites
+    LDA #DIR::RIGHT
+    JSR draw_player_move
     ; is it the right side of the level ?
     LDA level_wh
     AND #$0F
@@ -74,9 +77,9 @@ scroll_right:
     LDA game_scroll_x+0
     STA tmp+3
     JSR sub_16
-    ; if rel_player_x >= $80
+    ; if rel_player_x > $80
     LDA tmp
-    CMP #$80
+    CMP #$81
     BCC @end
         ; then increase scroll
         JSR inc_scroll_x
@@ -88,6 +91,9 @@ scroll_left:
     JSR get_player_pos_x
     JSR dec_tmp
     JSR set_player_pos_x
+    ; update sprites
+    LDA #DIR::LEFT
+    JSR draw_player_move
     ; is it the left side of the level ?
     LDA game_scroll_x+0
     BNE @check_update
@@ -172,6 +178,9 @@ scroll_down:
         STA tmp+1
     @set_player_pos:
     JSR set_player_pos_y
+    ; update sprites
+    LDA #DIR::DOWN
+    JSR draw_player_move
     ; is it the down side of the level ?
     LDA level_wh
     LSR
@@ -246,9 +255,9 @@ scroll_down:
     LDA game_scroll_y+0
     STA tmp+3
     JSR sub_16
-    ; if rel_player_y >= $80
+    ; if rel_player_y > $80
     LDA tmp
-    CMP #$80
+    CMP #$81
     BCC @end
         ; then increase scroll
         JSR inc_scroll_y
@@ -266,6 +275,9 @@ scroll_up:
         STA tmp
     @set_player_pos:
     JSR set_player_pos_y
+    ; update sprites
+    LDA #DIR::UP
+    JSR draw_player_move
     ; is it the up side of the level ?
     LDA game_scroll_y+0
     BNE @check_update

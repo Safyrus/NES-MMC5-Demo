@@ -155,9 +155,9 @@ object_subpossize_0_base:
     ; type + flags
     .byte %00000000
     ; low tiles
-    .byte $08, $0A, $0B
-    .byte $18, $00, $1B
-    .byte $2D, $29, $2C
+    .byte $88, $8A, $8B
+    .byte $98, $00, $9B
+    .byte $AD, $A9, $AC
     ; high tiles
     .byte $41, $81, $41
     .byte $41, $00, $41
@@ -166,9 +166,9 @@ object_subpossize_0_base:
     ; type + flags
     .byte %00000101
     ; low tiles
-    .byte $08, $0A, $0B
-    .byte $18, $00, $1B
-    .byte $2D, $29, $2C
+    .byte $88, $8A, $8B
+    .byte $98, $00, $9B
+    .byte $AD, $A9, $AC
     ; high tiles
     .byte $41, $81, $41
     .byte $41, $00, $41
@@ -177,9 +177,9 @@ object_subpossize_0_base:
     ; type + flags
     .byte %00000110
     ; low tiles
-    .byte $08, $0A, $0B
-    .byte $18, $00, $1B
-    .byte $2D, $29, $2C
+    .byte $88, $8A, $8B
+    .byte $98, $00, $9B
+    .byte $AD, $A9, $AC
     ; high tiles
     .byte $41, $81, $41
     .byte $41, $00, $41
@@ -188,9 +188,9 @@ object_subpossize_0_base:
     ; type + flags
     .byte %00001001
     ; low tiles
-    .byte $08, $0A, $0B
-    .byte $18, $00, $1B
-    .byte $2D, $29, $2C
+    .byte $88, $8A, $8B
+    .byte $98, $00, $9B
+    .byte $AD, $A9, $AC
     ; high tiles
     .byte $41, $81, $41
     .byte $41, $00, $41
@@ -199,9 +199,9 @@ object_subpossize_0_base:
     ; type + flags
     .byte %00001010
     ; low tiles
-    .byte $08, $0A, $0B
-    .byte $18, $00, $1B
-    .byte $2D, $29, $2C
+    .byte $88, $8A, $8B
+    .byte $98, $00, $9B
+    .byte $AD, $A9, $AC
     ; high tiles
     .byte $41, $81, $41
     .byte $41, $00, $41
@@ -210,9 +210,9 @@ object_subpossize_0_base:
     ; type + flags
     .byte %00000111
     ; low tiles
-    .byte $08, $0A, $0B
-    .byte $18, $00, $1B
-    .byte $2D, $29, $2C
+    .byte $88, $8A, $8B
+    .byte $98, $00, $9B
+    .byte $AD, $A9, $AC
     ; high tiles
     .byte $41, $81, $41
     .byte $41, $00, $41
@@ -221,9 +221,9 @@ object_subpossize_0_base:
     ; type + flags
     .byte %00001011
     ; low tiles
-    .byte $08, $0A, $0B
-    .byte $18, $00, $1B
-    .byte $2D, $29, $2C
+    .byte $88, $8A, $8B
+    .byte $98, $00, $9B
+    .byte $AD, $A9, $AC
     ; high tiles
     .byte $41, $81, $41
     .byte $41, $00, $41
@@ -232,9 +232,9 @@ object_subpossize_0_base:
     ; type + flags
     .byte %00001101
     ; low tiles
-    .byte $08, $0A, $0B
-    .byte $18, $00, $1B
-    .byte $2D, $29, $2C
+    .byte $88, $8A, $8B
+    .byte $98, $00, $9B
+    .byte $AD, $A9, $AC
     ; high tiles
     .byte $41, $81, $41
     .byte $41, $00, $41
@@ -243,9 +243,9 @@ object_subpossize_0_base:
     ; type + flags
     .byte %00000000
     ; low tiles
-    .byte $40, $41, $42
-    .byte $50, $51, $52
-    .byte $60, $61, $62
+    .byte $C0, $C1, $C2
+    .byte $D0, $D1, $D2
+    .byte $E0, $E1, $E2
     ; high tiles
     .byte $B0, $B0, $B0
     .byte $B0, $B0, $B0
@@ -254,9 +254,9 @@ object_subpossize_0_base:
     ; type + flags
     .byte %00000011
     ; low tiles
-    .byte $40, $41, $42
-    .byte $50, $51, $52
-    .byte $60, $61, $62
+    .byte $C0, $C1, $C2
+    .byte $D0, $D1, $D2
+    .byte $E0, $E1, $E2
     ; high tiles
     .byte $B0, $B0, $B0
     .byte $B0, $B0, $B0
@@ -265,9 +265,9 @@ object_subpossize_0_base:
     ; type + flags
     .byte %00000101
     ; low tiles
-    .byte $40, $41, $42
-    .byte $50, $51, $52
-    .byte $60, $61, $62
+    .byte $C0, $C1, $C2
+    .byte $D0, $D1, $D2
+    .byte $E0, $E1, $E2
     ; high tiles
     .byte $B0, $B0, $B0
     .byte $B0, $B0, $B0
@@ -276,9 +276,9 @@ object_subpossize_0_base:
     ; type + flags
     .byte %00000110
     ; low tiles
-    .byte $40, $41, $42
-    .byte $50, $51, $52
-    .byte $60, $61, $62
+    .byte $C0, $C1, $C2
+    .byte $D0, $D1, $D2
+    .byte $E0, $E1, $E2
     ; high tiles
     .byte $B0, $B0, $B0
     .byte $B0, $B0, $B0
@@ -287,9 +287,9 @@ object_subpossize_0_base:
     ; type + flags
     .byte %00001001
     ; low tiles
-    .byte $40, $41, $42
-    .byte $50, $51, $52
-    .byte $60, $61, $62
+    .byte $C0, $C1, $C2
+    .byte $D0, $D1, $D2
+    .byte $E0, $E1, $E2
     ; high tiles
     .byte $B0, $B0, $B0
     .byte $B0, $B0, $B0
@@ -298,9 +298,9 @@ object_subpossize_0_base:
     ; type + flags
     .byte %00001010
     ; low tiles
-    .byte $40, $41, $42
-    .byte $50, $51, $52
-    .byte $60, $61, $62
+    .byte $C0, $C1, $C2
+    .byte $D0, $D1, $D2
+    .byte $E0, $E1, $E2
     ; high tiles
     .byte $B0, $B0, $B0
     .byte $B0, $B0, $B0
@@ -309,9 +309,9 @@ object_subpossize_0_base:
     ; type + flags
     .byte %00000111
     ; low tiles
-    .byte $40, $41, $42
-    .byte $50, $51, $52
-    .byte $60, $61, $62
+    .byte $C0, $C1, $C2
+    .byte $D0, $D1, $D2
+    .byte $E0, $E1, $E2
     ; high tiles
     .byte $B0, $B0, $B0
     .byte $B0, $B0, $B0
@@ -320,9 +320,9 @@ object_subpossize_0_base:
     ; type + flags
     .byte %00001011
     ; low tiles
-    .byte $40, $41, $42
-    .byte $50, $51, $52
-    .byte $60, $61, $62
+    .byte $C0, $C1, $C2
+    .byte $D0, $D1, $D2
+    .byte $E0, $E1, $E2
     ; high tiles
     .byte $B0, $B0, $B0
     .byte $B0, $B0, $B0
@@ -331,9 +331,9 @@ object_subpossize_0_base:
     ; type + flags
     .byte %00001111
     ; low tiles
-    .byte $40, $41, $42
-    .byte $50, $51, $52
-    .byte $60, $51, $62
+    .byte $C0, $C1, $C2
+    .byte $D0, $D1, $D2
+    .byte $E0, $D1, $E2
     ; high tiles
     .byte $B0, $B0, $B0
     .byte $B0, $B0, $B0

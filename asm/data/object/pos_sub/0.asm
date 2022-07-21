@@ -34,10 +34,10 @@ object_subpos_0_base:
     ; size
     .byte (4 << 4)+4
     ; low tile
-    .byte $08, $09, $0A, $0B
-    .byte $18, $19, $1A, $1B
-    .byte $28, $29, $2A, $2B
-    .byte $00, $0C, $0D, $0E
+    .byte $88, $89, $8A, $8B
+    .byte $98, $99, $9A, $9B
+    .byte $A8, $A9, $AA, $AB
+    .byte $00, $8C, $8D, $0E
     ; high tile
     .byte $41, $81, $81, $41
     .byte $41, $81, $81, $41
@@ -47,9 +47,9 @@ object_subpos_0_base:
     ; size
     .byte (3 << 4)+2
     ; low tile
-    .byte $08, $0B
-    .byte $18, $1B
-    .byte $28, $2B
+    .byte $88, $8B
+    .byte $98, $9B
+    .byte $A8, $AB
     ; high tile
     .byte $41, $41
     .byte $41, $41
@@ -58,8 +58,8 @@ object_subpos_0_base:
     ; size
     .byte (2 << 4)+2
     ; low tile
-    .byte $1C, $1D
-    .byte $2C, $2D
+    .byte $9C, $9D
+    .byte $AC, $AD
     ; high tile
     .byte $41, $41
     .byte $41, $41
@@ -67,17 +67,17 @@ object_subpos_0_base:
     ; size
     .byte (1 << 4)+3
     ; low tile
-    .byte $08, $09, $0B
+    .byte $88, $89, $8B
     ; high tile
     .byte $41, $81, $41
 ; forest - middle
     ; size
     .byte (4 << 4)+4
     ; low tile
-    .byte $1A, $09, $0A, $19
-    .byte $0A, $19, $1A, $09
-    .byte $1A, $09, $0A, $19
-    .byte $0A, $19, $1A, $09
+    .byte $9A, $89, $8A, $99
+    .byte $8A, $99, $9A, $89
+    .byte $9A, $89, $8A, $99
+    .byte $8A, $99, $9A, $89
     ; high tile
     .byte $81, $81, $81, $81
     .byte $81, $81, $81, $81
@@ -87,10 +87,10 @@ object_subpos_0_base:
     ; size
     .byte (4 << 4)+4
     ; low tile
-    .byte $1A, $09, $0A, $19
-    .byte $1D, $19, $1A, $1C
-    .byte $2D, $29, $2A, $2C
-    .byte $00, $0C, $0D, $0E
+    .byte $9A, $89, $8A, $99
+    .byte $9D, $99, $9A, $9C
+    .byte $AD, $A9, $AA, $AC
+    .byte $00, $8C, $8D, $0E
     ; high tile
     .byte $81, $81, $81, $81
     .byte $41, $81, $81, $41
@@ -100,9 +100,9 @@ object_subpos_0_base:
     ; size
     .byte (3 << 4)+2
     ; low tile
-    .byte $18, $19
-    .byte $28, $29
-    .byte $00, $0C
+    .byte $98, $99
+    .byte $A8, $A9
+    .byte $00, $8C
     ; high tile
     .byte $41, $81
     .byte $41, $41
@@ -111,9 +111,9 @@ object_subpos_0_base:
     ; size
     .byte (3 << 4)+2
     ; low tile
-    .byte $1A, $1B
-    .byte $2A, $2B
-    .byte $0D, $0E
+    .byte $9A, $9B
+    .byte $AA, $AB
+    .byte $8D, $0E
     ; high tile
     .byte $81, $41
     .byte $41, $41
@@ -122,8 +122,8 @@ object_subpos_0_base:
     ; size
     .byte (2 << 4)+2
     ; low tile
-    .byte $18, $19
-    .byte $28, $09
+    .byte $98, $99
+    .byte $A8, $89
     ; high tile
     .byte $41, $81
     .byte $41, $81
@@ -131,8 +131,8 @@ object_subpos_0_base:
     ; size
     .byte (2 << 4)+2
     ; low tile
-    .byte $1A, $1B
-    .byte $0A, $2B
+    .byte $9A, $9B
+    .byte $8A, $AB
     ; high tile
     .byte $81, $41
     .byte $81, $41
@@ -140,22 +140,22 @@ object_subpos_0_base:
     ; size
     .byte (1 << 4)+2
     ; low tile
-    .byte $08, $09
+    .byte $88, $89
     ; high tile
     .byte $41, $81
 ; forest - top right
     ; size
     .byte (1 << 4)+2
     ; low tile
-    .byte $0A, $0B
+    .byte $8A, $8B
     ; high tile
     .byte $81, $41
 ; forest - top
     ; size
     .byte (2 << 4)+4
     ; low tile
-    .byte $08, $09, $0A, $0B
-    .byte $0A, $19, $1A, $09
+    .byte $88, $89, $8A, $8B
+    .byte $8A, $99, $9A, $89
     ; high tile
     .byte $41, $81, $81, $41
     .byte $81, $81, $81, $81
@@ -163,8 +163,8 @@ object_subpos_0_base:
     ; size
     .byte (2 << 4)+4
     ; low tile
-    .byte $1A, $09, $0A, $0B
-    .byte $0A, $19, $1A, $09
+    .byte $9A, $89, $8A, $8B
+    .byte $8A, $99, $9A, $89
     ; high tile
     .byte $81, $81, $81, $41
     .byte $81, $81, $81, $81
@@ -172,8 +172,8 @@ object_subpos_0_base:
     ; size
     .byte (2 << 4)+4
     ; low tile
-    .byte $08, $09, $0A, $19
-    .byte $0A, $19, $1A, $09
+    .byte $88, $89, $8A, $99
+    .byte $8A, $99, $9A, $89
     ; high tile
     .byte $41, $81, $81, $81
     .byte $81, $81, $81, $81
@@ -181,10 +181,10 @@ object_subpos_0_base:
     ; size
     .byte (4 << 4)+4
     ; low tile
-    .byte $1A, $09, $0A, $19
-    .byte $1D, $19, $1A, $09
-    .byte $2D, $29, $1D, $19
-    .byte $00, $0C, $2D, $09
+    .byte $9A, $89, $8A, $99
+    .byte $9D, $99, $9A, $89
+    .byte $AD, $A9, $9D, $99
+    .byte $00, $8C, $AD, $89
     ; high tile
     .byte $81, $81, $81, $81
     .byte $41, $81, $81, $81
@@ -194,10 +194,10 @@ object_subpos_0_base:
     ; size
     .byte (4 << 4)+4
     ; low tile
-    .byte $1A, $09, $0A, $19
-    .byte $0A, $19, $1A, $1C
-    .byte $1A, $1C, $2A, $2C
-    .byte $0A, $2C, $0D, $0E
+    .byte $9A, $89, $8A, $99
+    .byte $8A, $99, $9A, $9C
+    .byte $9A, $9C, $AA, $AC
+    .byte $8A, $AC, $8D, $0E
     ; high tile
     .byte $81, $81, $81, $81
     .byte $81, $81, $81, $41
@@ -207,9 +207,9 @@ object_subpos_0_base:
     ; size
     .byte (3 << 4)+2
     ; low tile
-    .byte $1D, $19
-    .byte $2D, $29
-    .byte $00, $0C
+    .byte $9D, $99
+    .byte $AD, $A9
+    .byte $00, $8C
     ; high tile
     .byte $41, $81
     .byte $41, $41
@@ -218,9 +218,9 @@ object_subpos_0_base:
     ; size
     .byte (3 << 4)+2
     ; low tile
-    .byte $1A, $1C
-    .byte $2A, $2C
-    .byte $0D, $0E
+    .byte $9A, $9C
+    .byte $AA, $AC
+    .byte $8D, $0E
     ; high tile
     .byte $81, $41
     .byte $41, $41
@@ -229,8 +229,8 @@ object_subpos_0_base:
     ; size
     .byte (2 << 4)+4
     ; low tile
-    .byte $2D, $2C, $2C, $2C
-    .byte $2C, $2C, $2D, $2C
+    .byte $AD, $AC, $AC, $AC
+    .byte $AC, $AC, $AD, $AC
     ; high tile
     .byte $41, $41, $41, $41
     .byte $41, $41, $41, $41
@@ -238,8 +238,8 @@ object_subpos_0_base:
     ; size
     .byte (2 << 4)+4
     ; low tile
-    .byte $2D, $2C, $2C, $2C
-    .byte $28, $2C, $2D, $2C
+    .byte $AD, $AC, $AC, $AC
+    .byte $A8, $AC, $AD, $AC
     ; high tile
     .byte $41, $41, $41, $41
     .byte $41, $41, $41, $41
@@ -247,8 +247,8 @@ object_subpos_0_base:
     ; size
     .byte (2 << 4)+4
     ; low tile
-    .byte $2D, $2C, $2C, $2C
-    .byte $2C, $2C, $2D, $2B
+    .byte $AD, $AC, $AC, $AC
+    .byte $AC, $AC, $AD, $AB
     ; high tile
     .byte $41, $41, $41, $41
     .byte $41, $41, $41, $41
@@ -256,8 +256,8 @@ object_subpos_0_base:
     ; size
     .byte (2 << 4)+4
     ; low tile
-    .byte $2D, $2C, $2C, $2C
-    .byte $28, $2C, $2D, $2B
+    .byte $AD, $AC, $AC, $AC
+    .byte $A8, $AC, $AD, $AB
     ; high tile
     .byte $41, $41, $41, $41
     .byte $41, $41, $41, $41
@@ -265,16 +265,16 @@ object_subpos_0_base:
     ; size
     .byte (1 << 4)+1
     ; low tile
-    .byte $67
+    .byte $E7
     ; high tile
     .byte $81
 ; log
     ; size
     .byte (3 << 4)+1
     ; low tile
-    .byte $38
-    .byte $48
-    .byte $68
+    .byte $B8
+    .byte $C8
+    .byte $E8
     ; high tile
     .byte $81
     .byte $81
@@ -283,13 +283,13 @@ object_subpos_0_base:
     ; size
     .byte (7 << 4)+7
     ; low tile
-    .byte $00, $00, $20, $14, $23, $00, $00
-    .byte $20, $21, $12, $24, $13, $22, $23
-    .byte $12, $12, $30, $34, $33, $13, $13
-    .byte $30, $31, $10, $10, $10, $32, $33
-    .byte $58, $10, $10, $10, $10, $10, $58
-    .byte $58, $10, $47, $10, $47, $10, $58
-    .byte $68, $11, $57, $11, $11, $11, $68
+    .byte $00, $00, $A0, $94, $A3, $00, $00
+    .byte $A0, $A1, $92, $A4, $93, $A2, $A3
+    .byte $92, $92, $B0, $B4, $B3, $93, $93
+    .byte $B0, $B1, $90, $90, $90, $B2, $B3
+    .byte $D8, $90, $90, $90, $90, $90, $D8
+    .byte $D8, $90, $C7, $90, $C7, $90, $D8
+    .byte $E8, $91, $D7, $91, $91, $91, $E8
     ; high tile
     .byte $00, $00, $81, $81, $81, $00, $00
     .byte $81, $81, $81, $81, $81, $81, $81
@@ -302,14 +302,14 @@ object_subpos_0_base:
     ; size
     .byte (8 << 4)+2
     ; low tile
-    .byte $3A, $00
-    .byte $4A, $4B
-    .byte $39, $00
-    .byte $49, $00
-    .byte $59, $00
-    .byte $39, $00
-    .byte $3A, $4B
-    .byte $5A, $00
+    .byte $BA, $00
+    .byte $CA, $CB
+    .byte $B9, $00
+    .byte $C9, $00
+    .byte $D9, $00
+    .byte $B9, $00
+    .byte $BA, $CB
+    .byte $DA, $00
     ; high tile
     .byte $41, $00
     .byte $41, $81
@@ -323,10 +323,10 @@ object_subpos_0_base:
     ; size
     .byte (4 << 4)+1
     ; low tile
-    .byte $43
-    .byte $43
-    .byte $43
-    .byte $43
+    .byte $C3
+    .byte $C3
+    .byte $C3
+    .byte $C3
     ; high tile
     .byte $A0
     .byte $A0

@@ -1,6 +1,7 @@
 .include "input.asm"
-.include "utils.asm"
+.include "player.asm"
 .include "scroll.asm"
+.include "utils.asm"
 
 module_control:
     ; reset background index
@@ -164,11 +165,14 @@ mdl_ctrl_normal:
             LDA global_entity_buffer_adr_hi, X
             STA tmp+1
 
-            LDA #>(@next-1)
+            LDA #>(@entity_act_ret-1)
             PHA
-            LDA #<(@next-1)
+            LDA #<(@entity_act_ret-1)
             PHA
             JMP (tmp)
+            @entity_act_ret:
+            LDA #PRGRAM_SPR_BANK
+            STA MMC5_RAM_BNK
         @next:
         DEX
         BPL @entity_act

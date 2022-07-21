@@ -82,4 +82,67 @@ pos_to_int:
     RTS
 
 
+; return in tmp the screen buffer address from $6000 (lo,hi)
+; and in tmp+2 the bank index
+scroll2scrBufAdr:
+    PHA
 
+    ; ----------------
+    ; high address
+    ; ----------------
+    ; init
+    LDA #$60
+    STA tmp+1
+    ; mod x by 3
+    LDA #$03
+    STA tmp+7
+    LDA game_scroll_x+0
+    JSR mod_sign
+    ; mul by 8
+    ASL
+    ASL
+    ASL
+    ; add
+    ORA tmp+1
+    STA tmp+1
+    ; 
+    LDA game_scroll_y+1
+    LSR
+    LSR
+    LSR
+    LSR
+    LSR
+    LSR
+    ORA tmp+1
+    STA tmp+1
+
+    ; ----------------
+    ; low address
+    ; ----------------
+    LDA game_scroll_y+1
+    AND #$38
+    ASL
+    ASL
+    STA tmp+0
+    LDA game_scroll_x+1
+    LSR
+    LSR
+    LSR
+    ORA tmp+0
+    STA tmp+0
+
+    ; ----------------
+    ; bank index
+    ; ----------------
+    ; mod y by 3
+    LDA #$03
+    STA tmp+7
+    LDA game_scroll_y+0
+    JSR mod_sign
+    ;
+    CLC
+    ADC #PRGRAM_SCREEN_BANK
+    STA tmp+2
+
+    PLA
+    RTS

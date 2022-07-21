@@ -6,15 +6,15 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 
 -----------------
 
-## **[0.3.0-2]** - _2022-07-19_
+## **[0.3.0]** - _2022-07-21_
 
-The _Player Entity_ update
+The _Player movements and collisions_ update
 
 ### **Added**
 
 #### Global
 
-- A Lua script to show the current loaded screens.
+- A Lua script to show the current loaded screens and another to show modules working time.
 - An infinite loop that make the screen blink red if the game cannot access more than 32K of PRG RAM.
 - Entity buffers and 3 other variables (sprite_banks, global_entity_spr_counter and entity_load_counter).
 - Some constants (RAM_MAX_BNK, PRGRAM_SPR_BANK, SCANLINE_BOT, SCANLINE_TOP and SCANLINE_MID).
@@ -31,7 +31,10 @@ The _Player Entity_ update
 - A function to load global entity with a position.
 - In control module:
   - 4 functions "check_scroll_XXX" to check if the player can move in each direction.
+    It is also checking if the front tile has a collision.
   - Functions to get and set the player position.
+  - A "draw_player_move" function to update the animation of the player.
+  - A "setScroll2PlayerPos" subroutine to help with collisions.
 - A new module "draw_global_sprites" that draw global entities on the screen.
 
 #### Utils
@@ -48,22 +51,26 @@ The _Player Entity_ update
 - Maximum number of lower module to 8 and maximum priority to 4.
 - Change BTN_TIMER to 8.
 - Enable sprites.
-- Water tiles in CHR.
+- In CHR ROM:
+  - Water tiles.
+  - All tiles position to fit the collision system.
 
 #### Data
 
 - The level sprite palettes and add sprite banks data to fit the new level structure.
+- All object tiles to fit the collision system.
 
 #### Module
 
 - Modules priority.
 - Object pos-size code to another file.
 - Draw object function to also "draw" (load) entities.
+- Move "scroll2scrBufAdr" out of the world module.
 - Control module by:
   - Making the input subroutine run by the player entity and not the control module anymore.
-  - Ticking entity and run the "draw entity" module.
+  - Ticking global entity and run the "draw global entity" module.
   - Refactoring "input" function to "player_input".
-  - Changing scroll functions to take into account player position and update it.
+  - Changing scroll functions to take into account player position and update its position and sprites.
 - In loading modules:
   - The loading screen module to load entities and reset the screen entity buffers.
   - The loading level to load the level sprite banks and reset global entity buffer.
@@ -87,6 +94,8 @@ The _Player Entity_ update
 - An incorrect index to last_frame_BNK in function "mdl_world_load_screen_one".
 - Incorrect level loading when drawing sprites because of MMC5 multiplication registers not being restored after returning to module
   (fix by not doing the multiplication at the end of the frame and wait for next frame).
+- Player position offset when moving between screens in scroll functions.
+- Incorrect bank when returning from entity action.
 
 -----------------
 
