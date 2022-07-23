@@ -2,6 +2,8 @@
 
 A demo to test and show features that could be integrated in a NES game using the MMC5 chip.
 
+![MMC5_Demo_a_v3](MMC5_Demo_a_v3_2.gif)
+
 ----------------
 
 ## Compile

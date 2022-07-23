@@ -113,5 +113,7 @@
     .local entity_buffer_spr_offset
     .res 64
     .local entity_buffer_padding
-    .res 128
+    .res 64
+    .local entity_buffer_state
+    .res 64
 .endmacro

@@ -6,6 +6,34 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 
 -----------------
 
+## **[0.4.0-1]** - _2022-07-23_
+
+### **Added**
+
+#### Global
+
+- A GIF of the demo in the README.
+
+### **Changed**
+
+#### Global
+
+- Entity buffer by adding a state attribute.
+
+#### Module
+
+- Reorganize the code into more files.
+
+### **Removed**
+
+- C part in Makefile.
+
+### **Fixed**
+
+- (Maybe ?) objects not being drawn at the correct location or having some wrong tiles.
+
+-----------------
+
 ## **[0.3.0]** - _2022-07-21_
 
 The _Player movements and collisions_ update

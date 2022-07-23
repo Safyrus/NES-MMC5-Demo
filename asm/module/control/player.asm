@@ -145,3 +145,23 @@ draw_player_move:
 
     RTS
 
+setScroll2PlayerPos:
+    ; get player_y_hi
+    LDA global_entity_buffer_pos_hi, X
+    LSR
+    LSR
+    LSR
+    LSR
+    ; set game_scroll_y to player_y
+    STA game_scroll_y+0
+    LDA global_entity_buffer_pos_y, X
+    STA game_scroll_y+1
+    ; get player_x_hi
+    LDA global_entity_buffer_pos_hi, X
+    AND #$0F
+    ; set game_scroll_x to player_x
+    STA game_scroll_x+0
+    LDA global_entity_buffer_pos_x, X
+    STA game_scroll_x+1
+
+    RTS

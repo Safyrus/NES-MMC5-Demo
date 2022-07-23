@@ -194,6 +194,8 @@ mdl_world_drw_possize_tile:
     LDA tmp+1
     PHA
 
+    JSR wait_at_frame_end
+
     ; y*32
     STY MMC5_MUL_A
     LDA #$20

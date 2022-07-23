@@ -830,11 +830,10 @@ world_0:
             .dbyt OBJ_SUBPOSSIZE_0::CLIFF_BL
             .byte $0E, $34
 
-            .byte OBJ_CMD_RLE, 3
+            .byte OBJ_CMD_RLE, 2
             .dbyt OBJ_SUBPOS_0::FOREST_MID
             .byte $1C
             .byte $3E
-            .byte $5E
             .byte OBJ_CMD_RLE, 10
             .dbyt OBJ_SUBPOS_0::FOREST_LEFT
             .byte $1B

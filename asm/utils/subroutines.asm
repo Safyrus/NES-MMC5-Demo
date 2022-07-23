@@ -5,12 +5,7 @@ size_to_int:
     STA tmp+7
     PHA
 
-    ; wait to not by at the end of the frame because
-    ; multiplcation registers may be used by other modules next frame
-    @wait_for_mul:
-        LDA scanline
-        CMP #SCANLINE_BOT
-        BEQ @wait_for_mul
+    JSR wait_at_frame_end
 
     ; width
     LDA tmp+7
@@ -36,6 +31,8 @@ size_to_int:
 pos_to_int:
     STA tmp+7
     PHA
+
+    JSR wait_at_frame_end
 
     ; y * 2 * 32
     LDA tmp+7
@@ -145,4 +142,13 @@ scroll2scrBufAdr:
     STA tmp+2
 
     PLA
+    RTS
+
+
+; wait if we are at the end of the frame
+; can fix bug because multiplcation registers may be used by other modules next frame
+wait_at_frame_end:
+    LDA scanline
+    CMP #SCANLINE_BOT
+    BEQ wait_at_frame_end
     RTS

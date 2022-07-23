@@ -281,3 +281,4 @@ OAM:
     global_entity_buffer_spr: .res 64
     global_entity_buffer_spr_offset: .res 64
     global_entity_buffer_pos_hi: .res 64
+    global_entity_buffer_state: .res 64
