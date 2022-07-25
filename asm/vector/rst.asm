@@ -127,6 +127,7 @@ RST:
         LDX tmp+2
         INX
         STX tmp+2
+        DEX
         CPX #RAM_MAX_BNK
         BNE @clean_prgram
 

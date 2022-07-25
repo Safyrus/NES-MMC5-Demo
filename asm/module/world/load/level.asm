@@ -176,12 +176,32 @@ module_world_load_level:
         ; reset global entity buffer
         LDX #$3F
         LDA #$00
-        STA global_entity_spr_counter
+        STA sprite_number
         @reset_entity:
             STA global_entity_buffer_adr_bnk, X
             DEX
             BPL @reset_entity
+        LDA #$01
+        STA free_sprite_idx
 
+        ; reset entity draw buffer
+        LDX #$00
+        LDA #$00
+        @reset_entity_draw_1:
+            STA entity_draw_pos_x, X
+            STA entity_draw_pos_hi, X
+            STA entity_draw_atr, X
+            STA entity_draw_spr, X
+            INX
+            BNE @reset_entity_draw_1
+            LDA #$FF
+        LDA #$FF
+        @reset_entity_draw_2:
+            STA entity_draw_pos_y, X
+            INX
+            BNE @reset_entity_draw_2
+
+        ; set state to load screens all
         LDA #STATE::LOAD_SCR_ALL
         STA game_state
 

@@ -88,9 +88,11 @@ mdl_world_drw_subobj_pos:
         LDA MMC5_MUL_A
         JSR add_tmp
         JSR add_tmp
-        JSR inc_tmp
+        INY
         JMP @loop
     @loop_end:
+    TYA
+    JSR add_tmp
 
     LDX screen_draw_obj_buf+2
     JMP mdl_world_drw_obj_pos_base

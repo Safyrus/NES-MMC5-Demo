@@ -1,5 +1,11 @@
 ; X = index in global entity
 player_input:
+    LDA global_entity_buffer_state, X
+    BNE @normal
+        JSR draw_player_move
+        LDA #$01
+        STA global_entity_buffer_state, X
+    @normal:
     JSR update_btn_timer
     LDA buttons_1_timer
     ; if button was just pressed

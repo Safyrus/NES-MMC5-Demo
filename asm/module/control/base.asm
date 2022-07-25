@@ -1,3 +1,4 @@
+.include "global_entity.asm"
 .include "input.asm"
 .include "player.asm"
 .include "utils.asm"

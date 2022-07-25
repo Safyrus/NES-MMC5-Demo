@@ -1,6 +1,8 @@
 mdl_ctrl_load_lv:
-    LDA #STATE::NORMAL
-    STA game_state
+    LDX game_substate
+    BNE @end
+        INX
+        STX game_substate
 
     ; set the world and level to 0
     LDA #$00
@@ -20,4 +22,5 @@ mdl_ctrl_load_lv:
     LDA #>module_world_load_level
     STA lower_module_array, X
 
+    @end:
     RTS

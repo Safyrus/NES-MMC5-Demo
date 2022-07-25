@@ -98,22 +98,18 @@
     .res 64
     .local entity_buffer_adr_hi
     .res 64
-    .local entity_buffer_spr_nb
+    .local entity_buffer_state
     .res 64
-    .local entity_buffer_size
+    .local entity_buffer_draw_idx
     .res 64
     .local entity_buffer_pos_x
     .res 64
     .local entity_buffer_pos_y
     .res 64
-    .local entity_buffer_atr
+    .local entity_buffer_data_bnk
     .res 64
-    .local entity_buffer_spr
+    .local entity_buffer_data_lo
     .res 64
-    .local entity_buffer_spr_offset
-    .res 64
-    .local entity_buffer_padding
-    .res 64
-    .local entity_buffer_state
+    .local entity_buffer_data_hi
     .res 64
 .endmacro

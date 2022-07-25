@@ -53,7 +53,7 @@ object_screen_1:
     ; random chance
     .byte $80
     ; max random
-    .byte 3
+    .byte 7
     ; data
     .byte 0
     .byte 32+$00

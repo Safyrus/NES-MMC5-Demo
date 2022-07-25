@@ -6,7 +6,7 @@
 ; general
 .include "draw/anim.asm"
 .include "draw/screen.asm"
-.include "draw/sprite.asm"
+.include "draw/sprite/draw.asm"
 
 ; scroll
 .include "draw/scroll/down.asm"

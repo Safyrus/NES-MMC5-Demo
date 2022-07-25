@@ -6,23 +6,37 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 
 -----------------
 
-## **[0.4.0-1]** - _2022-07-23_
+## **[0.4.0-2]** - _2022-07-25_
 
 ### **Added**
 
 #### Global
 
 - A GIF of the demo in the README.
+- Sprites draw buffer.
 
 ### **Changed**
 
 #### Global
 
 - Entity buffer by adding a state attribute.
+- Refactor entity buffer.
+- Sprite variables.
+
+#### Data
+
+- Player sprite attributes.
+- Screen object to have the random mask.
 
 #### Module
 
 - Reorganize the code into more files.
+- Move entity action into a separate module.
+- Refactor:
+  - Screen fill objects loading mainly to not tell animating empty tiles
+    and be faster for fill with no random.
+  - How entities are loaded and drawn.
+  - The "draw_player_move" function.
 
 ### **Removed**
 
@@ -31,6 +45,8 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 ### **Fixed**
 
 - (Maybe ?) objects not being drawn at the correct location or having some wrong tiles.
+- Reset not clearing the last RAM bank.
+- Game state not waiting for the load level module to finished.
 
 -----------------
 

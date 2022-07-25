@@ -72,77 +72,175 @@ set_player_pos_y:
 ; A = anim index
 ; X = global entity index of player
 draw_player_move:
+    ; store anim index
+    STA tmp+2
+    pushreg
+
     ;
-    STA tmp
-    ;
+    LDA global_entity_buffer_data_bnk, X
+    STA last_frame_BNK+3
+    STA MMC5_PRG_BNK2
+    LDA global_entity_buffer_data_hi, X
+    AND #$1F
+    ORA #$C0
+    STA tmp+1
+    LDA global_entity_buffer_data_lo, X
+    STA tmp+0
+    ; get player sprite number
+    LDA #$04
+    JSR add_tmp
+    LDY #$00
+    LDA (tmp), Y
+    STA tmp+3
+
+    ; load player sprite index
+    LDA global_entity_buffer_draw_idx, X
+    ; is player sprites reserved ?
+    BNE @draw
+        ; get sprite index
+        LDA free_sprite_idx
+        STA global_entity_buffer_draw_idx, X
+        ; sprite index += player sprite number
+        LDA tmp+3
+        CLC
+        ADC free_sprite_idx
+        STA free_sprite_idx
+        ; sprite_number += player sprite number
+        LDA tmp+3
+        CLC
+        ADC sprite_number
+        STA sprite_number
+        ; load player sprite index
+        LDA global_entity_buffer_draw_idx, X
+
+    @draw:
+    ; get sprite idx anim offset
+    ; anim idx += (framecount & 8) >> 1
     LDA game_framecount+1
     AND #$08
     LSR
-    ORA tmp
+    ORA tmp+2
+    ; anim idx * player sprite number
     STA MMC5_MUL_A
-    ;
-    LDA global_entity_buffer_spr_nb, X
-    TAY
+    LDA tmp+3
     STA MMC5_MUL_B
-    ;
+    ; sprite start idx
     LDA MMC5_MUL_A
     ASL
-    STA tmp
-
-    ;
-    LDA #$00
-    @find_global_idx:
-        CPX #$00
-        BEQ @find_global_idx_end
-        DEX
-
-        CLC
-        ADC global_entity_buffer_spr_nb, X
-
-        JMP @find_global_idx
-    @find_global_idx_end:
-    TAX
-
-    ;
-    LDA global_entity_buffer_spr, X
-    AND #%11000001
+    STA tmp+2
+    INY
+    LDA (tmp), Y
     CLC
-    ADC tmp
-    STA tmp
+    ADC tmp+2
 
     ;
-    @draw:
-        LDA tmp
-        STA global_entity_buffer_spr, X
+    LDA global_entity_buffer_draw_idx, X
+    TAY
+    LDA #$02
+    JSR add_tmp
+    @loop:
+        ; set high position
+        LDA global_entity_buffer_pos_hi, X
+        STA entity_draw_pos_hi, Y
+
+        ; set sprite
+        LDA tmp+2
+        STA entity_draw_spr, Y
         CLC
         ADC #$02
-        STA tmp
+        STA tmp+2
 
-        ;
-        TXA
+        ; get sprite offset
+        STY tmp+4
+        LDY #$00
+        LDA (tmp), Y
+        JSR inc_tmp
+        LDY tmp+4
+        STA tmp+4
+
+        ; set x position
+        AND #$0F
+        CMP #$08
+        BCS @x_sub
+        @x_add:
+            ADC global_entity_buffer_pos_x, X
+            JMP @x
+        @x_sub:
+            ORA #$F0
+            CLC
+            ADC global_entity_buffer_pos_x, X
+        @x:
+        STA entity_draw_pos_x, Y
+        ; set y position
+        LDA tmp+4
+        LSR
+        LSR
+        LSR
+        LSR
+        CMP #$08
+        BCS @y_sub
+        @y_add:
+            ADC global_entity_buffer_pos_y, X
+            CMP #$F0
+            BCC @set_yadd
+            @set_yadd_plus:
+                SBC #$F0
+                STA entity_draw_pos_y, Y
+                JMP @y_end
+            @set_yadd:
+                STA entity_draw_pos_y, Y
+            JMP @y_end
+        @y_sub:
+            ORA #$F0
+            CLC
+            ADC global_entity_buffer_pos_y, X
+            CMP #$F0
+            BCC @set_ysub
+            @set_ysub_plus:
+                SBC #$10
+                STA entity_draw_pos_y, Y
+                LDA entity_draw_pos_hi, Y
+                SEC
+                SBC #$10
+                STA entity_draw_pos_hi, Y
+                JMP @y_end
+            @set_ysub:
+                STA entity_draw_pos_y, Y
+        @y_end:
+
+        @atr:
+        ; set attribute
+        STY tmp+4
+        LDY #$00
+        LDA (tmp), Y
+        JSR inc_tmp
+        LDY tmp+4
+        STA entity_draw_atr, Y
+
+        ; flip sprite if needed
+        TYA
         AND #$01
-        BNE @no_flip
-        @flip:
+        BEQ @no_flip
             LDA game_framecount+1
             AND #$10
             ASL
             ASL
-            STA tmp+1
-            JMP @flip_end
+            CLC
+            ADC entity_draw_atr, Y
+            STA entity_draw_atr, Y
         @no_flip:
-            LDA #$00
-            STA tmp+1
-        @flip_end:
 
-        LDA global_entity_buffer_atr, X
-        AND #%10111111
-        ORA tmp+1
-        STA global_entity_buffer_atr, X
+        ; loop
+        INY
+        LDA tmp+3
+        SEC
+        SBC #$01
+        STA tmp+3
+        BEQ @loop_end
+        JMP @loop
+    @loop_end:
 
-        INX
-        DEY
-        BNE @draw
-
+    pullreg
     RTS
 
 setScroll2PlayerPos:

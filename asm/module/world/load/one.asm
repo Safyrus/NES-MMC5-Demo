@@ -49,7 +49,7 @@ mdl_world_load_screen_one:
         BNE @load_objects
     @load_objects_end:
 
-    ; get entity buffer adr
+    ; get screen buffer idx
     LDA scrbuf_index
     AND #$03
     STA MMC5_MUL_A
@@ -58,23 +58,30 @@ mdl_world_load_screen_one:
     LSR
     LSR
     STA MMC5_MUL_B
+    ;
     LDA MMC5_MUL_A
-    STA MMC5_MUL_A
-    LDA #$03
-    STA MMC5_MUL_B
+    TAY
     LDA #$C0
-    CLC
-    ADC MMC5_MUL_A
     STA tmp+1
     LDA #$00
     STA tmp+0
-    LDA #PRGRAM_SPR_BANK
-    STA last_frame_BNK+3
-    STA MMC5_PRG_BNK2
+    ; screen buffer idx *  entity buffer size
+    @mul:
+        CPY #$00
+        BEQ @mul_end
+        DEY
+        LDA tmp+1
+        CLC
+        ADC #$02
+        STA tmp+1
+        LDA #$80
+        JSR add_tmp
+        JMP @mul
+    @mul_end:
+
     ; reset entity buffer
     LDY #$3F
     LDA #$00
-    STA entity_load_counter
     @reset_entity:
         STA (tmp), Y
         DEY

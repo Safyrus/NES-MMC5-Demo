@@ -51,9 +51,9 @@ entity_pos_0:
     .byte $00
     ; sprites
     .byte $80
-    .byte $01
+    .byte %00011001
     .byte $80
-    .byte $03
+    .byte %00011011
 entity_pos_1:
 entity_pos_2:
 entity_pos_3:

@@ -5,28 +5,35 @@ mdl_world_drw_entity_pos:
     LDA entity_pos_hi, X
     STA tmp+1
 
-    ;
+    ; add offset for pos entity
     TXA
     ORA #$10
     TAX
-    ;
-    LDA global_entity_buffer_adr_bnk+$6000, X
-    BEQ @load
-    JMP @end
-    @load:
 
     ;
+    LDA tmp
+    STA global_entity_buffer_data_lo+$6000, X
+    LDA tmp+1
+    STA global_entity_buffer_data_hi+$6000, X
+    LDA #OBJ_BANK
+    STA global_entity_buffer_data_bnk+$6000, X
+
+    ; check if entity was already loaded
+    LDA global_entity_buffer_adr_bnk+$6000, X
+    BNE @end
+    @load:
+    ; load entity y position
     LDA screen_draw_obj_buf+2
     AND #$F0
     STA global_entity_buffer_pos_y+$6000, X
-    ;
+    ; load entity x position
     LDA screen_draw_obj_buf+2
     ASL
     ASL
     ASL
     ASL
     STA global_entity_buffer_pos_x+$6000, X
-    ;
+    ; load entity high position
     LDA game_scroll_x
     AND #$0F
     STA tmp+2
@@ -39,62 +46,19 @@ mdl_world_drw_entity_pos:
     ADC tmp+2
     STA global_entity_buffer_pos_hi+$6000, X
 
-    ;
+    ; load entity action function bank
     LDY #$00
     LDA (tmp), Y
     STA global_entity_buffer_adr_bnk+$6000, X
-    ;
+    ; load entity action function adresse low
     INY
     LDA (tmp), Y
     STA global_entity_buffer_adr_lo+$6000, X
-    ;
+    ; load entity action function adresse high
     INY
     LDA (tmp), Y
     STA global_entity_buffer_adr_hi+$6000, X
-    ;
-    INY
-    LDA (tmp), Y
-    STA global_entity_buffer_size+$6000, X
-    ;
-    INY
-    LDA (tmp), Y
-    STA global_entity_buffer_spr_nb+$6000, X
-    ;
-    BEQ @end
-    STA tmp+2
-
-    LDX global_entity_spr_counter
-
-    ;
-    INY
-    LDA (tmp), Y
-    STA tmp+3
-    @spr:
-        ;
-        LDA tmp+3
-        STA global_entity_buffer_spr+$6000, X
-        CLC
-        ADC #$02
-        STA tmp+3
-        ;
-        INY
-        LDA (tmp), Y
-        STA global_entity_buffer_spr_offset+$6000, X
-        ;
-        INY
-        LDA (tmp), Y
-        STA global_entity_buffer_atr+$6000, X
-        ;
-        INX
-        ;
-        LDA tmp+2
-        SEC
-        SBC #$01
-        STA tmp+2
-        BNE @spr
-
-    STX global_entity_spr_counter
-
+    
     @end:
     ; return
     RTS

@@ -212,6 +212,15 @@ OAM:
     buttons_1_timer: .res 1
 
     ; ----------------
+    ; Sprites
+    ; ----------------
+    ;
+    sprite_banks: .res 8
+    ;
+    sprite_number: .res 1
+    ;
+    free_sprite_idx: .res 1
+
     ; Misc. variables
     ; ----------------
     ; a counter
@@ -226,12 +235,6 @@ OAM:
     scanline: .res 1
     ;
     anim_counter: .res 1
-    ;
-    entity_load_counter: .res 1
-    ;
-    global_entity_spr_counter: .res 1
-    ;
-    sprite_banks: .res 8
 
 
 ;****************
@@ -270,15 +273,20 @@ OAM:
     res_entity_buf
     res_entity_buf
 
+    entity_draw_pos_y: .res 256
+    entity_draw_spr: .res 256
+    entity_draw_atr: .res 256 ; bit 4 = sprite taken, bit 3 = global
+    entity_draw_pos_x: .res 256
+    entity_draw_pos_hi: .res 256
+
     global_entity_buffer_adr_bnk: .res 64
     global_entity_buffer_adr_lo: .res 64
     global_entity_buffer_adr_hi: .res 64
-    global_entity_buffer_spr_nb: .res 64
-    global_entity_buffer_size: .res 64
+    global_entity_buffer_state: .res 64
+    global_entity_buffer_draw_idx: .res 64
     global_entity_buffer_pos_x: .res 64
     global_entity_buffer_pos_y: .res 64
-    global_entity_buffer_atr: .res 64
-    global_entity_buffer_spr: .res 64
-    global_entity_buffer_spr_offset: .res 64
     global_entity_buffer_pos_hi: .res 64
-    global_entity_buffer_state: .res 64
+    global_entity_buffer_data_bnk: .res 64
+    global_entity_buffer_data_lo: .res 64
+    global_entity_buffer_data_hi: .res 64
