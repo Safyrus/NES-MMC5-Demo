@@ -2,11 +2,6 @@
 ; Constants
 ;**********
 
-; Replace the value with the name of your CHR file
-.define GAME_CHR "MMC5_Demo.chr"
-
-
-
 ;----------
 ; PPU
 ;----------

@@ -13,11 +13,17 @@ end
 --
 function lowerModulesEnd()
   loMdls[1] = emu.getState().ppu.scanline
+  if loMdls[1] > 240 then
+    loMdls[1] = 0
+  end
 end
 
 --
 function higherModulesEnd()
   hiMdls[1] = emu.getState().ppu.scanline
+  if hiMdls[1] > 240 then
+    hiMdls[1] = 0
+  end
 end
 
 --

@@ -11,7 +11,7 @@
     .byte $04
 
     ; 5: CHR ROM size in 8KB
-    .byte $20
+    .byte $80
 
     ; 6: Flags 6
     ; NNNN FTBM
@@ -153,4 +153,7 @@
 
 ; CHR ROM data 
 .segment "CHARS"
-.incbin GAME_CHR
+.incbin "MMC5_Demo_world.chr"
+.incbin "MMC5_Demo_empty.chr"
+.incbin "MMC5_Demo_empty.chr"
+.incbin "MMC5_Demo_text.chr"

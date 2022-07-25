@@ -6,14 +6,25 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 
 -----------------
 
-## **[0.4.0-2]** - _2022-07-25_
+## **[0.4.0-3]** - _2022-07-25_
 
 ### **Added**
+
+- 2 CHR ROM of 256K, one empty and the other with a compressed short text.
 
 #### Global
 
 - A GIF of the demo in the README.
 - Sprites draw buffer.
+
+#### Python
+
+- empty_char.py: Generate an empty CHR ROM.
+- encode.py: Encode a text file into binary using dictionary compression.
+- huffman_encode.py: Encode the dictionary compressed text into a Huffman form.
+- decode.py: decode the Huffman compressed text and print the result.
+- gen_lorem.py: generate a lorem ipsum text file.
+- A bat file to run the 2 encoder scripts.
 
 ### **Changed**
 
@@ -22,6 +33,8 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 - Entity buffer by adding a state attribute.
 - Refactor entity buffer.
 - Sprite variables.
+- CHR size to the max of 1024K (1M).
+- Gitignore for python generated files.
 
 #### Data
 
@@ -47,6 +60,7 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 - (Maybe ?) objects not being drawn at the correct location or having some wrong tiles.
 - Reset not clearing the last RAM bank.
 - Game state not waiting for the load level module to finished.
+- The taskTime script drawing the graph too high when scanline was above 240.
 
 -----------------
 

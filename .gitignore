@@ -14,3 +14,7 @@ dump_*.txt
 # Famistudio files
 *famistudio_ca65.s
 *famistudio_cc65.h
+
+# Generated files from python
+py/*.txt
+py/*.chr
