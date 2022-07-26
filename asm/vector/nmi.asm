@@ -4,7 +4,7 @@
 
 
 ;--------------------
-; Cycles notes
+; Cycles notes (TO UPDATE)
 ;--------------------
 ; 2273 cycles per VBLANK
 ; base (before @done) = 42-45 cycles
@@ -26,9 +26,11 @@ NMI:
     JMP @end
 
     @start:
+    ; set nametable mapping
+    LDA nmi_mmc5_nametable
+    STA MMC5_NAMETABLE
     ; load NMI flags
     LDA nmi_flags
-
 
     ; is the background flag on ? (B flag)
     LSR
@@ -187,6 +189,48 @@ NMI:
     @palette_end:
 
 
+    ; is the read data flag on ? (D flag)
+    LSR
+    BCC @read_end
+    @read:
+        ; save flags
+        PHA
+
+        ; increment by 1
+        LDA ppu_ctrl_val
+        AND #($FF-PPU_CTRL_INC)
+        STA PPU_CTRL
+
+        ; set MMC5 upper chr bank bits
+        LDA #$03
+        STA MMC5_CHR_UPPER
+        ; set MMC5 upper chr bank
+        LDA ppu_read_mmc5_bnk
+        STA MMC5_CHR_BNK7
+
+        ; set adress
+        LDA ppu_read_adr
+        STA PPU_ADDR
+        LDA ppu_read_adr+1
+        STA PPU_ADDR
+
+        ; first read is garbage
+        LDA PPU_DATA
+
+        LDX ppu_read_n
+        @read_loop:
+            ; read one byte
+            LDA PPU_DATA
+            STA ppu_data_buf, X
+            ; loop
+            DEX
+            BNE @read_loop
+
+        ; restore flags
+        PLA
+    @read_end:
+
+
     ; is the scroll flag on ? (R flag)
     LSR
     BCC @scroll_end
@@ -204,6 +248,7 @@ NMI:
         STA PPU_CTRL
     @scroll_end:
 
+
     @done:
     ; tell that we are done
     LDA #NMI_DONE
@@ -217,6 +262,9 @@ NMI:
     ; disable sprite
     LDA #(PPU_MASK_BKG)
     STA PPU_MASK
+    ; reset MMC5 CHR upper bits
+    LDA mmc5_chr_hi_bits
+    STA MMC5_CHR_UPPER
 
     LDA nmi_flags
     AND #NMI_MAIN

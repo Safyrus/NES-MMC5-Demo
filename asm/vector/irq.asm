@@ -20,7 +20,7 @@ IRQ:
     AND #$80
     BEQ @scanline_irq_end
     @scanline_irq:
-        JSR scanline_irq_handler
+        JMP scanline_irq_handler
     @scanline_irq_end:
 
     @end:

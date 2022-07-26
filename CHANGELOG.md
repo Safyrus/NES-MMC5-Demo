@@ -6,16 +6,26 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 
 -----------------
 
-## **[0.4.0-3]** - _2022-07-25_
+## **[0.4.0-4]** - _2022-07-26_
 
 ### **Added**
-
-- 2 CHR ROM of 256K, one empty and the other with a compressed short text.
 
 #### Global
 
 - A GIF of the demo in the README.
 - Sprites draw buffer.
+- 3 CHR ROM of 256K:
+  - empty: just zeroes.
+  - text: with a short compressed text.
+  - ui: contain a font.
+- Some constants.
+- Some variables.
+
+#### Module
+
+- A dialog module which does only one thing:
+  splitting the screen for x scanlines to the other VRAM screen
+- A function to read x raw text data from PPU in dialog module.
 
 #### Python
 
@@ -26,6 +36,11 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 - gen_lorem.py: generate a lorem ipsum text file.
 - A bat file to run the 2 encoder scripts.
 
+#### Vector
+
+- NMI flag to read from PPU.
+- The variable "nmi_mmc5_nametable" to set nametables before any NMI actions.
+
 ### **Changed**
 
 #### Global
@@ -35,6 +50,7 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 - Sprite variables.
 - CHR size to the max of 1024K (1M).
 - Gitignore for python generated files.
+- Some constants.
 
 #### Data
 
@@ -50,6 +66,13 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
     and be faster for fill with no random.
   - How entities are loaded and drawn.
   - The "draw_player_move" function.
+  - Screen draw function to also clear the second VRAM screen.
+
+#### Vector
+
+- Refactor scanline IRQs.
+- NMI flags order.
+- Reset to set attributes to last palette.
 
 ### **Removed**
 

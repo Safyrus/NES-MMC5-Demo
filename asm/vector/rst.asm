@@ -46,6 +46,17 @@ RST:
     STA PPU_CTRL
     STA ppu_ctrl_val
 
+    ; set all attributes to last palette
+    LDX #$3F
+    LDA #$FF
+    @atr:
+        STA attributes, X
+        DEX
+        BPL @atr
+
+    LDA #176-1
+    STA dialog_scanline
+
     ; - - - - - - -
     ; setup MMC5
     ; - - - - - - -
@@ -73,10 +84,6 @@ RST:
     ; Set the Extented RAM as extended attribute data
     LDA #$01
     STA MMC5_EXT_RAM
-
-    ; Set nametable mapping
-    LDA #NAMETABLE_SCROLL
-    STA MMC5_NAMETABLE
 
     ; set fill tile
     LDA #$00

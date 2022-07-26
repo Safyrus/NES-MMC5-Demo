@@ -44,7 +44,7 @@ player_input:
     RTS
 
     @jump_table_check_lo:
-        .byte <(@end-1)
+        .byte <(mdl_ctrl_dialog-1)
         .byte <(@end-1)
         .byte <(@end-1)
         .byte <(@end-1)
@@ -53,7 +53,7 @@ player_input:
         .byte <(check_scroll_left-1)
         .byte <(check_scroll_right-1)
     @jump_table_check_hi:
-        .byte >(@end-1)
+        .byte >(mdl_ctrl_dialog-1)
         .byte >(@end-1)
         .byte >(@end-1)
         .byte >(@end-1)

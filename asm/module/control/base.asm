@@ -14,6 +14,7 @@
 .include "scroll/up.asm"
 .include "scroll/utils.asm"
 
+.include "state/dialog.asm"
 .include "state/draw.asm"
 .include "state/load_lv.asm"
 .include "state/load_scr.asm"
@@ -41,6 +42,7 @@ module_control:
         .byte >(mdl_ctrl_draw_scr-1)
         .byte >(mdl_ctrl_load_scr_all-1)
         .byte >(mdl_ctrl_normal-1)
+        .byte >(mdl_ctrl_dialog-1)
     @mdl_ctrl_act_lo:
         .byte <(mdl_ctrl_load_lv-1)
         .byte <(@wait-1)
@@ -48,3 +50,4 @@ module_control:
         .byte <(mdl_ctrl_draw_scr-1)
         .byte <(mdl_ctrl_load_scr_all-1)
         .byte <(mdl_ctrl_normal-1)
+        .byte <(mdl_ctrl_dialog-1)

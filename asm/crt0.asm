@@ -141,6 +141,7 @@
     .include "data/palette.asm"
 .segment "BNK0"
     .include "module/control/base.asm"
+    .include "module/dialog/base.asm"
 
 
 ; 6502 vectors
@@ -155,5 +156,5 @@
 .segment "CHARS"
 .incbin "MMC5_Demo_world.chr"
 .incbin "MMC5_Demo_empty.chr"
-.incbin "MMC5_Demo_empty.chr"
+.incbin "MMC5_Demo_ui.chr"
 .incbin "MMC5_Demo_text.chr"
