@@ -17,11 +17,28 @@ CHAR_2_MAP = {
 text_file_name = "dialog.txt"
 output_file_name = "encode.bin"
 dict_file_name = "dict.txt"
+dict_file_name_asm = "dict.asm"
+
+
+def print_word_asm(w, file):
+    l = len(w)
+    file.write("    .byte " + str(l) + " ; size\n")
+    i = 0
+    file.write("    .byte ")
+    for c in w:
+        val = int(CHAR_2_MAP[c], 2)
+        s = str.format('0x{:02X}', val).split("x")[1].upper()
+        file.write("$" + s)
+        i += 1
+        if i < l:
+            file.write(", ")
+    file.write("\n")
 
 #
 def create_dict(words, words_count):
     short_dict = [""]*64
     long_dict = [""]*(4096)
+
     l = len(words)
     for i in range(l):
         for j in range(i, l):
@@ -29,29 +46,43 @@ def create_dict(words, words_count):
                 words_count[i], words_count[j] = words_count[j], words_count[i]
                 words[i], words[j] = words[j], words[i]
 
-    f_dict = open(dict_file_name, "w")
+    with open(dict_file_name_asm, "w") as asm:
+        asm.write("ldict_table_lo:\n")
+        for i in range(1, 64):
+            asm.write("    .byte <ldict_" + str(i) + "\n")
+        asm.write("ldict_table_hi:\n")
+        for i in range(1, 64):
+            asm.write("    .byte >ldict_" + str(i) + "\n")
 
-    i = 0
-    for w in words:
-        if i >= 4096+64:
-            break
-        if i < 64:
-            if len(w) > 2:
-                short_dict[i] = w
-                if i == 0:
-                    f_dict.write("======== SHORT DICT ========\n")
-                f_dict.write(w + "\n")
-                # f_dict.write(w + " " + str(words_count[i]) + "\n")
-                if i == 63:
-                    f_dict.write("======== LONG DICT  ========\n")
-                i += 1
-        else:
-            if len(w) > 3:
-                long_dict[i-64] = w
-                f_dict.write(w + "\n")
-                # f_dict.write(w + " " + str(words_count[i]) + "\n")
-                i += 1
-    f_dict.close()
+        with open(dict_file_name, "w") as f:
+            i = 0
+            f.write("======== SHORT DICT ========\n")
+            asm.write("dict:\n")
+            for w in words:
+                if i >= 4096+64:
+                    break
+                if i < 64:
+                    if len(w) > 2:
+                        short_dict[i] = w
+                        f.write(w + "\n")
+                        asm.write("    ; '" + w + "' at idx:" + hex(i) + " (appear " + str(words_count[i]) + " times)\n")
+                        print_word_asm(w, asm)
+                        if i == 63:
+                            f.write("======== LONG DICT  ========\n")
+                            asm.write("\nldict:\n")
+                        i += 1
+                else:
+                    if len(w) > 3:
+                        long_dict[i-64] = w
+                        f.write(w + "\n")
+                        if (i % 64) == 0:
+                            idx = i//64
+                            asm.write("    ldict_" + str(idx) + ":\n")
+                        asm.write("    ; '" + w + "' at idx:" + hex(i) + " (appear " + str(words_count[i]) + " times)\n")
+                        print_word_asm(w, asm)
+                        i += 1
+            if i < 63:
+                asm.write("ldict: ; empty\n")
 
     return short_dict, long_dict
 
@@ -68,7 +99,7 @@ def write_val(file, val, nb_byte=1):
         val = val//64
 
 def main():
-    global text_file_name, output_file_name, dict_file_name, CHAR_2_MAP
+    global text_file_name, output_file_name, dict_file_name, dict_file_name_asm, CHAR_2_MAP
 
     if len(sys.argv) > 1:
         text_file_name = sys.argv[1]
@@ -76,6 +107,8 @@ def main():
         output_file_name = sys.argv[2]
     if len(sys.argv) > 3:
         dict_file_name = sys.argv[3]
+    if len(sys.argv) > 4:
+        dict_file_name_asm = sys.argv[4]
 
     #
     print("count words")

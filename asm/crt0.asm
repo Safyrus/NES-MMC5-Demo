@@ -142,6 +142,7 @@
 .segment "BNK0"
     .include "module/control/base.asm"
     .include "module/dialog/base.asm"
+    .include "data/dialog/cypher.asm"
 
 
 ; 6502 vectors

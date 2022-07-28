@@ -40,21 +40,6 @@ scanline_irq_handler:
         JMP @end
 
     @scanline_irq_bot:
-        LDA game_state
-        CMP #STATE::DRAW_SCREEN
-        BEQ @bot_screen
-        CMP #STATE::DRAW_SCREEN_WAIT
-        BEQ @bot_screen
-        CMP #STATE::DIALOG
-        BEQ @bot_end
-        @bot_normal:
-            LDA #NAMETABLE_SCROLL
-            STA nmi_mmc5_nametable
-            JMP @bot_end
-        @bot_screen:
-            LDA #NAMETABLE_ALL
-            STA nmi_mmc5_nametable
-        @bot_end:
         ; next scanline state
         LDA #SCANLINE_TOP
         STA scanline
@@ -73,18 +58,9 @@ scanline_irq_handler:
         JMP @end
 
     @scanline_irq_ui:
-        ; next scanline state
-        LDA #SCANLINE_UI_END
-        STA scanline
-        ; set next interrupt scanline
-        LDA dialog_scanline
-        CLC
-        ADC #(DIALOG_BOX_HEIGHT+1)
-        STA MMC5_SCNL_VAL
-
         LDA game_state
         CMP #STATE::DIALOG
-        BNE @end
+        BNE @ui_top_end
             ; set nametable
             LDA #NAMETABLE_UI
             STA MMC5_NAMETABLE
@@ -93,16 +69,33 @@ scanline_irq_handler:
             LDA #$02
             STA MMC5_CHR_UPPER
             STA MMC5_EXT_RAM
-            ; set font bank
-            LDA #$00
-            STA MMC5_CHR_BNK8
             ; set scroll to top left
+            LDA #$00
             STA PPU_ADDR
             STA PPU_ADDR
+            ; set chr banks
+            TAX
+            STX MMC5_CHR_BNK8
+            INX
+            STX MMC5_CHR_BNK9
+            INX
+            STX MMC5_CHR_BNKA
+            INX
+            STX MMC5_CHR_BNKB
             ; set background tile fully visible and disable sprite
             LDA #(PPU_MASK_BKG + PPU_MASK_BKG8)
             STA PPU_MASK
-            JMP @end
+
+        @ui_top_end:
+        ; next scanline state
+        LDA #SCANLINE_UI_END
+        STA scanline
+        ; set next interrupt scanline
+        LDA dialog_scanline
+        CLC
+        ADC #DIALOG_BOX_HEIGHT
+        STA MMC5_SCNL_VAL
+        JMP @end
 
     @scanline_irq_ui_end:
         ; next scanline state

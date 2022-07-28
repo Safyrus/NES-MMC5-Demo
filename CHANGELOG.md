@@ -6,7 +6,7 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 
 -----------------
 
-## **[0.4.0-4]** - _2022-07-26_
+## **[0.4.0-5]** - _2022-07-28_
 
 ### **Added**
 
@@ -17,21 +17,27 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 - 3 CHR ROM of 256K:
   - empty: just zeroes.
   - text: with a short compressed text.
-  - ui: contain a font.
+  - ui: contain a font and 2 tiles for the dialog box borders.
 - Some constants.
 - Some variables.
 
+#### Data
+
+- Huffman code for each text characters.
+
 #### Module
 
-- A dialog module which does only one thing:
-  splitting the screen for x scanlines to the other VRAM screen
+- A dialog module which:
+  - Split the screen for x scanlines to the other VRAM screen and draw the (still compressed) text.
+  - Functions to be able to read and process raw text data (load_raw_data, next_bit, next_char).
+  - A function for each stage of the dialog box (init, border, main)
 - A function to read x raw text data from PPU in dialog module.
 
 #### Python
 
 - empty_char.py: Generate an empty CHR ROM.
-- encode.py: Encode a text file into binary using dictionary compression.
-- huffman_encode.py: Encode the dictionary compressed text into a Huffman form.
+- encode.py: Encode a text file into binary using dictionary compression. Return dictionary as txt and asm.
+- huffman_encode.py: Encode the dictionary compressed text into a Huffman form. Return char code and dialog pointer as txt and asm.
 - decode.py: decode the Huffman compressed text and print the result.
 - gen_lorem.py: generate a lorem ipsum text file.
 - A bat file to run the 2 encoder scripts.
@@ -56,6 +62,8 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 
 - Player sprite attributes.
 - Screen object to have the random mask.
+- Last background palette in the level.
+- Lower chance of random tile in the screen object.
 
 #### Module
 
@@ -70,7 +78,7 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 
 #### Vector
 
-- Refactor scanline IRQs.
+- Refactor scanline IRQs to handle UI separation.
 - NMI flags order.
 - Reset to set attributes to last palette.
 

@@ -15,6 +15,7 @@ MAP_2_CHAR = [
 def main():
     global MAP_2_CHAR
 
+    # arguments
     encode_file_name = "encode.bin"
     if len(sys.argv) > 1:
         encode_file_name = sys.argv[1]
@@ -27,24 +28,29 @@ def main():
     out_pointer = "pointer.txt"
     if len(sys.argv) > 3:
         out_decoding = sys.argv[4]
+    out_decoding_asm = "cypher.asm"
+    if len(sys.argv) > 5:
+        out_decoding_asm = sys.argv[5]
+    out_pointer_asm = "pointer.asm"
+    if len(sys.argv) > 6:
+        out_pointer_asm = sys.argv[6]
 
     proba_char = []
     proba_count = []
 
     #
-    f = open(encode_file_name, "rb")
-    txt = []
-    for line in f:
-        for char in line:
-            if char in proba_char:
-                idx = proba_char.index(char)
-                proba_count[idx] += 1
-                txt.append(char)
-            else:
-                proba_char.append(char)
-                proba_count.append(1)
-                txt.append(char)
-    f.close()
+    with open(encode_file_name, "rb") as f:
+        txt = []
+        for line in f:
+            for char in line:
+                if char in proba_char:
+                    idx = proba_char.index(char)
+                    proba_count[idx] += 1
+                    txt.append(char)
+                else:
+                    proba_char.append(char)
+                    proba_count.append(1)
+                    txt.append(char)
 
     #
     proba = []
@@ -54,56 +60,67 @@ def main():
     #
     huff_res = huffman.codebook(proba)
 
-    #
-    f = open(out_decoding, "w")
-    for k,v in huff_res.items():
-        idx = proba_char.index(k)
-        c = MAP_2_CHAR[k]
-        print(f"{c}({str(k)}): count {str(proba_count[idx])} times, encode as {str(v)}")
-        f.write(c + "(" + str(k) + "):" + str(v) + "\n")
-    f.close()
+    # output cypher chars
+    with open(out_decoding, "w") as f:
+        for k,v in huff_res.items():
+            idx = proba_char.index(k)
+            c = MAP_2_CHAR[k]
+            print(f"{c}({str(k)}): count {str(proba_count[idx])} times, encode as {str(v)}")
+            f.write(c + "(" + str(k) + "):" + str(v) + "\n")
+
+    # output cypher chars in assmbly
+    with open(out_decoding_asm, "w") as f:
+        f.write("cypher_char:\n")
+        for i in range(64):
+            if i in huff_res:
+                f.write("    .dbyt %1" + huff_res[i])
+            else:
+                f.write("    .dbyt %0")
+            f.write(" ; " + MAP_2_CHAR[i] + "\n")
 
     #
-    f = open(out_pointer, "w")
-    f.write("0:0\n")
-    huff_txt = ""
-    last_c = 0
-    for c in txt:
-        if last_c == 63:
-            l = len(huff_txt)
-            adr = l//8
-            offset = l%8
-            f.write(hex(adr) + ":" + str(offset) + "\n")
-        huff_txt += huff_res[c]
-        last_c = c
-    f.close()
+    with open(out_pointer, "w") as f:
+        with open(out_pointer_asm, "w") as asm:
+            f.write("0:0\n")
+            asm.write("dialog_table:\n    .word $0000 ; adr\n    .byte 0 ; offset\n\n")
+            huff_txt = ""
+            last_c = 0
+            for c in txt:
+                if last_c == 63:
+                    l = len(huff_txt)
+                    adr = l//8
+                    offset = l%8
+                    f.write(hex(adr) + ":" + str(offset) + "\n")
+                    asm.write("    .word $")
+                    asm_word = str.format('0x{:04X}', adr).split("x")[1].upper()
+                    asm.write(asm_word + " ; adr\n    .byte " + str(offset) + " ; offset\n\n")
+                huff_txt += huff_res[c]
+                last_c = c
 
     #
-    f = open(out_file_name, "wb")
-    #
-    i = 0
-    hex_str = ""
-    while i < len(huff_txt)//8:
-        val = int(huff_txt[i*8:i*8+8], 2)
-        byte = val.to_bytes(1, byteorder='big')
-        hex_str += hex(val) + " "
-        f.write(byte)
-        i += 1
-    val = huff_txt[i*8:]
-    if val != "":
-        byte = int(val, 2).to_bytes(2, byteorder='big')
-        f.write(byte)
+    with open(out_file_name, "wb") as f:
+        #
+        i = 0
+        hex_str = ""
+        while i < len(huff_txt)//8:
+            val = int(huff_txt[i*8:i*8+8], 2)
+            byte = val.to_bytes(1, byteorder='big')
+            hex_str += hex(val) + " "
+            f.write(byte)
+            i += 1
+        val = huff_txt[i*8:]
+        if val != "":
+            byte = int(val, 2).to_bytes(2, byteorder='big')
+            f.write(byte)
 
-    #
-    i = (len(huff_txt)//8)
-    if len(huff_txt) % 8 > 0:
-        i += 2
-    while i < 0x40000:
-        f.write(bytes(1))
-        i += 1
+        #
+        i = (len(huff_txt)//8)
+        if len(huff_txt) % 8 > 0:
+            i += 2
+        while i < 0x40000:
+            f.write(bytes(1))
+            i += 1
 
-    #
-    f.close()
 
 if __name__ == '__main__':
     main()

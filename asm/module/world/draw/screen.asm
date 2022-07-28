@@ -46,6 +46,9 @@ module_world_draw_screen:
             BNE @loop_lo
 
         @draw_tile_end:
+        LDA #NAMETABLE_ALL
+        STA nmi_mmc5_nametable
+
         LDA #$00
         STA background, X
         STX background_index
@@ -72,6 +75,9 @@ module_world_draw_screen:
 
 
     @draw_hi:
+        LDA #NAMETABLE_SCROLL
+        STA nmi_mmc5_nametable
+
         LDY #$00
         ; wait to be in the frame to write to expansion RAM
         @wait:

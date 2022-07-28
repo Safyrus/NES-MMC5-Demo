@@ -77,7 +77,7 @@
     ppu_read_adr: .res 2
 
     ; buffer to store data read from ppu
-    ppu_data_buf: .res 16
+    ppu_data_buf: .res PPU_RD_BUF_SIZE
 
     ; nametable configuration when entering NMI
     nmi_mmc5_nametable: .res 1
@@ -232,6 +232,18 @@ OAM:
     ; ----------------
     ; from where scanline - 1 to start drawing the dialog box
     dialog_scanline: .res 1
+    ;
+    dialog_char_buf: .res 2
+    ;
+    dialog_buf_data_idx: .res 1
+    ; (hi, lo)
+    dialog_data_idx: .res 2
+    ;
+    dialog_data_bit_offset: .res 1
+    ;
+    dialog_last_char: .res 1
+    ; (hi,lo)
+    dialog_ppu_adr: .res 2
 
     ; ----------------
     ; Misc. variables

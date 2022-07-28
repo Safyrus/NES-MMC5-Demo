@@ -1,0 +1,2 @@
+dialog_next:
+    RTS

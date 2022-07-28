@@ -18,3 +18,4 @@ dump_*.txt
 # Generated files from python
 py/*.txt
 py/*.chr
+py/*.asm

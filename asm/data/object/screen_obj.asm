@@ -51,7 +51,7 @@ object_screen_1:
     ; mode
     .byte 2
     ; random chance
-    .byte $80
+    .byte $C0
     ; max random
     .byte 7
     ; data

@@ -213,3 +213,56 @@ MMC5_RAM       := $6000
 .define ANIM_MAX_FRAME_MASK %00000011
 
 .define RAM_MAX_BNK 7
+
+.define PPU_RD_BUF_SIZE 16
+
+.enum CHAR
+    _0
+    _1
+    _2
+    _3
+    _4
+    _5
+    _6
+    _7
+    _8
+    _9
+    _A
+    _B
+    _C
+    _D
+    _E
+    _F
+    _G
+    _H
+    _I
+    _J
+    _K
+    _L
+    _M
+    _N
+    _O
+    _P
+    _Q
+    _R
+    _S
+    _T
+    _U
+    _V
+    _W
+    _X
+    _Y
+    _Z
+    SPACE
+    COMMA
+    EXCLAMATION
+    INTEROGATION
+    RES_1 = $38
+    RES_2
+    NL
+    SPD
+    DICT
+    LDICT
+    EXT
+    END
+.endenum

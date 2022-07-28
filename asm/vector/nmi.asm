@@ -224,7 +224,7 @@ NMI:
             STA ppu_data_buf, X
             ; loop
             DEX
-            BNE @read_loop
+            BPL @read_loop
 
         ; restore flags
         PLA
