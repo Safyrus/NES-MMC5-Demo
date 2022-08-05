@@ -143,6 +143,7 @@
     .include "module/control/base.asm"
     .include "module/dialog/base.asm"
     .include "data/dialog/cypher.asm"
+    .include "data/dialog/dict.asm"
 
 
 ; 6502 vectors

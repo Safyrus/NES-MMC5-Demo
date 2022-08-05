@@ -24,5 +24,9 @@ mdl_ctrl_dialog:
         STA dialog_data_bit_offset
         LDA #(PPU_RD_BUF_SIZE-1)
         STA dialog_buf_data_idx
+        LDA #$08
+        STA dialog_nl_offset
+        LDA #$03
+        STA dialog_speed
     @end:
     RTS

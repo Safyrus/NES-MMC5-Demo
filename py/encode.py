@@ -47,13 +47,6 @@ def create_dict(words, words_count):
                 words[i], words[j] = words[j], words[i]
 
     with open(dict_file_name_asm, "w") as asm:
-        asm.write("ldict_table_lo:\n")
-        for i in range(1, 64):
-            asm.write("    .byte <ldict_" + str(i) + "\n")
-        asm.write("ldict_table_hi:\n")
-        for i in range(1, 64):
-            asm.write("    .byte >ldict_" + str(i) + "\n")
-
         with open(dict_file_name, "w") as f:
             i = 0
             f.write("======== SHORT DICT ========\n")
@@ -76,13 +69,21 @@ def create_dict(words, words_count):
                         long_dict[i-64] = w
                         f.write(w + "\n")
                         if (i % 64) == 0:
-                            idx = i//64
+                            idx = (i//64)-1
                             asm.write("    ldict_" + str(idx) + ":\n")
                         asm.write("    ; '" + w + "' at idx:" + hex(i) + " (appear " + str(words_count[i]) + " times)\n")
                         print_word_asm(w, asm)
                         i += 1
             if i < 63:
                 asm.write("ldict: ; empty\n")
+
+        n = (i//64)-1
+        asm.write("\nldict_table_lo:\n")
+        for i in range(n):
+            asm.write("    .byte <ldict_" + str(i) + "\n")
+        asm.write("ldict_table_hi:\n")
+        for i in range(n):
+            asm.write("    .byte >ldict_" + str(i) + "\n")
 
     return short_dict, long_dict
 

@@ -60,10 +60,7 @@ mdl_world_drw_obj_pos_base:
     ADC #$04
     STA tmp+3
     ; draw high tile
-    JSR mdl_world_drw_obj_pos_half
-
-    @end:
-    RTS
+    JMP mdl_world_drw_obj_pos_half
 
 
 mdl_world_drw_subobj_pos:

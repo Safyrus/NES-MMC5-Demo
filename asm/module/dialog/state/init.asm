@@ -5,25 +5,30 @@ dialog_init:
     LDA nmi_flags
     ORA #NMI_ATR
     STA nmi_flags
-    ; set dialog box position
-    LDA #176-1
-    STA dialog_scanline
 
     ;
     JSR dialog_load_raw_data
     ;
     LDA #$20
     STA dialog_ppu_adr+0
+    LDA #$20
+    CLC
+    ADC dialog_nl_offset
     STA dialog_ppu_adr+1
+    LDA dialog_speed
+    STA dialog_speed_counter
 
+    ; set dialog box position
+    LDA #168-1
+    STA dialog_scanline
     ; math for scanline IRQ scroll
     CLC
     ADC #(DIALOG_BOX_HEIGHT+1)
-    STA var+0
+    STA dialog_scroll_end_tmp+0
     LDA scroll_y
     TAX
     CLC
-    ADC var+0
+    ADC dialog_scroll_end_tmp+0
     BCS @y_offscreen_1
     CMP #$F0
     BCC @y_ok
@@ -41,15 +46,15 @@ dialog_init:
     AND #$03
     ASL
     ASL
-    STA var+0
+    STA dialog_scroll_end_tmp+0
     LDA scroll_y
     ASL
     ASL
     ASL
     ASL
     AND #$30
-    ORA var+0
-    STA var+0
+    ORA dialog_scroll_end_tmp+0
+    STA dialog_scroll_end_tmp+0
     LDA scroll_y
     LSR
     LSR
@@ -57,20 +62,20 @@ dialog_init:
     LSR
     LSR
     LSR
-    ORA var+0
-    STA var+0
+    ORA dialog_scroll_end_tmp+0
+    STA dialog_scroll_end_tmp+0
     ; second byte
     LDA scroll_y
     ASL
     ASL
     AND #$E0
-    STA var+1
+    STA dialog_scroll_end_tmp+1
     LDA scroll_x
     LSR
     LSR
     LSR
-    ORA var+1
-    STA var+1
+    ORA dialog_scroll_end_tmp+1
+    STA dialog_scroll_end_tmp+1
     STX scroll_y
 
     RTS

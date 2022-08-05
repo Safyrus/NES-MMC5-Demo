@@ -106,9 +106,9 @@ scanline_irq_handler:
         CMP #STATE::DIALOG
         BNE @ui_bot_end
             ; set scroll back to normal
-            LDA var+0
+            LDA dialog_scroll_end_tmp+0
             STA PPU_ADDR
-            LDA var+1
+            LDA dialog_scroll_end_tmp+1
             STA PPU_ADDR
             ; enable background and sprites
             LDA #(PPU_MASK_BKG + PPU_MASK_SPR)

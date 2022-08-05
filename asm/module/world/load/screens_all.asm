@@ -11,6 +11,7 @@ module_world_load_screen_all:
         ; save mod
         STA tmp+7
         ; res*lv_w
+        JSR wait_at_frame_end
         TXA
         STA MMC5_MUL_A
         LDA level_wh

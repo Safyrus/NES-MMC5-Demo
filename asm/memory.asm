@@ -244,6 +244,20 @@ OAM:
     dialog_last_char: .res 1
     ; (hi,lo)
     dialog_ppu_adr: .res 2
+    ;
+    dialog_remaining_char: .res 1
+    ;
+    dialog_nl_offset: .res 1
+    ;
+    dialog_scroll_end_tmp: .res 2
+    ;
+    dialog_speed: .res 1
+    ;
+    dialog_speed_counter: .res 1
+    ;
+    dialog_word_size: .res 1
+    ;
+    dialog_word_buffer: .res 15
 
     ; ----------------
     ; Misc. variables

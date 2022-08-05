@@ -10,7 +10,7 @@ mdl_ctrl_normal:
         ORA #$01
         STA game_substate
         ; add the module_world_draw_anim module
-        LDA #LOWER_MODULE_MAX_PRIO-2
+        LDA #LOWER_MODULE_MAX_PRIO-1
         JSR mdl_ctrl_lw_adr
         LDA #MODULE_WORLD
         STA lower_module_array, X

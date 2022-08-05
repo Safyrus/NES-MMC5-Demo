@@ -50,6 +50,7 @@ mdl_world_load_screen_one:
     @load_objects_end:
 
     ; get screen buffer idx
+    JSR wait_at_frame_end
     LDA scrbuf_index
     AND #$03
     STA MMC5_MUL_A

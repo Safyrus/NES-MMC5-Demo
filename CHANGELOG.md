@@ -6,7 +6,7 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 
 -----------------
 
-## **[0.4.0-5]** - _2022-07-28_
+## **[0.4.0-6]** - _2022-07-29_
 
 ### **Added**
 
@@ -19,19 +19,19 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
   - text: with a short compressed text.
   - ui: contain a font and 2 tiles for the dialog box borders.
 - Some constants.
-- Some variables.
+- Some variables (many about the dialog box).
 
 #### Data
 
 - Huffman code for each text characters.
+- A little dictionary and the pointers for the 2 example dialogs.
 
 #### Module
 
 - A dialog module which:
   - Split the screen for x scanlines to the other VRAM screen and draw the (still compressed) text.
   - Functions to be able to read and process raw text data (load_raw_data, next_bit, next_char).
-  - A function for each stage of the dialog box (init, border, main)
-- A function to read x raw text data from PPU in dialog module.
+  - Add a function for each stage of the dialog box (init, clear, border, main, next, end)
 
 #### Python
 
@@ -69,6 +69,7 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 
 - Reorganize the code into more files.
 - Move entity action into a separate module.
+- Modules priority (tile_anim + 1, load_screens - 1)
 - Refactor:
   - Screen fill objects loading mainly to not tell animating empty tiles
     and be faster for fill with no random.
