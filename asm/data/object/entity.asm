@@ -46,14 +46,17 @@ entity_pos_0:
     ; size
     .byte $11
     ; sprite number
-    .byte 2
-    ; sprite index
-    .byte $00
+    .byte 3
     ; sprites
-    .byte $80
-    .byte %00011001
-    .byte $80
-    .byte %00011011
+    .byte $10+ANIM_FLIP
+    .byte $00
+    .byte %00010001
+    .byte $00+ANIM_INC
+    .byte $90
+    .byte %00010011
+    .byte $04
+    .byte $00
+    .byte %00010011
 entity_pos_1:
 entity_pos_2:
 entity_pos_3:

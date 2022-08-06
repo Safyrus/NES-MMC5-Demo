@@ -6,7 +6,7 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 
 -----------------
 
-## **[0.4.0-6]** - _2022-07-29_
+## **[0.4.0-7]** - _2022-08-06_
 
 ### **Added**
 
@@ -60,7 +60,7 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 
 #### Data
 
-- Player sprite attributes.
+- Player object data.
 - Screen object to have the random mask.
 - Last background palette in the level.
 - Lower chance of random tile in the screen object.
@@ -76,6 +76,7 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
   - How entities are loaded and drawn.
   - The "draw_player_move" function.
   - Screen draw function to also clear the second VRAM screen.
+  - Sprites to be 8\*8 instead of 8\*16 (take less space in CHR)
 
 #### Vector
 

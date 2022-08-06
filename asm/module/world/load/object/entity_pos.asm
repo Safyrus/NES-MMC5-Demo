@@ -5,23 +5,32 @@ mdl_world_drw_entity_pos:
     LDA entity_pos_hi, X
     STA tmp+1
 
-    ; add offset for pos entity
+    ; check if entity was already loaded
+    LDY global_entity_counter
     TXA
     ORA #$10
-    TAX
-
-    ;
-    LDA tmp
-    STA global_entity_buffer_data_lo+$6000, X
-    LDA tmp+1
-    STA global_entity_buffer_data_hi+$6000, X
-    LDA #OBJ_BANK
-    STA global_entity_buffer_data_bnk+$6000, X
-
-    ; check if entity was already loaded
-    LDA global_entity_buffer_adr_bnk+$6000, X
-    BNE @end
+    @check:
+        CMP global_entity_buffer_id+$6000, Y
+        BEQ @end
+        DEY
+        BPL @check
     @load:
+    ;
+    LDY global_entity_counter
+    ; load entity data adress
+    LDA tmp+0
+    STA global_entity_buffer_data_lo+$6000, Y
+    LDA tmp+1
+    STA global_entity_buffer_data_hi+$6000, Y
+    LDA #OBJ_BANK
+    STA global_entity_buffer_data_bnk+$6000, Y
+    ; load entity id
+    TXA
+    ORA #$10
+    STA global_entity_buffer_id+$6000, Y
+    ;
+    TYA
+    TAX
     ; load entity y position
     LDA screen_draw_obj_buf+2
     AND #$F0
@@ -58,7 +67,9 @@ mdl_world_drw_entity_pos:
     INY
     LDA (tmp), Y
     STA global_entity_buffer_adr_hi+$6000, X
-    
+    ;
+    INX
+    STX global_entity_counter
     @end:
     ; return
     RTS

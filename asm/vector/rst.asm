@@ -42,7 +42,7 @@ RST:
     BIT PPU_STATUS
     BPL @vwait2      ; At this point, about 57165 cycles have passed
 
-    LDA #%10100000      ; Enable NMI + 8*16 sprite mode
+    LDA #%10000000      ; Enable NMI
     STA PPU_CTRL
     STA ppu_ctrl_val
 

@@ -216,6 +216,10 @@ MMC5_RAM       := $6000
 
 .define PPU_RD_BUF_SIZE 16
 
+.define ANIM_NONE $00
+.define ANIM_FLIP $40
+.define ANIM_INC  $80
+
 .enum CHAR
     _0
     _1

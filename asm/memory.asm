@@ -100,9 +100,9 @@ OAM:
 
 .segment "BSS"
 
-    ; ----------------
-    ; Module arrays
-    ; ----------------
+; ----------------
+; Module arrays
+; ----------------
     ; list of module of higher priority
     higher_module_array:
         .tag Module
@@ -120,9 +120,9 @@ OAM:
     lower_module_array_prio: .res LOWER_MODULE_SIZE
     lower_module_prio: .res 1
 
-    ; ----------------
-    ; Game variables
-    ; ----------------
+; ----------------
+; Game variables
+; ----------------
     ; game state
     game_state: .res 1
     ; game substate
@@ -138,9 +138,9 @@ OAM:
     ; the number of frame elapsed
     game_framecount: .res 2
 
-    ; ----------------
-    ; Last frame variables
-    ; ----------------
+; ----------------
+; Last frame variables
+; ----------------
     ; 0: RAM, 1-3: PRG
     last_frame_BNK: .res 4
     ;
@@ -152,9 +152,9 @@ OAM:
     ;
     last_frame_prio_arr: .res LOWER_MODULE_MAX_PRIO
 
-    ; ----------------
-    ; World variables
-    ; ----------------
+; ----------------
+; World variables
+; ----------------
     ; current world index
     world: .res 1
     ; current level index
@@ -167,9 +167,9 @@ OAM:
     level_pal: .res 7
 
 
-    ; ----------------
-    ; Screen buffers variables
-    ; ----------------
+; ----------------
+; Screen buffers variables
+; ----------------
     ; value to know, for each screen buffer, if it need an update (0=no)
     scrbuf_update_array_act: .res 9
     ; screen to load each screen buffer
@@ -185,9 +185,9 @@ OAM:
     ;
     scr_index: .res 1
 
-    ; ----------------
-    ; Screen variables
-    ; ----------------
+; ----------------
+; Screen variables
+; ----------------
     ; size of the screen_objects_buffer
     screen_objbuf_size: .res 1
     ; bit 0: inc x
@@ -206,9 +206,9 @@ OAM:
     ;
     screen_draw_subobj_possize_buf_hi: .res 9
 
-    ; ----------------
-    ; Inputs
-    ; ----------------
+; ----------------
+; Inputs
+; ----------------
     ; joypad 1 input
     buttons_1: .res 1
     ; joypad 2 input
@@ -216,9 +216,9 @@ OAM:
     ; time to wait between inputs for joypad 1
     buttons_1_timer: .res 1
 
-    ; ----------------
-    ; Sprites
-    ; ----------------
+; ----------------
+; Sprites
+; ----------------
     ;
     sprite_banks: .res 8
     ;
@@ -226,10 +226,9 @@ OAM:
     ;
     free_sprite_idx: .res 1
 
-
-    ; ----------------
-    ; Dialog
-    ; ----------------
+; ----------------
+; Dialog
+; ----------------
     ; from where scanline - 1 to start drawing the dialog box
     dialog_scanline: .res 1
     ;
@@ -259,9 +258,14 @@ OAM:
     ;
     dialog_word_buffer: .res 15
 
-    ; ----------------
-    ; Misc. variables
-    ; ----------------
+; ----------------
+; Entity variables
+; ----------------
+    ;
+    global_entity_counter: .res 1
+; ----------------
+; Misc. variables
+; ----------------
     ; a counter
     counter: .res 1
     ; seed to generate pseudo random values
@@ -331,3 +335,4 @@ OAM:
     global_entity_buffer_data_bnk: .res 64
     global_entity_buffer_data_lo: .res 64
     global_entity_buffer_data_hi: .res 64
+    global_entity_buffer_id: .res 64
