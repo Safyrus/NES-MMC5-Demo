@@ -1,7 +1,10 @@
 .include "global_entity.asm"
+.include "local_entity.asm"
 .include "input.asm"
 .include "player.asm"
 .include "utils.asm"
+
+.include "ai/dialog.asm"
 
 .include "input_check/down.asm"
 .include "input_check/left.asm"

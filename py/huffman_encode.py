@@ -80,9 +80,7 @@ def main():
 
     #
     with open(out_pointer, "w") as f:
-        with open(out_pointer_asm, "w") as asm:
             f.write("0:0\n")
-            asm.write("dialog_table:\n    .word $0000 ; adr\n    .byte 0 ; offset\n\n")
             huff_txt = ""
             last_c = 0
             for c in txt:
@@ -91,11 +89,41 @@ def main():
                     adr = l//8
                     offset = l%8
                     f.write(hex(adr) + ":" + str(offset) + "\n")
-                    asm.write("    .word $")
-                    asm_word = str.format('0x{:04X}', adr).split("x")[1].upper()
-                    asm.write(asm_word + " ; adr\n    .byte " + str(offset) + " ; offset\n\n")
                 huff_txt += huff_res[c]
                 last_c = c
+
+    #
+    with open(out_pointer_asm, "w") as asm:
+        asm.write("dialog_table_lo:\n")
+        huff_txt = ""
+        for c in txt:
+            if last_c == 63:
+                adr = len(huff_txt)//8
+                asm.write("    .byte $")
+                asm_word = str.format('0x{:04X}', adr).split("x")[1].upper()
+                asm.write(asm_word[2:4] + "\n")
+            huff_txt += huff_res[c]
+            last_c = c
+
+        asm.write("dialog_table_hi:\n")
+        huff_txt = ""
+        for c in txt:
+            if last_c == 63:
+                adr = len(huff_txt)//8
+                asm.write("    .byte $")
+                asm_word = str.format('0x{:04X}', adr).split("x")[1].upper()
+                asm.write(asm_word[0:2] + "\n")
+            huff_txt += huff_res[c]
+            last_c = c
+
+        asm.write("dialog_table_offset:\n")
+        huff_txt = ""
+        for c in txt:
+            if last_c == 63:
+                offset = 7 - (len(huff_txt)%8)
+                asm.write("    .byte $" + str(offset) + "\n")
+            huff_txt += huff_res[c]
+            last_c = c
 
     #
     with open(out_file_name, "wb") as f:

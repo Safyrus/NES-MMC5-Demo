@@ -42,7 +42,7 @@ RST:
     BIT PPU_STATUS
     BPL @vwait2      ; At this point, about 57165 cycles have passed
 
-    LDA #%10000000      ; Enable NMI
+    LDA #%10010000      ; Enable NMI + background at $1000
     STA PPU_CTRL
     STA ppu_ctrl_val
 

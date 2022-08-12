@@ -161,6 +161,7 @@ MMC5_RAM       := $6000
 
 .define MODULE_CTRL  0+$80
 .define MODULE_WORLD 1+$80
+.define MODULE_DIALOG 0+$80
 
 .define WORLD_BANK_START 2
 
@@ -187,6 +188,17 @@ MMC5_RAM       := $6000
     RIGHT
 .endenum
 
+.enum INPUT
+    _A      = %10000000
+    _B      = %01000000
+    SELECT  = %00100000
+    START   = %00010000
+    UP      = %00001000
+    DOWN    = %00000100
+    LEFT    = %00000010
+    RIGHT   = %00000001
+.endenum
+
 .define SCANLINE_MID $40
 .define SCANLINE_BOT $41
 .define SCANLINE_TOP $02
@@ -197,6 +209,7 @@ MMC5_RAM       := $6000
 
 .define PRGRAM_LEVEL_BANK 0
 .define PRGRAM_SCREEN_BANK 1
+.define PRGRAM_ENTITY_BANK 4
 .define PRGRAM_SPR_BANK 4
 
 .define SCR_UPD_SCR_X_R $A0

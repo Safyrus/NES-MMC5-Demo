@@ -27,6 +27,7 @@
 
 ; objects
 .include "load/object/entity_pos.asm"
+.include "load/object/local_entity_pos.asm"
 .include "load/object/object.asm"
 .include "load/object/object_scr.asm"
 .include "load/object/object_pos.asm"

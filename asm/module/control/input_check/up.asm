@@ -1,6 +1,13 @@
 check_scroll_up:
     push_scroll
 
+    LDA global_entity_buffer_state, X
+    AND #$FC
+    ORA #DIR::UP
+    STA global_entity_buffer_state, X
+    LDA #DIR::UP
+    JSR draw_player_move
+
     JSR setScroll2PlayerPos
     JSR dec_scroll_y_tile
     ; get tile low value
@@ -30,8 +37,7 @@ check_scroll_up:
     @cancel:
     ; cancel input
     LDA #$00
-    STA buttons_1_timer
-    STA buttons_1
+    STA player_move_counter
 
     @end:
     pull_scroll

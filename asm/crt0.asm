@@ -136,6 +136,7 @@
     .include "module/world/base.asm"
 .segment "BNK4"
     .include "data/object.asm"
+    .include "data/entity.asm"
 .segment "BNK2"
     .include "data/world_0.asm"
     .include "data/palette.asm"
@@ -144,6 +145,7 @@
     .include "module/dialog/base.asm"
     .include "data/dialog/cypher.asm"
     .include "data/dialog/dict.asm"
+    .include "data/dialog/pointer.asm"
 
 
 ; 6502 vectors

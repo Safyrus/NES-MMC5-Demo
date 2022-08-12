@@ -149,6 +149,6 @@ scroll2scrBufAdr:
 ; can fix bug because multiplcation registers may be used by other modules next frame
 wait_at_frame_end:
     LDA scanline
-    CMP #SCANLINE_BOT
+    CMP #SCANLINE_TOP
     BEQ wait_at_frame_end
     RTS

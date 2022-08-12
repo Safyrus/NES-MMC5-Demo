@@ -90,26 +90,3 @@
     PLA
     STA game_scroll_x+0
 .endmacro
-
-.macro res_entity_buf
-    .local entity_buffer_adr_bnk
-    .res 64
-    .local entity_buffer_adr_lo
-    .res 64
-    .local entity_buffer_adr_hi
-    .res 64
-    .local entity_buffer_state
-    .res 64
-    .local entity_buffer_draw_idx
-    .res 64
-    .local entity_buffer_pos_x
-    .res 64
-    .local entity_buffer_pos_y
-    .res 64
-    .local entity_buffer_data_bnk
-    .res 64
-    .local entity_buffer_data_lo
-    .res 64
-    .local entity_buffer_data_hi
-    .res 64
-.endmacro

@@ -171,3 +171,45 @@ scroll2scrBufIdx:
     pullreg
     RTS
 
+; get entity buffer adress starting at $6000 with index of scrbuf_index
+scrBufIdx2entityBufAdr:
+    push_ay
+    ; get screen buffer idx
+    JSR scrBufIdx2int
+    ;
+    TAY
+    LDA #>entity_buffers+$60
+    STA tmp+1
+    LDA #<entity_buffers
+    STA tmp+0
+    ; screen buffer idx *  entity buffer size
+    @mul:
+        CPY #$00
+        BEQ @mul_end
+        DEY
+        LDA tmp+1
+        CLC
+        ADC #$02
+        STA tmp+1
+        LDA #$80
+        JSR add_tmp
+        JMP @mul
+    @mul_end:
+    pull_ay
+    RTS
+
+;
+scrBufIdx2int:
+    JSR wait_at_frame_end
+    LDA scrbuf_index
+    AND #$03
+    STA MMC5_MUL_A
+    LDA #$03
+    STA MMC5_MUL_B
+    LDA scrbuf_index
+    AND #$0C
+    LSR
+    LSR
+    CLC
+    ADC MMC5_MUL_A
+    RTS

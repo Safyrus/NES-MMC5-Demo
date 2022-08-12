@@ -1,4 +1,3 @@
-.include "object/entity.asm"
 .include "object/screen_obj.asm"
 .include "object/pos_obj.asm"
 .include "object/pos_obj_sub.asm"

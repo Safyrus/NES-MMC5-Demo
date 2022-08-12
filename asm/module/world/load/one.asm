@@ -50,35 +50,15 @@ mdl_world_load_screen_one:
     @load_objects_end:
 
     ; get screen buffer idx
-    JSR wait_at_frame_end
-    LDA scrbuf_index
-    AND #$03
-    STA MMC5_MUL_A
-    LDA scrbuf_index
-    AND #$0C
-    LSR
-    LSR
-    STA MMC5_MUL_B
-    ;
-    LDA MMC5_MUL_A
+    JSR scrBufIdx2entityBufAdr
+    LDA #PRGRAM_SPR_BANK
+    STA last_frame_BNK+3
+    STA MMC5_PRG_BNK2
+
+    JSR scrBufIdx2int
     TAY
-    LDA #$C0
-    STA tmp+1
     LDA #$00
-    STA tmp+0
-    ; screen buffer idx *  entity buffer size
-    @mul:
-        CPY #$00
-        BEQ @mul_end
-        DEY
-        LDA tmp+1
-        CLC
-        ADC #$02
-        STA tmp+1
-        LDA #$80
-        JSR add_tmp
-        JMP @mul
-    @mul_end:
+    STA local_entity_counter, Y
 
     ; reset entity buffer
     LDY #$3F
@@ -138,13 +118,12 @@ mdl_world_load_screen_one:
         @obj_sub_end:
 
         ; if object is an entity
-        ASL
-        ASL
-        ASL
-        LDA screen_draw_flag
-        AND #$02
-        BCS @obj_entity
+        LDA screen_draw_obj_buf+0
+        AND #$10
+        BNE @obj_entity
             ;
+            LDA screen_draw_flag
+            AND #$02
             BEQ @obj_entity_end
                 ;
                 LDA screen_draw_flag
@@ -154,6 +133,8 @@ mdl_world_load_screen_one:
                 JSR mdl_world_scr_buf_bnk2
                 JMP @obj_entity_end
         @obj_entity:
+            LDA screen_draw_flag
+            AND #$02
             BNE @obj_entity_end
                 ;
                 LDA screen_draw_flag

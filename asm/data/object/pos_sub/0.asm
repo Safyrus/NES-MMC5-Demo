@@ -27,6 +27,7 @@
     SHAFT
     GATE
     WATERFALL
+    SIGN
 .endenum
 
 object_subpos_0_base:
@@ -332,3 +333,10 @@ object_subpos_0_base:
     .byte $A0
     .byte $A0
     .byte $A0
+; sign
+    ; size
+    .byte (1 << 4)+1
+    ; low tile
+    .byte $A5
+    ; high tile
+    .byte $81

@@ -63,6 +63,8 @@ MAIN:
         STX game_framecount+0
     @framecount_end:
 
+    JSR update_btn_timer
+
     LDA #$07
     STA MMC5_RAM_BNK
     STA $6000

@@ -10,6 +10,16 @@ module_world_load_screen_all:
         JSR div
         ; save mod
         STA tmp+7
+        ;
+        STA entity_buffer_hi_pos, Y
+        TXA
+        ASL
+        ASL
+        ASL
+        ASL
+        CLC
+        ADC entity_buffer_hi_pos, Y
+        STA entity_buffer_hi_pos, Y
         ; res*lv_w
         JSR wait_at_frame_end
         TXA

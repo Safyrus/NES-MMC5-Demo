@@ -41,7 +41,7 @@ module_world_draw_object:
     .byte <mdl_world_drw_obj_pos
     .byte <mdl_world_drw_entity_pos
     .byte <mdl_world_drw_obj_possize
-    .byte <mdl_world_drw_entity_possize
+    .byte <mdl_world_drw_entity_error
     .byte <mdl_world_drw_subobj_scr
     .byte <mdl_world_drw_subentity_scr
     .byte <mdl_world_drw_obj_error
@@ -49,7 +49,7 @@ module_world_draw_object:
     .byte <mdl_world_drw_subobj_pos
     .byte <mdl_world_drw_subentity_pos
     .byte <mdl_world_drw_subobj_possize
-    .byte <mdl_world_drw_subentity_possize
+    .byte <mdl_world_drw_entity_error
 
     @draw_fct_hi:
     .byte >mdl_world_drw_obj_scr
@@ -59,7 +59,7 @@ module_world_draw_object:
     .byte >mdl_world_drw_obj_pos
     .byte >mdl_world_drw_entity_pos
     .byte >mdl_world_drw_obj_possize
-    .byte >mdl_world_drw_entity_possize
+    .byte >mdl_world_drw_entity_error
     .byte >mdl_world_drw_subobj_scr
     .byte >mdl_world_drw_subentity_scr
     .byte >mdl_world_drw_obj_error
@@ -67,7 +67,7 @@ module_world_draw_object:
     .byte >mdl_world_drw_subobj_pos
     .byte >mdl_world_drw_subentity_pos
     .byte >mdl_world_drw_subobj_possize
-    .byte >mdl_world_drw_subentity_possize
+    .byte >mdl_world_drw_entity_error
 
 
 ; TODO
@@ -76,10 +76,7 @@ mdl_world_drw_subobj_scr:
 mdl_world_drw_obj_error:
 mdl_world_drw_entity_scr:
 mdl_world_drw_entity_error:
-mdl_world_drw_entity_possize:
 mdl_world_drw_subentity_scr:
-mdl_world_drw_subentity_pos:
-mdl_world_drw_subentity_possize:
     RTS
 
 ;

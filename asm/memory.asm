@@ -174,16 +174,12 @@ OAM:
     scrbuf_update_array_act: .res 9
     ; screen to load each screen buffer
     scrbuf_update_array_scr: .res 9
-    ;
-    scrbuf_update_array_idx: .res 1
     ; 0: is updating
     ; 1: internal update check
     scrbuf_update_flag: .res 1
     ; bits 0-1: ram bank offset
     ; bits 2-3: screen buffer index
     scrbuf_index: .res 1
-    ;
-    scr_index: .res 1
 
 ; ----------------
 ; Screen variables
@@ -263,6 +259,12 @@ OAM:
 ; ----------------
     ;
     global_entity_counter: .res 1
+    ; one variable for each screen
+    local_entity_counter: .res 9
+    ;
+    entity_buffer_hi_pos: .res 9
+    ;
+    player_move_counter: .res 1
 ; ----------------
 ; Misc. variables
 ; ----------------
@@ -308,21 +310,111 @@ OAM:
     screen_buffer_8: .res 2048
 
 .segment "RAM4"
-    res_entity_buf
-    res_entity_buf
-    res_entity_buf
-    res_entity_buf
-    res_entity_buf
-    res_entity_buf
-    res_entity_buf
-    res_entity_buf
-    res_entity_buf
+    entity_buffers:
+    entity_buffer_0_adr_bnk: .res 64
+    entity_buffer_0_adr_lo: .res 64
+    entity_buffer_0_adr_hi: .res 64
+    entity_buffer_0_state: .res 64
+    entity_buffer_0_draw_idx: .res 64
+    entity_buffer_0_pos_x: .res 64
+    entity_buffer_0_pos_y: .res 64
+    entity_buffer_0_data_bnk: .res 64
+    entity_buffer_0_data_lo: .res 64
+    entity_buffer_0_data_hi: .res 64
 
-    entity_draw_pos_y: .res 256
-    entity_draw_spr: .res 256
-    entity_draw_atr: .res 256 ; bit 4 = sprite taken, bit 3 = global
-    entity_draw_pos_x: .res 256
-    entity_draw_pos_hi: .res 256
+    entity_buffer_1_adr_bnk: .res 64
+    entity_buffer_1_adr_lo: .res 64
+    entity_buffer_1_adr_hi: .res 64
+    entity_buffer_1_state: .res 64
+    entity_buffer_1_draw_idx: .res 64
+    entity_buffer_1_pos_x: .res 64
+    entity_buffer_1_pos_y: .res 64
+    entity_buffer_1_data_bnk: .res 64
+    entity_buffer_1_data_lo: .res 64
+    entity_buffer_1_data_hi: .res 64
+
+    entity_buffer_2_adr_bnk: .res 64
+    entity_buffer_2_adr_lo: .res 64
+    entity_buffer_2_adr_hi: .res 64
+    entity_buffer_2_state: .res 64
+    entity_buffer_2_draw_idx: .res 64
+    entity_buffer_2_pos_x: .res 64
+    entity_buffer_2_pos_y: .res 64
+    entity_buffer_2_data_bnk: .res 64
+    entity_buffer_2_data_lo: .res 64
+    entity_buffer_2_data_hi: .res 64
+
+    entity_buffer_3_adr_bnk: .res 64
+    entity_buffer_3_adr_lo: .res 64
+    entity_buffer_3_adr_hi: .res 64
+    entity_buffer_3_state: .res 64
+    entity_buffer_3_draw_idx: .res 64
+    entity_buffer_3_pos_x: .res 64
+    entity_buffer_3_pos_y: .res 64
+    entity_buffer_3_data_bnk: .res 64
+    entity_buffer_3_data_lo: .res 64
+    entity_buffer_3_data_hi: .res 64
+
+    entity_buffer_4_adr_bnk: .res 64
+    entity_buffer_4_adr_lo: .res 64
+    entity_buffer_4_adr_hi: .res 64
+    entity_buffer_4_state: .res 64
+    entity_buffer_4_draw_idx: .res 64
+    entity_buffer_4_pos_x: .res 64
+    entity_buffer_4_pos_y: .res 64
+    entity_buffer_4_data_bnk: .res 64
+    entity_buffer_4_data_lo: .res 64
+    entity_buffer_4_data_hi: .res 64
+
+    entity_buffer_5_adr_bnk: .res 64
+    entity_buffer_5_adr_lo: .res 64
+    entity_buffer_5_adr_hi: .res 64
+    entity_buffer_5_state: .res 64
+    entity_buffer_5_draw_idx: .res 64
+    entity_buffer_5_pos_x: .res 64
+    entity_buffer_5_pos_y: .res 64
+    entity_buffer_5_data_bnk: .res 64
+    entity_buffer_5_data_lo: .res 64
+    entity_buffer_5_data_hi: .res 64
+
+    entity_buffer_6_adr_bnk: .res 64
+    entity_buffer_6_adr_lo: .res 64
+    entity_buffer_6_adr_hi: .res 64
+    entity_buffer_6_state: .res 64
+    entity_buffer_6_draw_idx: .res 64
+    entity_buffer_6_pos_x: .res 64
+    entity_buffer_6_pos_y: .res 64
+    entity_buffer_6_data_bnk: .res 64
+    entity_buffer_6_data_lo: .res 64
+    entity_buffer_6_data_hi: .res 64
+
+    entity_buffer_7_adr_bnk: .res 64
+    entity_buffer_7_adr_lo: .res 64
+    entity_buffer_7_adr_hi: .res 64
+    entity_buffer_7_state: .res 64
+    entity_buffer_7_draw_idx: .res 64
+    entity_buffer_7_pos_x: .res 64
+    entity_buffer_7_pos_y: .res 64
+    entity_buffer_7_data_bnk: .res 64
+    entity_buffer_7_data_lo: .res 64
+    entity_buffer_7_data_hi: .res 64
+
+    entity_buffer_8_adr_bnk: .res 64
+    entity_buffer_8_adr_lo: .res 64
+    entity_buffer_8_adr_hi: .res 64
+    entity_buffer_8_state: .res 64
+    entity_buffer_8_draw_idx: .res 64
+    entity_buffer_8_pos_x: .res 64
+    entity_buffer_8_pos_y: .res 64
+    entity_buffer_8_data_bnk: .res 64
+    entity_buffer_8_data_lo: .res 64
+    entity_buffer_8_data_hi: .res 64
+
+    entity_draw_pos_y: .res 128
+    entity_draw_spr: .res 128
+    entity_draw_atr: .res 128 ; bit 4 = sprite taken, bit 3 = global
+    entity_draw_pos_x: .res 128
+    entity_draw_pos_hi: .res 128
 
     global_entity_buffer_adr_bnk: .res 64
     global_entity_buffer_adr_lo: .res 64

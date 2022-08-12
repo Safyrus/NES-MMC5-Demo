@@ -1,3 +1,16 @@
+.macro mdl_ctrl_update_scrbuf_entity y_idx, x_idx
+    LDA var+y_idx
+    ASL
+    ASL
+    ASL
+    ASL
+    STA entity_buffer_hi_pos, X
+    LDA var+x_idx
+    CLC
+    ADC entity_buffer_hi_pos, X
+    STA entity_buffer_hi_pos, X
+.endmacro
+
 ; A = priority
 mdl_ctrl_lw_adr:
     PHA
@@ -199,6 +212,8 @@ mdl_ctrl_update_scrbuf_y:
     STA scrbuf_update_array_scr, X
     LDA #$01
     STA scrbuf_update_array_act, X
+    ; get screen pos (h,w) for the entity buffer
+    mdl_ctrl_update_scrbuf_entity 7, 1
 
     ; ----------------
     ; left buffer
@@ -226,6 +241,8 @@ mdl_ctrl_update_scrbuf_y:
     STA scrbuf_update_array_scr, X
     LDA #$01
     STA scrbuf_update_array_act, X
+    ; get screen pos (h,w) for the entity buffer
+    mdl_ctrl_update_scrbuf_entity 7, 8
 
     ; ----------------
     ; right buffer
@@ -253,6 +270,8 @@ mdl_ctrl_update_scrbuf_y:
     STA scrbuf_update_array_scr, X
     LDA #$01
     STA scrbuf_update_array_act, X
+    ; get screen pos (h,w) for the entity buffer
+    mdl_ctrl_update_scrbuf_entity 7, 9
 
     RTS
 
@@ -284,6 +303,8 @@ mdl_ctrl_update_scrbuf_x:
     STA scrbuf_update_array_scr, X
     LDA #$01
     STA scrbuf_update_array_act, X
+    ; get screen pos (h,w) for the entity buffer
+    mdl_ctrl_update_scrbuf_entity 1, 7
 
     ; ----------------
     ; left buffer
@@ -311,6 +332,8 @@ mdl_ctrl_update_scrbuf_x:
     STA scrbuf_update_array_scr, X
     LDA #$01
     STA scrbuf_update_array_act, X
+    ; get screen pos (h,w) for the entity buffer
+    mdl_ctrl_update_scrbuf_entity 8, 7
 
     ; ----------------
     ; right buffer
@@ -338,5 +361,7 @@ mdl_ctrl_update_scrbuf_x:
     STA scrbuf_update_array_scr, X
     LDA #$01
     STA scrbuf_update_array_act, X
+    ; get screen pos (h,w) for the entity buffer
+    mdl_ctrl_update_scrbuf_entity 9, 7
 
     RTS

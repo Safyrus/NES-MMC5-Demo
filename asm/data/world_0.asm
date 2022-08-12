@@ -150,6 +150,11 @@ world_0:
             ; objects
             .byte OBJ_SCR::FILL_RND
 
+            .dbyt LOCAL_ENTITY_POS_0::DIALOG_0
+            .byte $69
+            .dbyt LOCAL_ENTITY_POS_0::DIALOG_1
+            .byte $6A
+
             .byte OBJ_CMD_RLE, 10
             .dbyt OBJ_SUBPOS_0::FOREST_MID
             .byte $00
@@ -212,6 +217,10 @@ world_0:
 
             .byte OBJ_SCR::INC_Y
 
+            .byte OBJ_CMD_RLE, 2
+            .dbyt OBJ_SUBPOS_0::SIGN
+            .byte $59
+            .byte $5A
             .dbyt OBJ_SUBPOSSIZE_0::PATH
             .byte $65, $8B
             .dbyt OBJ_SUBPOSSIZE_0::PATH_RIGHT

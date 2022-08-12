@@ -75,13 +75,13 @@ scanline_irq_handler:
             STA PPU_ADDR
             ; set chr banks
             TAX
-            STX MMC5_CHR_BNK8
+            STX MMC5_CHR_BNK4
             INX
-            STX MMC5_CHR_BNK9
+            STX MMC5_CHR_BNK5
             INX
-            STX MMC5_CHR_BNKA
+            STX MMC5_CHR_BNK6
             INX
-            STX MMC5_CHR_BNKB
+            STX MMC5_CHR_BNK7
             ; set background tile fully visible and disable sprite
             LDA #(PPU_MASK_BKG + PPU_MASK_BKG8)
             STA PPU_MASK

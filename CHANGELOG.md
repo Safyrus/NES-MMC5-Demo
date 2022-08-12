@@ -6,7 +6,7 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 
 -----------------
 
-## **[0.4.0-7]** - _2022-08-06_
+## **[0.4.0]** - _2022-08-11_
 
 ### **Added**
 
@@ -20,11 +20,15 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
   - ui: contain a font and 2 tiles for the dialog box borders.
 - Some constants.
 - Some variables (many about the dialog box).
+- A sign in CHR ROM.
 
 #### Data
 
 - Huffman code for each text characters.
 - A little dictionary and the pointers for the 2 example dialogs.
+- A single sign object.
+- 2 local dialog entity.
+- 2 sign with their entity in the level.
 
 #### Module
 
@@ -32,6 +36,9 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
   - Split the screen for x scanlines to the other VRAM screen and draw the (still compressed) text.
   - Functions to be able to read and process raw text data (load_raw_data, next_bit, next_char).
   - Add a function for each stage of the dialog box (init, clear, border, main, next, end)
+- Local entities can now be loaded and called.
+- An 'ai' for the dialog entity (check if the player collide and run the dialog)
+- Some function in the world module (scrBufIdx2entityBufAdr, scrBufIdx2int)
 
 #### Python
 
@@ -51,7 +58,7 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 
 #### Global
 
-- Entity buffer by adding a state attribute.
+- Entity buffers.
 - Refactor entity buffer.
 - Sprite variables.
 - CHR size to the max of 1024K (1M).
@@ -87,6 +94,8 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 ### **Removed**
 
 - C part in Makefile.
+- Useless variables (scrbuf_update_array_idx, scr_index).
+- The macro res_entity_buf
 
 ### **Fixed**
 
@@ -94,6 +103,8 @@ This project try to follow the [Semantic Versioning](https://semver.org/spec/v2.
 - Reset not clearing the last RAM bank.
 - Game state not waiting for the load level module to finished.
 - The taskTime script drawing the graph too high when scanline was above 240.
+- Input bug when moving.
+- Loading objects when switching banks between entity and background.
 
 -----------------
 

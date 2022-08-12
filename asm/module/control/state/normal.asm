@@ -40,6 +40,18 @@ mdl_ctrl_normal:
     LDA #>module_global_entity_act
     STA lower_module_array, X
 
+    ; add the module_local_entity_act module
+    LDA #LOWER_MODULE_MAX_PRIO
+    JSR mdl_ctrl_lw_adr
+    LDA #MODULE_CTRL
+    STA lower_module_array, X
+    INX
+    LDA #<module_local_entity_act
+    STA lower_module_array, X
+    INX
+    LDA #>module_local_entity_act
+    STA lower_module_array, X
+
     LDA game_substate
     AND #$02
     BNE @entity_draw_end

@@ -1,7 +1,9 @@
-dialog_table:
-    .word $0000 ; adr
-    .byte 0 ; offset
-
-    .word $0002 ; adr
-    .byte 6 ; offset
-
+dialog_table_lo:
+    .byte $00
+    .byte $02
+dialog_table_hi:
+    .byte $00
+    .byte $00
+dialog_table_offset:
+    .byte $7
+    .byte $1
